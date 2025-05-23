@@ -7,6 +7,7 @@ import { InputBoxComponent } from '../../comman/components/UI/input-box/input-bo
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
 import { DatePickerComponent } from '../../comman/components/UI/date-picker/date-picker.component';
 import { SelectDropdownComponent } from '../../comman/components/UI/select-dropdown/select-dropdown.component';
+import { RadioComponent } from "../../comman/components/UI/radio/radio.component";
 
 @Component({
   selector: 'app-add-project',
@@ -16,6 +17,7 @@ import { SelectDropdownComponent } from '../../comman/components/UI/select-dropd
     ButtonComponent,
     DatePickerComponent,
     SelectDropdownComponent,
+    RadioComponent,
   ],
   templateUrl: './add-project.component.html',
   styleUrl: './add-project.component.scss',
@@ -42,6 +44,16 @@ export class AddProjectComponent {
     { value: 'Git lab', display: 'Git lab' },
     { value: 'Bit bucket', display: 'Bit bucket' },
   ];
+  projectPriorityOptions: any = [
+    { value: 'Low', display: 'Low' },
+    { value: 'Medium', display: 'Medium' },
+    { value: 'High', display: 'High' },
+  ];
+  projectApvStatusOptions: any = [
+    { value: 'Approved', display: 'Approved' },
+    { value: 'Pending', display: 'Pending' },
+    { value: 'Rejected', display: 'Rejected' },
+  ];
 
   addProjectForm = new FormGroup({
     projectName: new FormControl('', Validators.required),
@@ -57,11 +69,15 @@ export class AddProjectComponent {
     repoUrl: new FormControl('', Validators.required),
     projectStartDate: new FormControl('', Validators.required),
     projectDeadlineDate: new FormControl('', Validators.required),
+    projectBudget: new FormControl('', Validators.required),
+    projectPriority: new FormControl('', Validators.required),
+    projectLocation: new FormControl('', Validators.required),
+    projectType: new FormControl('', Validators.required),
+    projectApproveStatus: new FormControl('', Validators.required),
   });
 
   onAddProject() {
     if (this.addProjectForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
       Object.keys(this.addProjectForm.controls).forEach((field) => {
         const control = this.addProjectForm.get(field);
         control?.markAsTouched({ onlySelf: true });
@@ -83,7 +99,13 @@ export class AddProjectComponent {
       repo_url: this.addProjectForm.value.repoUrl,
       project_start_date: this.addProjectForm.value.projectStartDate,
       project_deadline_date: this.addProjectForm.value.projectDeadlineDate,
+      project_budget: this.addProjectForm.value.projectBudget,
+      project_priority: this.addProjectForm.value.projectPriority,
+      project_location: this.addProjectForm.value.projectLocation,
+      project_type: this.addProjectForm.value.projectType,
+      project_approval_status: this.addProjectForm.value.projectApproveStatus,
     };
+
     this.userService.createProject(data).subscribe({
       next: (res: any) => {
         if (res.status) {

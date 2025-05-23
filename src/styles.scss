@@ -97,10 +97,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   display: flex;
 }
 
+//mat-tab
+
+li.ng-star-inserted {
+    display: flex;
+    margin-top: 14px;
+    margin-left: 12px;
+}
+app-tabs {
+    width: 285px  !important
+};
+.mat-icon{
+  margin-right: 5px;
+}
+
 //Dark theme
-
-
-
 
 html {
   color-scheme:  light;

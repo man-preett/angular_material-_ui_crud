@@ -31,6 +31,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { BehaviorService } from '../../services/behavior.service';
 import { DarkToggleComponent } from '../../comman/components/UI/dark-toggle/dark-toggle.component';
 import { style } from '@angular/animations';
+import { TabsComponent } from "../../comman/components/UI/tabs/tabs.component";
 
 @Component({
   selector: 'app-header',
@@ -42,6 +43,7 @@ import { style } from '@angular/animations';
     NgbDropdownModule,
     CommonModule,
     DarkToggleComponent,
+    TabsComponent,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
@@ -68,30 +70,7 @@ export class HeaderComponent {
     this.windowWidth = window.innerWidth;
     this.navCollapsedMob = false;
     this.navCollapsed = false;
-    this.iconService.addIcon(
-      ...[
-        MenuUnfoldOutline,
-        MenuFoldOutline,
-        SearchOutline,
-        BellOutline,
-        SettingOutline,
-        GiftOutline,
-        MessageOutline,
-        PhoneOutline,
-        CheckCircleOutline,
-        LogoutOutline,
-        EditOutline,
-        UserOutline,
-        ProfileOutline,
-        WalletOutline,
-        QuestionCircleOutline,
-        LockOutline,
-        CommentOutline,
-        UnorderedListOutline,
-        ArrowRightOutline,
-        GithubOutline,
-      ]
-    );
+ 
   }
 
   // public method
@@ -108,46 +87,40 @@ export class HeaderComponent {
     }
   }
 
-  profile = [
+  userTabs = [
     {
-      icon: 'edit',
-      title: 'Edit Profile',
-      url: '/home/update-profile',
+      label: 'Profile',
+      items: [
+        { icon: 'edit', title: 'Edit Profile', url: '/home/update-profile' },
+        { icon: 'person', title: 'View Profile', url: '/home/myprofile' },
+        {
+          icon: 'lock',
+          title: 'Change password',
+          url: '/home/change-password',
+        },
+        {
+          icon: 'logout',
+          title: 'Logout',
+          action: () => this.onLogout(),
+        },
+      ],
     },
     {
-      icon: 'user',
-      title: 'View Profile',
-      url: '/home/myprofile',
-    },
-    {
-      icon: 'user',
-      title: 'Change password',
-      url: '/home/change-password',
+      label: 'Settings',
+      items: [
+        { icon: 'help', title: 'Support', url: '/support' },
+        {
+          icon: 'settings',
+          title: 'Account Settings',
+          url: '/account-settings',
+        },
+        { icon: 'lock', title: 'Change', url: '/change' },
+        { icon: 'feedback', title: 'Feedback', url: '/feedback' },
+        { icon: 'history', title: 'History', url: '/history' },
+      ],
     },
   ];
 
-  setting = [
-    {
-      icon: 'question-circle',
-      title: 'Support',
-    },
-    {
-      icon: 'user',
-      title: 'Account Settings',
-    },
-    {
-      icon: 'lock',
-      title: 'Change',
-    },
-    {
-      icon: 'comment',
-      title: 'Feedback',
-    },
-    {
-      icon: 'unordered-list',
-      title: 'History',
-    },
-  ];
   onLogout() {
     localStorage.removeItem('token');
     this.toastr.success('User logged out successfully', 'success');

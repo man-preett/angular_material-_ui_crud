@@ -29,12 +29,10 @@ export class SelectDropdownComponent implements ControlValueAccessor {
   onTouched: () => void = () => {};
 
   ngOnInit(): void {}
-  constructor(private cdr: ChangeDetectorRef) {}
 
   writeValue(value: any): void {
     if (value !== undefined && value !== null) {
       this.value = value;
-      this.cdr.markForCheck();
     }
   }
 
@@ -53,7 +51,6 @@ export class SelectDropdownComponent implements ControlValueAccessor {
     this.onTouched();
   }
   valueChange(){
-    
     this.click.emit();
   }
 }

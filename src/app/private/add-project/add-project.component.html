@@ -235,6 +235,67 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Budget"
+                    type="number"
+                    placeholder="Project Budget"
+                    name="project_budget"
+                    formControlName="projectBudget"
+                  />
+                  <div class="validation-message">
+                    @if(addProjectForm.controls['projectBudget'].errors?.['required']
+                    && addProjectForm.controls['projectBudget'].touched){
+                    <span>*Please enter project budget</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-select-dropdown
+                    formControlName="projectPriority"
+                    [options]="projectPriorityOptions"
+                    label="Project Priority"
+                  />
+                  <div class="validation-message">
+                    @if(addProjectForm.controls['projectPriority'].errors?.['required']
+                    && addProjectForm.controls['projectPriority'].touched){
+                    <span>*Please enter project priority</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Location"
+                    type="text"
+                    placeholder="Project Location"
+                    name="project_location"
+                    formControlName="projectLocation"
+                  />
+                  <div class="validation-message">
+                    @if(addProjectForm.controls['projectLocation'].errors?.['required']
+                    && addProjectForm.controls['projectLocation'].touched){
+                    <span>*Please enter project location</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-radio [formControlName]="'projectApproveStatus'" [options]="projectApvStatusOptions" [label]="'Project Type'"/>
+                  <div class="validation-message">
+                    @if(addProjectForm.controls['projectType'].errors?.['required']
+                    && addProjectForm.controls['projectType'].touched){
+                    <span>*Please enter project location</span>
+                    }
+                  </div>
+                </div>
+              </div>
+
               <div class="d-grid mt-3">
                 <app-button
                   [class]="'btn btn-primary'"

@@ -96,6 +96,31 @@ export class ProjectsComponent {
       headerClass: 'bold-header',
     },
     {
+      field: 'project_budget',
+      headerName: 'Project budget',
+      headerClass: 'bold-header',
+    },
+    {
+      field: 'project_priority',
+      headerName: 'Project priority',
+      headerClass: 'bold-header',
+    },
+    {
+      field: 'project_location',
+      headerName: 'Project location',
+      headerClass: 'bold-header',
+    },
+    {
+      field: 'project_type',
+      headerName: 'Project Type',
+      headerClass: 'bold-header',
+    },
+    {
+      field: 'project_approval_status',
+      headerName: 'Project approve status',
+      headerClass: 'bold-header',
+    },
+    {
       headerName: 'Action',
       headerClass: 'bold-header',
       cellRenderer: function (params: any) {
@@ -146,7 +171,7 @@ export class ProjectsComponent {
     defaultColDef: this.defaultColDef,
     pagination: true,
     paginationPageSize: 10,
-    paginationPageSizeSelector: [100,500,1000,1000,10000,100000],
+    paginationPageSizeSelector: [10,100, 500, 1000, 1000, 10000, 100000],
     scrollbarWidth: 50,
     theme: themeQuartz.withParams({
       wrapperBorder: false,
@@ -181,16 +206,13 @@ export class ProjectsComponent {
     this.router.navigate(['/home/add-project/']);
   }
   upadateProject(id: number) {
-
     this.router.navigate([`/home/update-project/`, id]);
   }
   deleteProject(id: number) {
-
     this.userService.deleteProject(id).subscribe({
       next: (res: any) => {
         this.toastr.success('Project deleted successfully');
         this.projectList = this.projectList.filter((project) => {
-
           return project.project_id !== id;
         });
       },

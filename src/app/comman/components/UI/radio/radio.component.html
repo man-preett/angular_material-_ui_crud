@@ -1,0 +1,11 @@
+  <mat-label >{{label}}<span class="danger">*</span></mat-label>
+<mat-radio-group
+  [value]="value"
+  (change)="onSelectionChange($event.value)"
+>
+  @for(option of options; track option.value){
+  <mat-radio-button [value]="option.value">
+    {{ option.display }}
+  </mat-radio-button>
+  }
+</mat-radio-group>
