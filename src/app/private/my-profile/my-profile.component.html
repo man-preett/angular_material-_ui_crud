@@ -1,0 +1,65 @@
+<div class="auth-main">
+    <div class="auth-wrapper v3">
+      <div class="auth-form">
+        @if(user) {
+          <div class="auth-header">
+            <div class="profile-header d-flex align-items-center mb-4">
+              <img src="../../../assets/images/user/avatar-1.jpg" alt="Profile Image" class="profile-img">
+              <div class="profile-info ml-3">
+                <h3 class="mb-0">{{user.user_first_name}} {{user.user_last_name}}</h3>
+                <p  style="margin-left:5px;">{{user.user_email}}</p>
+              </div>
+            </div>
+             <app-button
+                  [class]="'btn btn-primary'"
+                  (click)="onEdit()"
+                  [label]="'Edit'"
+                />
+          </div>
+          
+          <div class="card my-3">
+            <div class="card-body">
+              <table class="user-info-table">
+                <tbody>
+                  <tr>
+                    <th>First Name</th>
+                    <td>{{user.user_first_name || "NULL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>Last Name</th>
+                    <td>{{user.user_last_name || "NULL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>Email Address</th>
+                    <td>{{user.user_email || "NULL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>Age</th>
+                    <td>{{user.user_age || "NULL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>Gender</th>
+                    <td>{{user.user_gender || "NULL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>Country</th>
+                    <td>{{user.user_country || "NULL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>State</th>
+                    <td>{{user.user_state || "NULL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>City</th>
+                    <td>{{user.user_city || "NULL"}}</td>
+                  </tr>
+                </tbody>
+              </table>
+  
+             
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>

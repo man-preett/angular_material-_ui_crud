@@ -1,0 +1,26 @@
+.list-projects{
+    margin-top: 40px;
+}
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 25px;
+}
+.action-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.search-input{
+    height: 50px; width: 80%; margin-left: 100px;
+    // background-color: #cbc9c9;
+    border:1px solid #a7a7a7;
+    border-radius: 5px;
+}
+
+.search-project{
+    margin-bottom: 20px;
+}

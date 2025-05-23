@@ -1,0 +1,132 @@
+<header class="pc-header">
+  <div class="header-wrapper">
+    <div class="pc-mob-drp">
+      <ul class="list-unstyled">
+        <li class="pc-h-item pc-sidebar-collapse">
+          <a
+            href="javascript:"
+            title="click to menu collapse"
+            class="pc-head-link ms-0"
+            [ngClass]="{ on: navCollapsed }"
+            id="sidebar-hide mobile-collapse"
+            (click)="navCollapse()"
+          >
+            @if (navCollapsed === true) {
+            <i antIcon type="menu-unfold" theme="outline"></i>
+            } @else {
+            <i antIcon type="menu-fold" theme="outline"></i>
+            }
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul class="list-unstyled">
+        <app-dark-toggle/>
+        
+        <li class="dropdown pc-h-item header-user-profile" ngbDropdown>
+          <a
+            class="pc-head-link dropdown-toggle arrow-none me-0"
+            ngbDropdownToggle
+          >
+            <img
+              src="assets/images/user/avatar-2.jpg"
+              alt="user-image"
+              class="user-avatar me-2"
+            />
+            <span class="f-w-600"
+              >{{ data?.user_first_name }} {{ data?.user_last_name }}</span
+            >
+          </a>
+          <div
+            class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown"
+            ngbDropdownMenu
+          >
+            <div class="dropdown-header">
+              <div class="d-flex mb-1">
+                <div class="flex-shrink-0">
+                  <img
+                    src="assets/images/user/avatar-2.jpg"
+                    alt="user-image"
+                    class="user-avatar wid-35"
+                  />
+                </div>
+                <div class="flex-grow-1 ms-3 text-start">
+                  <h6 class="mb-0">
+                    {{ data?.user_first_name }} {{ data?.user_last_name }}
+                  </h6>
+                </div>
+                <a href="javascript:" class="bg-transparent" 
+                  ><i
+                    class="d-flex f-20"
+                    antIcon
+                    theme="outline"
+                    type="logout"
+                    (click)="onLogout()"
+                  ></i
+                ></a>
+              </div>
+            </div>
+            <ul ngbNav #nav="ngbNav" class="nav drp-tabs nav-fill nav-tabs">
+              <li ngbNavItem="1">
+                <a ngbNavLink>
+                  <i antIcon theme="outline" type="user" class="me-2"></i>
+                  Profile
+                </a>
+                <ng-template ngbNavContent>
+                  @for (task of profile; track task) {
+                  <div>
+                    <a class="dropdown-item">
+                      <i
+                        class="text-muted"
+                        antIcon
+                        theme="outline"
+                        type="{{ task.icon }}"
+                      ></i>
+                      <span [routerLink]="task.url">{{ task.title }}</span>
+                    </a>
+                  </div>
+                  }
+                  <div>
+                    <a class="dropdown-item">
+                      <i
+                        class="text-muted"
+                        antIcon
+                        theme="outline"
+                        type="logout"
+                      ></i>
+                      <span (click)="onLogout()">Logout</span>
+                    </a>
+                  </div>
+                </ng-template>
+              </li>
+              <li ngbNavItem="2">
+                <a ngbNavLink>
+                  <i class="me-2" antIcon theme="outline" type="setting"></i>
+                  Setting
+                </a>
+                <ng-template ngbNavContent>
+                  @for (task of setting; track task) {
+                  <div>
+                    <a class="dropdown-item">
+                      <i
+                        class="text-muted"
+                        antIcon
+                        theme="outline"
+                        type="{{ task.icon }}"
+                      ></i>
+                      <span>{{ task.title }}</span>
+                    </a>
+                  </div>
+                  }
+                </ng-template>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="nav"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+

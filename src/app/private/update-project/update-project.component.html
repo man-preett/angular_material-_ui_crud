@@ -1,0 +1,253 @@
+<div class="update-profile">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2
+          class="mb-0"
+          style="margin-left: 20px; margin-bottom: 0px !important"
+        >
+          <b>Edit Project</b>
+        </h2>
+      </div>
+      <hr />
+      <div
+        class="card my-5"
+        style="margin-top: 28px !important; margin-left: 200px; width: 70%"
+      >
+        <form [formGroup]="updateProjectForm">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Name"
+                    type="text"
+                    placeholder="Enter Project Name"
+                    name="project_name"
+                    formControlName="projectName"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectName'].errors?.['required']
+                    && updateProjectForm.controls['projectName'].touched){
+                    <span>*Please enter project name</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Description"
+                    type="text"
+                    placeholder="Enter Project Description"
+                    name="project_description"
+                    formControlName="projectDescription"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectDescription'].errors?.['required']
+                    &&
+                    updateProjectForm.controls['projectDescription'].touched){
+                    <span>*Please enter project description</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Technology"
+                    type="text"
+                    placeholder="Enter Project Technology"
+                    name="project_tech"
+                    formControlName="projectTech"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectTech'].errors?.['required']
+                    && updateProjectForm.controls['projectTech'].touched){
+                    <span>*Please enter project technology</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Lead"
+                    type="text"
+                    placeholder="Enter Project Lead"
+                    name="project_lead"
+                    formControlName="projectLead"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectLead'].errors?.['required']
+                    && updateProjectForm.controls['projectLead'].touched){
+                    <span>*Please enter project lead</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Manager"
+                    type="text"
+                    placeholder="Enter Project Manager"
+                    name="project_manager"
+                    formControlName="projectManager"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectManager'].errors?.['required']
+                    && updateProjectForm.controls['projectManager'].touched){
+                    <span>*Please enter project manager</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Project Client"
+                    type="text"
+                    placeholder="Enter Project Client"
+                    name="project_client"
+                    formControlName="projectClient"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectClient'].errors?.['required']
+                    && updateProjectForm.controls['projectClient'].touched){
+                    <span>*Please enter project client</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-select-dropdown
+                    [label]="'Project Status'"
+                    formControlName="projectStatus"
+                    [options]="statusOptions"
+                  />
+
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectStatus'].errors?.['required']
+                    && updateProjectForm.controls['projectStatus'].touched){
+                    <span>*Please select project status</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                   <app-select-dropdown
+                    [label]="'Management tool'"
+                    formControlName="manageTool"
+                    [options]="manageToolOptions"
+                  />
+                  
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['manageTool'].errors?.['required']
+                    && updateProjectForm.controls['manageTool'].touched){
+                    <span>*Please select management tool</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Management url"
+                    type="text"
+                    placeholder="Enter Management url"
+                    name="manage_url"
+                    formControlName="manageUrl"
+                  />
+
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['manageUrl'].errors?.['required']
+                    && updateProjectForm.controls['manageUrl'].touched){
+                    <span>*Please enter management url</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-select-dropdown
+                    [label]="'Repository tool'"
+                    formControlName="repoTool"
+                    [options]="repoToolOptions"
+                  />
+                  
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['repoTool'].errors?.['required']
+                    && updateProjectForm.controls['repoTool'].touched){
+                    <span>*Please select repository tool</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Repository url"
+                    type="text"
+                    placeholder="Enter Repository url"
+                    name="repo_url"
+                    formControlName="repoUrl"
+                  />
+
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['repoUrl'].errors?.['required']
+                    && updateProjectForm.controls['repoUrl'].touched){
+                    <span>*Please enter repository url</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-date-picker
+                    label="Project Start Date"
+                    placeholder="Select Start Date"
+                    formControlName="projectStartDate"
+                    name="project_deadline_date"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectStartDate'].errors?.['required']
+                    && updateProjectForm.controls['projectStartDate'].touched){
+                    <span>*Please select start date</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-date-picker
+                    label="Project Deadline Date"
+                    placeholder="Project Select Deadline Date"
+                    formControlName="projectDeadlineDate"
+                    name="project_deadline_date"
+                  />
+                  <div class="validation-message">
+                    @if(updateProjectForm.controls['projectDeadlineDate'].errors?.['required']
+                    &&
+                    updateProjectForm.controls['projectDeadlineDate'].touched){
+                    <span>*Please enter deadline date</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="d-grid mt-3">
+                <app-button
+                  [class]="'btn btn-primary'"
+                  (click)="onUpdateProject()"
+                  [label]="'  Update project'"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

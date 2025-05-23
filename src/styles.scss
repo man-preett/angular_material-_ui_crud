@@ -1,0 +1,150 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../node_modules/bootstrap/scss/variables';
+// @import 'node_modules/bootstrap/scss/variables-dark';
+
+
+@import 'scss/settings/color-variables';
+@import 'scss/settings/theme-variables';
+@import 'scss/settings/bootstrap-variables';
+
+// bootstrap import
+// @import 'scss/bootstrap/bootstrap.scss';
+
+// @import 'node_modules/bootstrap/scss/utilities';
+// @import 'node_modules/bootstrap/scss/utilities/api';
+
+// main framework
+@import 'scss/themes/generic.scss';
+@import 'scss/themes/general.scss';
+
+@import 'scss/themes/components/components.scss';
+
+// theme
+@import 'scss/themes/layouts/menu/sidebar.scss';
+@import 'scss/themes/layouts/navbar/navbar.scss';
+@import 'scss/themes/layouts/pc-common.scss';
+@import 'scss/themes/layouts/breadcrumb/breadcrumb.scss';
+@import 'scss/themes/layouts/footer/footer.scss';
+
+@import 'scss/themes/preset-style.scss';
+
+@import 'ngx-toastr/toastr';
+
+.validation-message {
+    color: red;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.danger{
+    color: red;
+}
+
+.form-control{
+    border: 1px solid #a3a3a3;
+}
+
+.bold-header {
+  font-weight: bold !important;  // Ensures headers are bold
+  border-bottom: 1px solid #a3a3a3;
+  background-color: #cbc9c9;
+ 
+}
+.ag-root-wrapper-body.ag-layout-normal.ag-focus-managed {
+    border: 1px solid #a3a3a3;
+}
+
+.navbar-wrapper.ng-tns-c2368812120-0 {
+    border-right: solid 1px #a3a3a3;
+}
+
+
+button.btn.btn-primary{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: var(--bs-body-bg-color);}
+.ag-root-wrapper.ag-layout-normal.ag-ltr{
+  background-color: var(--ag-bg-color) !important;
+
+}
+.ag-row{
+    background-color: var(--ag-bg-color) !important;
+    color: var(--ag-color);
+}
+.ag-paging-panel{
+    color: var(--ag-color);
+  
+}
+.ag-picker-field-wrapper{
+   background-color: var(--ag-dropdown-bg-color) !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+    height: 0;
+}
+
+.m-header{
+  display: flex;
+}
+
+//Dark theme
+
+
+
+
+html {
+  color-scheme:  light;
+  @include mat.theme((
+    color: mat.$azure-palette,
+
+  ));
+}
+
+html.dark-mode{
+      color-scheme:  dark;
+  @include mat.theme((
+    color: mat.$azure-palette,
+  ));
+}
+
+html.dark-mode {
+  --pc-body-bg: #121212;
+  --pc-heading-color: #d6d6d6;
+  --pc-active-background: #1e1e1e;
+
+  --pc-sidebar-background: #1e1e1e;
+  --pc-sidebar-color: #bfbfbf;
+  --pc-sidebar-active-color: #1677ff;
+  --pc-sidebar-caption-color: #d6d6d6;
+  --pc-sidebar-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+
+  --pc-header-background: #1e1e1e;
+  --pc-header-color: #d6d6d6;
+  --pc-header-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+
+  --pc-card-box-shadow: inset 0 0 0 1px #262626;
+  --pc-header-submenu-background: #1e1e1e;
+  --pc-header-submenu-color: #d6d6d6;
+  --pc-container-bg-color: #1e1e1e;
+ --pc-dropdown-menu-bg-color: #1e1e1e;
+ --pc-dropdown-menu-color:#d6d6d6;
+ --pc-card-bg-color:#1e1e1e;
+//  --pc-card-border-color:#a7a7a7;
+ --pc-dropdown-active-bg-color:#1e1e1e;
+  --pc-dropdown-menu-inactive-color:#d6d6d6 !important;  
+  --bs-body-bg-color:#1e1e1e;
+  --ag-bg-color:#1e1e1e !important;
+  --ag-color: #d6d6d6;
+  --ag-dropdown-bg-color:#1e1e1e !important;
+}
+

@@ -1,0 +1,68 @@
+<nav>
+  <div class="navbar-wrapper">
+    <div class="m-header">
+      <a href="javascript:" class="b-brand">
+        <img
+          src="../../../../../assets/images/logo-icon.svg"
+          alt="theme-logo"
+          class="logo logo-icon logo-lg"
+        />
+      </a>
+      <h4 style="margin-top: 8px;">Mantis</h4>
+    </div>
+    <ng-scrollbar
+      style="height: calc(100vh - 49px)"
+      visibility="hover"
+      id="nav-ps-mantis"
+    >
+      <div class="navbar-content">
+        <ul
+          class="nav coded-inner-navbar"
+          (clickOutside)="fireOutClick()"
+          (mouseleave)="navMob()"
+        >
+          @for (item of navigations; track item) { @if (item.type === 'group') {
+          <li class="nav-item coded-menu-caption">
+            <label>{{ item.title }}</label>
+          </li>
+          @for (item of item.children; track item) { @if (item.type ===
+          'collapse') {
+          <!-- <app-nav-collapse [item]="item"></app-nav-collapse> -->
+          } @else if (item.type === 'item') { @if (item.url && !item.external) {
+          <li [ngClass]="item.classes!" [routerLinkActive]="['active']">
+            <a
+              [target]="item.target ? '_blank' : '_self'"
+              [routerLink]="[item.url]"
+              (click)="closeOtherMenu($event)"
+            >
+              @if (item.icon) {
+              <span class="coded-micon">
+                <i antIcon type="{{ item.icon }}" theme="outline"></i>
+              </span>
+              } @if (item.icon) {
+              <span class="coded-mtext">{{ item.title }}</span>
+              } @else {
+              {{ item.title }}
+              }
+            </a>
+          </li>
+          } @if (item.url && item.external) {
+          <li [ngClass]="item.classes!">
+            <a [target]="item.target ? '_blank' : '_self'" [href]="item.url">
+              @if (item.icon) {
+              <span class="coded-micon">
+                <i antIcon type="{{ item.icon }}" theme="outline"></i>
+              </span>
+              } @if (item.icon) {
+              <span class="coded-mtext">{{ item.title }}</span>
+              } @else {
+              {{ item.title }}
+              }
+            </a>
+          </li>
+          } } } } }
+        </ul>
+      </div>
+    </ng-scrollbar>
+  </div>
+</nav>

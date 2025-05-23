@@ -1,0 +1,146 @@
+<div class="update-profile">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+     
+      <div class="card my-5">
+        <form [formGroup]="ProfileGroup">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+              <h3 class="mb-0"><b>Update Profile</b></h3>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="First Name"
+                    type="text"
+                    placeholder="Enter First Name"
+                    name="user_first_name"
+                    formControlName="firstName"
+                  />
+                  <div class="validation-message">
+                    @if(ProfileGroup.controls['firstName'].invalid &&
+                    ProfileGroup.controls['firstName'].touched){
+                    <span>*Please enter first name</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Last Name"
+                    type="text"
+                    placeholder="Enter Last Name"
+                    name="user_last_name"
+                    formControlName="lastName"
+                  />
+
+                  <div class="validation-message">
+                    @if(ProfileGroup.controls['lastName'].invalid &&
+                    ProfileGroup.controls['lastName'].touched){
+                    <span>*Please enter last name</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <app-input-box
+                    label="Last Name"
+                    type="number"
+                    placeholder="Enter Age"
+                    name="user_age"
+                    formControlName="age"
+                  />
+
+                  <div class="validation-message">
+                    @if(ProfileGroup.controls['age'].invalid &&
+                    ProfileGroup.controls['age'].touched){
+                    <span>*Please enter age</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                   <app-select-dropdown
+                    [label]="'Gender'"
+                    formControlName="gender"
+                    [options]="genderOptions"
+                  />
+                  
+                  <div class="validation-message">
+                    @if(ProfileGroup.controls['gender'].invalid &&
+                    ProfileGroup.controls['gender'].touched){
+                    <span>*Please select gender</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                 
+                  <app-select-dropdown
+                    [label]="'Country'"
+                    formControlName="country"
+                    [options]="countries"
+                    (click)="getState();
+                    ProfileGroup.patchValue({ state: '', city: '' })"
+                  />
+                  
+                  <div class="validation-message">
+                    @if(ProfileGroup.controls['country'].invalid &&
+                    ProfileGroup.controls['country'].touched){
+                    <span>*Please select country</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <app-select-dropdown
+                    [label]="'State'"
+                    formControlName="state"
+                    [options]="states"
+                    (click)="getCity();
+                    ProfileGroup.patchValue({ city: '' })"
+                  />
+                  
+                  <div class="validation-message">
+                    @if(ProfileGroup.controls['state'].invalid &&
+                    ProfileGroup.controls['state'].touched){
+                    <span>*Please select state</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                 <app-select-dropdown
+                    [label]="'City'"
+                    formControlName="city"
+                    [options]="cities"
+                  />
+                  <div class="validation-message">
+                    @if(ProfileGroup.controls['city'].invalid &&
+                    ProfileGroup.controls['city'].touched){
+                    <span>*Please select city</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="d-grid mt-3">
+                <app-button
+                  [class]="'btn btn-primary'"
+                  (click)="updateData()"
+                  [label]="'Update Profile'"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

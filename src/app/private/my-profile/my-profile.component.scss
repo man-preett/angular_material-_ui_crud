@@ -1,0 +1,132 @@
+
+.auth-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  flex-direction: column;
+  background: url('../../../assets/images/authentication/img-auth-bg.svg');
+  padding: 24px;
+  background-repeat: no-repeat;
+  background-size: auto 82%;
+  background-position: left bottom;
+  position: relative;
+  > * {
+    position: relative;
+    z-index: 5;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(#fff, 0.2);
+    backdrop-filter: blur(16px);
+  }
+
+  .auth-wrapper {
+    width: 100%;
+    max-width: 600px;
+
+    .auth-form {
+      background: #fff;
+      background: url('../../../assets/images/authentication/img-auth-bg.svg');
+
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      
+      .profile-header {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 20px;
+        
+        .profile-img {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid #ddd;
+        }
+
+        .profile-info {
+          .text-muted {
+            color: #6c757d;
+          }
+        }
+      }
+
+      .card {
+        width: 100%;
+        margin-top: 20px;
+        box-shadow: none;
+
+        .card-body {
+          padding: 20px;
+
+          .user-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            
+            th, td {
+              padding: 12px;
+              text-align: left;
+            }
+            
+            th {
+              font-weight: bold;
+            }
+
+            tr {
+              border-bottom: 1px solid #dedede;
+
+              &:last-child{
+                border-bottom: none;
+              }
+            }
+          }
+
+          .action-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            .btn {
+              &.btn-primary {
+                background-color: #1677FF; 
+                border-color: #1677FF;
+                &:hover {
+                  background-color: darken(#1677FF, 10%);
+                  border-color: darken(#1677FF, 10%);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      h3 {
+        margin-bottom: 10px;
+      }
+
+      .d-flex {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+    }
+
+    .auth-header,
+    .auth-footer {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}
+.edit{
+  margin-bottom: 85px;
+} 

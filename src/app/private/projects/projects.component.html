@@ -1,0 +1,36 @@
+<div class="project-header">
+  <h2 class="user-heading" style="margin-bottom: 30px">Projects List</h2>
+  <button type="button" class="btn btn-primary" (click)="addProject()">
+    <i class="fa-solid fa-plus" style="margin-right: 10px"></i>Add project
+  </button>
+</div>
+<hr />
+<div class="list-projects">
+  <div class="search-project">
+    <input
+      type="text"
+      placeholder="Search..."
+      class="search-input"
+      [(ngModel)]="searchInput"
+      (input)="onFilterBoxChanged()"
+    />
+  </div>
+  <ag-grid-angular
+    style="height: 500px; width: 80%; margin-left: 100px"
+    [gridOptions]="gridOptions"
+    [rowData]="projectList"
+    (gridReady)="onGridReady($event)"
+  >
+    <style>
+      ::ng-deep .ag-root-wrapper {
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3),
+          0 -10px 15px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+      }
+
+      ::ng-deep .ag-root-wrapper-body {
+        border: none;
+      }
+    </style>
+  </ag-grid-angular>
+</div>

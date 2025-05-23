@@ -1,0 +1,4 @@
+<mat-form-field style="width: 100%">
+    <mat-label>{{label}}<span class="danger">*</span></mat-label>
+    <input matInput [type]="type" placeholder="{{placeholder}}" [name]="name" [value]="value" (input)="onInputChange($event)"/>
+</mat-form-field>
