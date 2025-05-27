@@ -8,6 +8,9 @@ import { InputBoxComponent } from '../../comman/components/UI/input-box/input-bo
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
 import { DatePickerComponent } from '../../comman/components/UI/date-picker/date-picker.component';
 import { SelectDropdownComponent } from '../../comman/components/UI/select-dropdown/select-dropdown.component';
+import { RadioComponent } from '../../comman/components/UI/radio/radio.component';
+import { CheckBoxComponent } from '../../comman/components/UI/checkBox/checkBox.component';
+
 @Component({
   selector: 'app-update-project',
   imports: [
@@ -16,6 +19,8 @@ import { SelectDropdownComponent } from '../../comman/components/UI/select-dropd
     ButtonComponent,
     DatePickerComponent,
     SelectDropdownComponent,
+    RadioComponent,
+    CheckBoxComponent,
   ],
   templateUrl: './update-project.component.html',
   styleUrl: './update-project.component.scss',
@@ -43,7 +48,26 @@ export class UpdateProjectComponent {
     { value: 'Git lab', display: 'Git lab' },
     { value: 'Bit bucket', display: 'Bit bucket' },
   ];
-
+  projectPriorityOptions: any = [
+    { value: 'Low', display: 'Low' },
+    { value: 'Medium', display: 'Medium' },
+    { value: 'High', display: 'High' },
+  ];
+  projectTypeOptions: any = [
+    { value: 'Mobile Development', display: 'Mobile Development' },
+    { value: 'E-commerce Development', display: 'E-commerce Development' },
+    { value: 'Web Development', display: 'Web Development' },
+    { value: 'Data Analytics', display: '	Data Analytics' },
+    { value: 'Supply Chain', display: 'Supply Chain' },
+    { value: 'Healthcare CRM', display: 'Healthcare CRM' },
+    { value: 'Machine Learning', display: 'Machine Learning' },
+    { value: 'Travel', display: 'Travel' },
+  ];
+  projectApvStatusOptions: any = [
+    { value: 'Approved', display: 'Approved' },
+    { value: 'Pending', display: 'Pending' },
+    { value: 'Rejected', display: 'Rejected' },
+  ];
   updateProjectForm = new FormGroup({
     projectName: new FormControl('', Validators.required),
     projectDescription: new FormControl('', Validators.required),
@@ -58,6 +82,11 @@ export class UpdateProjectComponent {
     repoUrl: new FormControl('', Validators.required),
     projectStartDate: new FormControl('', Validators.required),
     projectDeadlineDate: new FormControl('', Validators.required),
+    projectBudget: new FormControl('', Validators.required),
+    projectPriority: new FormControl('', Validators.required),
+    projectLocation: new FormControl('', Validators.required),
+    projectType: new FormControl('', Validators.required),
+    projectApproveStatus: new FormControl('', Validators.required),
   });
   ngOnInit() {
     this.projectData();
@@ -68,7 +97,7 @@ export class UpdateProjectComponent {
     this.userService.getProject(id).subscribe({
       next: (res: any) => {
         if (res.status) {
-          this.updateProject = res.data;
+           this.updateProject = res.data;
           const fff = this.updateProjectForm.patchValue({
             projectName: this.updateProject.project_name,
             projectDescription: this.updateProject.project_description,
@@ -83,6 +112,11 @@ export class UpdateProjectComponent {
             repoUrl: this.updateProject.repo_url,
             projectStartDate: this.updateProject.project_startDate,
             projectDeadlineDate: this.updateProject.project_deadlineDate,
+            projectBudget: this.updateProject.project_budget,
+            projectPriority: this.updateProject.project_priority,
+            projectLocation: this.updateProject.project_location,
+            projectType: this.updateProject.project_type,
+            projectApproveStatus: this.updateProject.project_approval_status,
           });
         } else {
           this.toastr.error(res.message);
@@ -119,7 +153,14 @@ export class UpdateProjectComponent {
       repo_url: this.updateProjectForm.value.repoUrl,
       project_start_date: this.updateProjectForm.value.projectStartDate,
       project_deadline_date: this.updateProjectForm.value.projectDeadlineDate,
+      project_budget: this.updateProjectForm.value.projectBudget,
+      project_priority: this.updateProjectForm.value.projectPriority,
+      project_location: this.updateProjectForm.value.projectLocation,
+      project_type: this.updateProjectForm.value.projectType,
+      project_approval_status:
+        this.updateProjectForm.value.projectApproveStatus,
     };
+
     this.userService.updateProject(data, id).subscribe({
       next: (res: any) => {
         if (res.status) {

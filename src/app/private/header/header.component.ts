@@ -1,28 +1,6 @@
 import { Component, inject, output, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconDirective, IconService } from '@ant-design/icons-angular';
-import {
-  BellOutline,
-  MenuFoldOutline,
-  MenuUnfoldOutline,
-  SearchOutline,
-  SettingOutline,
-  GiftOutline,
-  MessageOutline,
-  PhoneOutline,
-  CheckCircleOutline,
-  LogoutOutline,
-  EditOutline,
-  UserOutline,
-  ProfileOutline,
-  WalletOutline,
-  QuestionCircleOutline,
-  LockOutline,
-  CommentOutline,
-  UnorderedListOutline,
-  ArrowRightOutline,
-  GithubOutline,
-} from '@ant-design/icons-angular/icons';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from '@angular/router';
@@ -30,8 +8,8 @@ import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { BehaviorService } from '../../services/behavior.service';
 import { DarkToggleComponent } from '../../comman/components/UI/dark-toggle/dark-toggle.component';
-import { style } from '@angular/animations';
 import { TabsComponent } from "../../comman/components/UI/tabs/tabs.component";
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
@@ -44,6 +22,7 @@ import { TabsComponent } from "../../comman/components/UI/tabs/tabs.component";
     CommonModule,
     DarkToggleComponent,
     TabsComponent,
+    MatIconModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
@@ -70,7 +49,6 @@ export class HeaderComponent {
     this.windowWidth = window.innerWidth;
     this.navCollapsedMob = false;
     this.navCollapsed = false;
- 
   }
 
   // public method

@@ -27,6 +27,7 @@ export class ProjectsComponent {
   ) {}
   projectList: any[] = [];
   gridApiActive: GridApi | null = null;
+
   colDefs: ColDef[] = [
     {
       headerName: 'Sr no.',
@@ -171,7 +172,7 @@ export class ProjectsComponent {
     defaultColDef: this.defaultColDef,
     pagination: true,
     paginationPageSize: 10,
-    paginationPageSizeSelector: [10,100, 500, 1000, 1000, 10000, 100000],
+    paginationPageSizeSelector: [10, 100, 500, 1000, 1000, 10000, 100000],
     scrollbarWidth: 50,
     theme: themeQuartz.withParams({
       wrapperBorder: false,
@@ -188,10 +189,13 @@ export class ProjectsComponent {
       return undefined;
     },
   };
+
   ngOnInit() {
     this.userService.projects().subscribe({
       next: (res: any) => {
         if (res.status) {
+          console.log(res.data, 'res.data');
+
           this.projectList = res.data;
         } else {
           this.toastr.error(res.message);
@@ -222,6 +226,8 @@ export class ProjectsComponent {
   onGridReady(params: GridReadyEvent) {
     this.gridApiActive = params.api;
   }
+
+  isSidePanelVisible: boolean = false;
 
   searchInput: any;
   onFilterBoxChanged() {

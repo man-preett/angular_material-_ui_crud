@@ -3,20 +3,11 @@
     <div class="pc-mob-drp">
       <ul class="list-unstyled">
         <li class="pc-h-item pc-sidebar-collapse">
-          <a
-            href="javascript:"
-            title="click to menu collapse"
-            class="pc-head-link ms-0"
-            [ngClass]="{ on: navCollapsed }"
-            id="sidebar-hide mobile-collapse"
-            (click)="navCollapse()"
-          >
             @if (navCollapsed === true) {
-            <i antIcon type="menu-unfold" theme="outline"></i>
+            <mat-icon (click)="navCollapse()">menu</mat-icon>
             } @else {
-            <i antIcon type="menu-fold" theme="outline"></i>
+           <mat-icon (click)="navCollapse()">menu</mat-icon>
             }
-          </a>
         </li>
       </ul>
     </div>
@@ -57,14 +48,8 @@
                   </h6>
                 </div>
                 <a href="javascript:" class="bg-transparent" 
-                  ><i
-                    class="d-flex f-20"
-                    antIcon
-                    theme="outline"
-                    type="logout"
-                    (click)="onLogout()"
-                  ></i
-                ></a>
+                  ><mat-icon (click)="onLogout()">logout</mat-icon>
+                </a>
               </div>
             </div>
             <ul ngbNav #nav="ngbNav" class="mat-tabs">

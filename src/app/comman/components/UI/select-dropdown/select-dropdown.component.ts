@@ -31,7 +31,7 @@ export class SelectDropdownComponent implements ControlValueAccessor {
   ngOnInit(): void {}
 
   writeValue(value: any): void {
-    if (value !== undefined && value !== null) {
+    if (value !== undefined && value !== null) {      
       this.value = value;
     }
   }

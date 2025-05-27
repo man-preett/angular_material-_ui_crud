@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
 

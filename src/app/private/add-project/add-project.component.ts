@@ -8,6 +8,7 @@ import { ButtonComponent } from '../../comman/components/UI/button/button.compon
 import { DatePickerComponent } from '../../comman/components/UI/date-picker/date-picker.component';
 import { SelectDropdownComponent } from '../../comman/components/UI/select-dropdown/select-dropdown.component';
 import { RadioComponent } from "../../comman/components/UI/radio/radio.component";
+import { CheckBoxComponent } from '../../comman/components/UI/checkBox/checkBox.component';
 
 @Component({
   selector: 'app-add-project',
@@ -18,6 +19,7 @@ import { RadioComponent } from "../../comman/components/UI/radio/radio.component
     DatePickerComponent,
     SelectDropdownComponent,
     RadioComponent,
+    CheckBoxComponent,
   ],
   templateUrl: './add-project.component.html',
   styleUrl: './add-project.component.scss',
@@ -48,6 +50,16 @@ export class AddProjectComponent {
     { value: 'Low', display: 'Low' },
     { value: 'Medium', display: 'Medium' },
     { value: 'High', display: 'High' },
+  ];
+  projectTypeOptions: any = [
+    { value: 'Mobile Development', display: 'Mobile Development' },
+    { value: 'E-commerce Development', display: 'E-commerce Development' },
+    { value: 'Web Development', display: 'Web Development' },
+    { value: 'Data Analytics', display: '	Data Analytics' },
+    { value: 'Supply Chain', display: 'Supply Chain' },
+    { value: 'Healthcare CRM', display: 'Healthcare CRM' },
+    { value: 'Machine Learning', display: 'Machine Learning' },
+    { value: 'Travel', display: 'Travel' },
   ];
   projectApvStatusOptions: any = [
     { value: 'Approved', display: 'Approved' },

@@ -128,6 +128,12 @@ html.dark-mode{
   ));
 }
 
+// mat-ui
+
+.label-mi{
+  color: var(--mi-label-color);
+}
+
 html.dark-mode {
   --pc-body-bg: #121212;
   --pc-heading-color: #d6d6d6;
@@ -157,5 +163,7 @@ html.dark-mode {
   --ag-bg-color:#1e1e1e !important;
   --ag-color: #d6d6d6;
   --ag-dropdown-bg-color:#1e1e1e !important;
+  --mi-label-color:#d6d6d6;
 }
+
 

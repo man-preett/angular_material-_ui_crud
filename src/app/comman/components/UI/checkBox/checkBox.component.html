@@ -1,0 +1,12 @@
+   <mat-label class="label-mi">{{ label }}<span class="danger">*</span></mat-label>
+ <div class="checkbox-group">
+  @for(option of options; track option.value;){
+    <mat-checkbox
+    
+    [checked]="isChecked(option.value)"
+    (change)="onCheckboxChange(option.value, $event.checked)"
+  >
+    {{ option.display }}
+  </mat-checkbox>
+}
+</div>
