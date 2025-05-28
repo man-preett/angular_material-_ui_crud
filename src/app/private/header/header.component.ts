@@ -8,13 +8,12 @@ import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { BehaviorService } from '../../services/behavior.service';
 import { DarkToggleComponent } from '../../comman/components/UI/dark-toggle/dark-toggle.component';
-import { TabsComponent } from "../../comman/components/UI/tabs/tabs.component";
+import { TabsComponent } from '../../comman/components/UI/tabs/tabs.component';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
   imports: [
-    IconDirective,
     RouterModule,
     NgScrollbarModule,
     NgbNavModule,

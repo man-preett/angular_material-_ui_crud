@@ -1,11 +1,11 @@
-
+@use "sass:color";
 .auth-main {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 90vh;
   flex-direction: column;
-  background: url('../../../assets/images/authentication/img-auth-bg.svg');
+  background: url("../../../assets/images/authentication/img-auth-bg.svg");
   padding: 24px;
   background-repeat: no-repeat;
   background-size: auto 82%;
@@ -16,7 +16,7 @@
     z-index: 5;
   }
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -32,16 +32,16 @@
 
     .auth-form {
       background: #fff;
-      background: url('../../../assets/images/authentication/img-auth-bg.svg');
+      background: url("../../../assets/images/authentication/img-auth-bg.svg");
 
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      
+
       .profile-header {
         border-bottom: 1px solid #ddd;
         padding-bottom: 20px;
-        
+
         .profile-img {
           width: 80px;
           height: 80px;
@@ -68,12 +68,13 @@
           .user-info-table {
             width: 100%;
             border-collapse: collapse;
-            
-            th, td {
+
+            th,
+            td {
               padding: 12px;
               text-align: left;
             }
-            
+
             th {
               font-weight: bold;
             }
@@ -81,7 +82,7 @@
             tr {
               border-bottom: 1px solid #dedede;
 
-              &:last-child{
+              &:last-child {
                 border-bottom: none;
               }
             }
@@ -95,11 +96,11 @@
 
             .btn {
               &.btn-primary {
-                background-color: #1677FF; 
-                border-color: #1677FF;
+                background-color: #1677ff;
+                border-color: #1677ff;
                 &:hover {
-                  background-color: darken(#1677FF, 10%);
-                  border-color: darken(#1677FF, 10%);
+                  background-color: color.adjust(#1677ff, $lightness: -10%);
+                  border-color: color.adjust(#1677ff, $lightness: -10%);
                 }
               }
             }
@@ -127,6 +128,6 @@
     }
   }
 }
-.edit{
+.edit {
   margin-bottom: 85px;
-} 
+}

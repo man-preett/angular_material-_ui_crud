@@ -49,8 +49,26 @@ export class UserService {
       data
     );
   }
-  projects(): Observable<any> {
-    return this.http.get('http://localhost/php-crud/api/v1/projects/');
+  projects(
+    startRow: number,
+    endRow: number,
+    search: any = '',
+    sortModel: any[] = [],
+    filterModel: any = {}
+  ): Observable<any> {
+    const sort =
+      sortModel.length > 0 ? `${sortModel[0].colId}_${sortModel[0].sort}` : '';
+    const params = {
+      startRow: startRow,
+      endRow: endRow,
+      search: search,
+      sort: sort,
+      filterModel: JSON.stringify(filterModel),
+    };
+
+    return this.http.get(`http://localhost/php-crud/api/v1/projects/`, {
+      params,
+    });
   }
   createProject(data: any): Observable<any> {
     return this.http.post(
@@ -58,7 +76,7 @@ export class UserService {
       data
     );
   }
-  updateProject(data: any,id:any): Observable<any> {
+  updateProject(data: any, id: any): Observable<any> {
     return this.http.put<any>(
       `http://localhost/php-crud/api/v1/updateproject/?id=${id}`,
       data
@@ -66,12 +84,12 @@ export class UserService {
   }
   deleteProject(id: any): Observable<any> {
     return this.http.delete<any>(
-      `http://localhost/php-crud/api/v1/deleteproject/?id=${id}`,
+      `http://localhost/php-crud/api/v1/deleteproject/?id=${id}`
     );
   }
-  getProject(id: any): Observable<any>{
+  getProject(id: any): Observable<any> {
     return this.http.get<any>(
       `http://localhost/php-crud/api/v1/getproject/?id=${id}`
-    )
+    );
   }
 }

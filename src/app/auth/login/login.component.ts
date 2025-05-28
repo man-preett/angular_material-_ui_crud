@@ -41,7 +41,6 @@ export class LoginComponent {
 
   onLogin() {
     if (this.loginForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
       Object.keys(this.loginForm.controls).forEach((field) => {
         const control = this.loginForm.get(field);
         control?.markAsTouched({ onlySelf: true });

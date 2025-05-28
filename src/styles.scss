@@ -52,6 +52,9 @@
   background-color: #cbc9c9;
  
 }
+.ag-pinned-right-header {
+    background: #cbc9c9 !important;
+}
 .ag-root-wrapper-body.ag-layout-normal.ag-focus-managed {
     border: 1px solid #a3a3a3;
 }
@@ -111,6 +114,9 @@ app-tabs {
   margin-right: 5px;
 }
 
+.ag-picker-field-display {
+    color: var(--ag-color);
+}
 //Dark theme
 
 html {
@@ -134,6 +140,12 @@ html.dark-mode{
   color: var(--mi-label-color);
 }
 
+.ag-row-hover {
+    background-color:var(--ag-hover-bg) !important;
+}
+.ag-column-hover {
+    background-color:var(--ag-hover-bg) !important;
+}
 html.dark-mode {
   --pc-body-bg: #121212;
   --pc-heading-color: #d6d6d6;
@@ -164,6 +176,7 @@ html.dark-mode {
   --ag-color: #d6d6d6;
   --ag-dropdown-bg-color:#1e1e1e !important;
   --mi-label-color:#d6d6d6;
+  --ag-hover-bg:#11115d31 !important; 
 }
 
 

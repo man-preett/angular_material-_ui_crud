@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -7,15 +7,22 @@ import {
   GridReadyEvent,
   themeQuartz,
   GridApi,
+  IDatasource,
+  IGetRowsParams,
+  InfiniteRowModelModule,
 } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-ModuleRegistry.registerModules([AllCommunityModule]);
+import { DataSource } from '@angular/cdk/collections';
+import { NgClass } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { CustomInnerHeader } from '../customHeader';
+ModuleRegistry.registerModules([InfiniteRowModelModule]);
 @Component({
   selector: 'app-projects',
-  imports: [AgGridAngular, FormsModule],
+  imports: [AgGridAngular, FormsModule, NgClass, MatIconModule],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })
@@ -23,8 +30,14 @@ export class ProjectsComponent {
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone // private eGui: HTMLDivElement
   ) {}
+
+  openSidebar = false;
+
+  columnToggleList: { field: string; headerName: string; visible: boolean }[] =
+    [];
   projectList: any[] = [];
   gridApiActive: GridApi | null = null;
 
@@ -34,6 +47,7 @@ export class ProjectsComponent {
       pinned: 'left',
       headerClass: 'bold-header',
       width: 100,
+      field: 'srno_',
       cellStyle: { borderRight: '2px solid #a7a7a7' },
       cellRenderer: function (params: any) {
         return params?.node?.rowIndex + 1;
@@ -123,10 +137,13 @@ export class ProjectsComponent {
     },
     {
       headerName: 'Action',
+      sortable: false,
+      filter: false,
       headerClass: 'bold-header',
+      field: 'action',
       cellRenderer: function (params: any) {
+        if (!params.data) return null;
         const projectId = params.data.project_id;
-
         var updateProject = document.createElement('button');
         updateProject.className = 'btn btn-primary';
         updateProject.innerHTML =
@@ -161,18 +178,34 @@ export class ProjectsComponent {
         },
       },
     },
+    {
+      pinned: 'right',
+      width: 50,
+      headerName: '',
+      headerClass: 'bold-header settings-header',
+      sortable: false,
+      filter: false,
+      headerComponentParams: {
+        icon: 'fa-cog',
+      },
+    },
   ];
 
   defaultColDef: ColDef = {
-    sortable: true,
+    // sortable: true,
     filter: true,
+    headerComponentParams: {
+      innerHeaderComponent: CustomInnerHeader,
+    },
   };
   gridOptions: GridOptions = {
+    rowModelType: 'infinite',
+    columnHoverHighlight: true, 
     columnDefs: this.colDefs,
     defaultColDef: this.defaultColDef,
     pagination: true,
     paginationPageSize: 10,
-    paginationPageSizeSelector: [10, 100, 500, 1000, 1000, 10000, 100000],
+    paginationPageSizeSelector: [10, 100, 500, 1000, 10000, 50000, 100000],
     scrollbarWidth: 50,
     theme: themeQuartz.withParams({
       wrapperBorder: false,
@@ -191,20 +224,91 @@ export class ProjectsComponent {
   };
 
   ngOnInit() {
-    this.userService.projects().subscribe({
-      next: (res: any) => {
-        if (res.status) {
-          console.log(res.data, 'res.data');
-
-          this.projectList = res.data;
-        } else {
-          this.toastr.error(res.message);
-        }
-      },
-      error: (err) => {
-        this.toastr.error(err.message);
-      },
+    this.initializeColumnToggleList();
+  }
+  openSideBar() {
+    this.openSidebar = true;
+    this.ngZone.run(() => {
+      this.openSidebar = true;
     });
+  }
+
+  initializeColumnToggleList() {
+
+    this.columnToggleList = this.colDefs
+      .filter((col) => col.headerName)
+      .map((col) => ({
+        field: col.field!,
+        headerName: col.headerName as string,
+        visible: true,
+      }));
+  }
+
+  toggleColumn(col: ColDef & { visible?: boolean }) {
+    if (!this.gridApiActive) return;
+    col.visible = !col.visible;
+    this.gridApiActive.setColumnsVisible([col.field!], col.visible);
+    this.allSelected = this.columnToggleList.every((col) => col.visible);
+  }
+
+  allSelected: boolean = true;
+  toggleAllColumns() {
+    const allVisible = this.columnToggleList.every((col) => col.visible);
+    this.allSelected = !allVisible;
+    if (this.allSelected) {
+      this.selectAllColumns();
+    } else {
+      this.columnToggleList.forEach((col) => {
+        if (col.field && col.visible) {
+          col.visible = false;
+          this.gridApiActive?.setColumnsVisible([col.field], false);
+        }
+      });
+    }
+  }
+
+  selectAllColumns() {
+    if (this.allSelected) {
+      this.columnToggleList.forEach((col) => {
+        if (!col.visible) {
+          col.visible = true;
+          this.gridApiActive?.setColumnsVisible([col.field]!, true);
+        }
+      });
+    }
+  }
+  fetchProjectData() {
+    if (!this.gridApiActive) return;
+
+    const datasource: IDatasource = {
+      getRows: (params: IGetRowsParams) => {
+        const start = params.startRow;
+        const end = params.endRow;
+        const search = this.searchInput ?? '';
+        const sortModel = params.sortModel;
+        const filterModel = params.filterModel;
+
+        this.userService
+          .projects(start, end, search, sortModel, filterModel)
+          .subscribe({
+            next: (res) => {
+              if (res.status) {
+                this.projectList = res.rows;
+                params.successCallback(res.rows, res.lastRow);
+              } else {
+                params.failCallback();
+                this.toastr.error('No data found');
+              }
+            },
+            error: () => {
+              params.failCallback();
+              this.toastr.error('Server error');
+            },
+          });
+      },
+    };
+
+    this.gridApiActive.setGridOption('datasource', datasource);
   }
   addProject() {
     this.router.navigate(['/home/add-project/']);
@@ -216,21 +320,33 @@ export class ProjectsComponent {
     this.userService.deleteProject(id).subscribe({
       next: (res: any) => {
         this.toastr.success('Project deleted successfully');
+
         this.projectList = this.projectList.filter((project) => {
           return project.project_id !== id;
         });
+        this.fetchProjectData();
       },
     });
   }
 
   onGridReady(params: GridReadyEvent) {
     this.gridApiActive = params.api;
+
+    this.fetchProjectData();
+    setTimeout(() => {
+      const settingsHeader = document.querySelector(
+        '.ag-header-cell.settings-header'
+      );
+      if (settingsHeader) {
+        settingsHeader.addEventListener('click', () => {
+          this.openSideBar(); // your method
+        });
+      }
+    });
   }
-
-  isSidePanelVisible: boolean = false;
-
   searchInput: any;
   onFilterBoxChanged() {
-    this.gridApiActive?.setGridOption('quickFilterText', this.searchInput);
+    // this.gridApiActive?.setGridOption('quickFilterText', this.searchInput);
+    this.fetchProjectData();
   }
 }

@@ -15,11 +15,11 @@
       (input)="onFilterBoxChanged()"
     />
   </div>
-  
+
   <ag-grid-angular
     style="height: 500px; width: 80%; margin-left: 100px"
     [gridOptions]="gridOptions"
-    [rowData]="projectList"
+    [rowModelType]="'infinite'"
     (gridReady)="onGridReady($event)"
   >
     <style>
@@ -34,4 +34,22 @@
       }
     </style>
   </ag-grid-angular>
+  <div class="column-settings-sidebar" [ngClass]="{ open: openSidebar }">
+    <div class="sidebar-wrapper">
+      <h4>Columns</h4>
+      <button class="btn btn-primary " (click)="toggleAllColumns()">{{ allSelected ? 'Unselect All' : 'Select All' }}</button>
+      <mat-icon (click)="openSidebar = false" fontIcon="close"></mat-icon>
+
+    </div>
+    @for (col of columnToggleList; track col.headerName) {
+    <label class="custonFilter">
+      <input
+        type="checkbox"
+        [checked]="col.visible"
+        (change)="toggleColumn(col)"
+      />
+      {{ col.headerName }}
+    </label>
+    }
+  </div>
 </div>
