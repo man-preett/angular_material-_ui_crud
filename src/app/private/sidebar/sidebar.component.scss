@@ -3,3 +3,37 @@
     // justify-content: center;
     align-items: center;
 }
+.custom-sidebar{
+   display: flex;
+   flex-direction: column;
+   padding: 8px;
+    margin-top:33px;
+    
+}
+
+.custom-sidebar li{
+    padding: 10px;
+    display: flex;
+    margin-bottom: 8px;
+}
+
+ .custom-sidebar .active{
+       background-color: var(--ag-hover-bg);
+    /* color: white; */
+    border-radius: 10px;
+}
+ .custom-sidebar .active a{
+ color: #0d6efd;
+} 
+ .custom-sidebar a{
+font-size: 14px;
+ }
+.custom-sidebar :hover{
+  background-color: var(--ag-light-hover);
+    border-radius: 10px;  
+     color: #0d6efd;
+}
+
+a.sidebar-items {
+    width: 100%;
+}

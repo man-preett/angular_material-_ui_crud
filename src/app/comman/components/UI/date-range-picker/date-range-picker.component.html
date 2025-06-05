@@ -1,0 +1,30 @@
+<mat-form-field appearance="fill" style="width: 100%">
+  <mat-label>{{ label }}<span class="danger">*</span></mat-label>
+
+        <mat-date-range-input [rangePicker]="picker" 
+   >
+    <input
+      matStartDate
+      matInput
+      [formControl]="startControl"
+      [placeholder]="placeholderStart"
+      (input)="picker.open()"
+      (focus)="picker.open()"
+      (dateChange)="updateValue()"
+ 
+    />
+    <input
+      matEndDate
+      matInput
+      [formControl]="endControl"
+      [placeholder]="placeholderEnd"
+      (input)="picker.open()"
+      (focus)="picker.open()"
+      (dateChange)="updateValue()"
+    
+    />
+  </mat-date-range-input>
+
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker></mat-date-range-picker>
+</mat-form-field>

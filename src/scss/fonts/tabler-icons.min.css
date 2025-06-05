@@ -2161,10 +2161,10 @@
 .ti-history:before {
   content: '\ebea';
 }
-.ti-home:before {
+.ti-projects:before {
   content: '\eac1';
 }
-.ti-home-2:before {
+.ti-projects-2:before {
   content: '\eac0';
 }
 .ti-ice-cream:before {
@@ -3256,7 +3256,7 @@
 .ti-slideshow:before {
   content: '\ebc9';
 }
-.ti-smart-home:before {
+.ti-smart-projects:before {
   content: '\ecde';
 }
 .ti-smoking:before {

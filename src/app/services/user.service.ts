@@ -63,7 +63,7 @@ export class UserService {
       endRow: endRow,
       search: search,
       sort: sort,
-      filterModel: JSON.stringify(filterModel),
+      filterModel: decodeURIComponent(JSON.stringify(filterModel)),
     };
 
     return this.http.get(`http://localhost/php-crud/api/v1/projects/`, {

@@ -1,6 +1,15 @@
-  <mat-form-field style="width: 100%;">
-    <mat-label>{{label}}</mat-label>
-      <input matInput [matDatepicker]="picker" placeholder="{{placeholder}}" [value]="value" [name]="name" (dateChange)="updateValue($event)">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+<mat-form-field style="width: 100%">
+  <mat-label>{{ label }}<span class="danger">*</span></mat-label>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    placeholder="{{ placeholder }}"
+    [value]="value"
+    [name]="name"
+    (dateChange)="updateValue($event)"
+    (click)="picker.open()"
+    (focus)="picker.open()"
+  />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>

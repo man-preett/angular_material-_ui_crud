@@ -1,45 +1,50 @@
 <div class="project-header">
-  <h2 class="user-heading" style="margin-bottom: 30px">Projects List</h2>
-  <button type="button" class="btn btn-primary" (click)="addProject()">
-    <i class="fa-solid fa-plus" style="margin-right: 10px"></i>Add project
-  </button>
-</div>
-<hr />
-<div class="list-projects">
-  <div class="search-project">
-    <input
-      type="text"
-      placeholder="Search..."
-      class="search-input"
-      [(ngModel)]="searchInput"
-      (input)="onFilterBoxChanged()"
-    />
-  </div>
+  <h3 class="user-heading">Projects List</h3>
+  <div class="user-sidebar">
+    <div class="search-project">
+    <mat-icon fontIcon="search" class="search-icon">Search</mat-icon>
+      <input
+        type="text"
+        placeholder="Search..."
+        class="search-input"
+        [(ngModel)]="searchInput"
+        (input)="onFilterBoxChanged()"
+      />
 
+    </div>
+       
+    <button type="button" class="btn btn-primary add-project-btn" (click)="addProject()">
+      <i class="fa-solid fa-plus"></i>Add Project
+    </button>
+  </div>
+</div>
+<div class="list-projects">
   <ag-grid-angular
-    style="height: 500px; width: 80%; margin-left: 100px"
+    style="height: 775px; width: 100%" 
     [gridOptions]="gridOptions"
     [rowModelType]="'infinite'"
-    (gridReady)="onGridReady($event)"
-  >
-    <style>
-      ::ng-deep .ag-root-wrapper {
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3),
-          0 -10px 15px rgba(0, 0, 0, 0.3);
-        padding: 20px;
-      }
+     (paginationChanged)="onPaginationChanged()"
+     (sortChanged)="onSortChanged()"
+     (filterChanged)="onFilterChanged()"
+     (firstDataRendered)="onFirstDataRendered()"
 
-      ::ng-deep .ag-root-wrapper-body {
-        border: none;
-      }
-    </style>
+    (gridReady)="onGridReady($event)"
+      [overlayNoRowsTemplate]="'<p>No rows found</p>'"
+  >
   </ag-grid-angular>
   <div class="column-settings-sidebar" [ngClass]="{ open: openSidebar }">
     <div class="sidebar-wrapper">
       <h4>Columns</h4>
-      <button class="btn btn-primary " (click)="toggleAllColumns()">{{ allSelected ? 'Unselect All' : 'Select All' }}</button>
+      <div class="sidebar-btn-icon">
+      <button class="btn btn-primary sidebar-btn" (click)="toggleAllColumns()">
+         <mat-icon>
+    {{ allSelected ? 'close' : 'done' }}
+  </mat-icon>
+        {{ allSelected ? "Unselect All" : "Select All" }}
+       
+      </button>
       <mat-icon (click)="openSidebar = false" fontIcon="close"></mat-icon>
-
+      </div>
     </div>
     @for (col of columnToggleList; track col.headerName) {
     <label class="custonFilter">
@@ -53,3 +58,11 @@
     }
   </div>
 </div>
+<style>
+  ::ng-deep .ag-row.even-row {
+  background-color: var(--ag-even-row-bg) !important;
+} 
+      .ag-root ::-webkit-scrollbar-track {
+      background: #882929; /* Set track color */
+    }
+</style>

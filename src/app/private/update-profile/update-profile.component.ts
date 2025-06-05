@@ -161,7 +161,7 @@ export class UpdateProfileComponent {
            user_last_name: res.data.user_last_name,
          });
           this.toastr.success('Profile updated successfully');
-          this.router.navigate(['/home/myprofile']);
+          this.router.navigate(['/projects/myprofile']);
         }
       },
       error: (err) => {

@@ -20,34 +20,33 @@ export const privateRoutes: Routes = [
       },
       {
         path: 'myprofile',
-        component: MyProfileComponent
+        component: MyProfileComponent,
       },
       {
         path: 'update-profile',
-        component: UpdateProfileComponent
+        component: UpdateProfileComponent,
       },
       {
         path: 'change-password',
-        component:ChangePasswordComponent
+        component: ChangePasswordComponent,
       },
       {
-        path: "users",
-        component:UsersComponent
+        path: 'users',
+        component: UsersComponent,
       },
       {
-        path: "add-project",
-        component:AddProjectComponent
+        path: 'add-project',
+        component: AddProjectComponent,
       },
       {
-        path: "update-project/:id",
-        component:UpdateProjectComponent
+        path: 'update-project/:id',
+        component: AddProjectComponent,
       },
       {
-        path: "**",
+        path: '**',
         component: ProjectsComponent,
-        redirectTo:''
-      }
+        redirectTo: '',
+      },
     ],
   },
-  
 ];

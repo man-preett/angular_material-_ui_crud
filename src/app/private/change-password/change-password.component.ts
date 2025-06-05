@@ -49,7 +49,7 @@ export class ChangePasswordComponent {
         if (data.new_password == confirm_pass) {
           if (res.status) {
             this.toastr.success('Password Changed successfully');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/projects']);
           } 
         }
       },
@@ -59,6 +59,6 @@ export class ChangePasswordComponent {
     });
   }
   onBack() {
-    this.router.navigate(["/home"])
+    this.router.navigate(['/projects']);
   }
 }

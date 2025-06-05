@@ -1,193 +1,310 @@
-<div class="container mt-5">
+<div class="container">
   <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h2 class="mb-0"><b>Add Project</b></h2>
+      <h3>{{ !id ? "Add Project" : "Edit Project" }}</h3>
+      <app-button
+        [class]="'btn btn-primary project-btn'"
+        (click)="onBack()"
+        [label]="'Back'"
+        [icon]="'arrow_back'"
+      />
     </div>
     <div class="card-body">
-      <form [formGroup]="addProjectForm">
+      <form [formGroup]="projectForm">
         <div class="row">
           <div class="col-md-4 mb-3">
-            <app-input-box label="Project Name" type="text" placeholder="Enter Project Name" name="project_name" formControlName="projectName" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectName'].errors?.['required'] && addProjectForm.controls['projectName'].touched){
-                <span>*Please enter project name</span>
+            <app-input-box
+              label="Project Name"
+              type="text"
+              placeholder="Enter Project Name"
+              name="project_name"
+              formControlName="projectName"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectName'].errors?.['required'] &&
+              projectForm.controls['projectName'].touched){
+              <span>*Please enter project name</span>
               }
             </div>
           </div>
 
-          <!-- Project Description -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Project Description" type="text" placeholder="Enter Project Description" name="project_description" formControlName="projectDescription" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectDescription'].errors?.['required'] && addProjectForm.controls['projectDescription'].touched){
-                <span>*Please enter project description</span>
+            <app-input-box
+              label="Project Description"
+              type="text"
+              placeholder="Enter Project Description"
+              name="project_description"
+              formControlName="projectDescription"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectDescription'].errors?.['required']
+              && projectForm.controls['projectDescription'].touched){
+              <span>*Please enter project description</span>
               }
             </div>
           </div>
 
-          <!-- Project Technology -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Project Technology" type="text" placeholder="Enter Project Technology" name="project_tech" formControlName="projectTech" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectTech'].errors?.['required'] && addProjectForm.controls['projectTech'].touched){
-                <span>*Please enter project technology</span>
+            <app-input-box
+              label="Project Technology"
+              type="text"
+              placeholder="Enter Project Technology"
+              name="project_tech"
+              formControlName="projectTech"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectTech'].errors?.['required'] &&
+              projectForm.controls['projectTech'].touched){
+              <span>*Please enter project technology</span>
               }
             </div>
           </div>
 
-          <!-- Project Lead -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Project Lead" type="text" placeholder="Enter Project Lead" name="project_lead" formControlName="projectLead" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectLead'].errors?.['required'] && addProjectForm.controls['projectLead'].touched){
-                <span>*Please enter project lead</span>
+            <app-input-box
+              label="Project Lead"
+              type="text"
+              placeholder="Enter Project Lead"
+              name="project_lead"
+              formControlName="projectLead"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectLead'].errors?.['required'] &&
+              projectForm.controls['projectLead'].touched){
+              <span>*Please enter project lead</span>
               }
             </div>
           </div>
 
-          <!-- Project Manager -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Project Manager" type="text" placeholder="Enter Project Manager" name="project_manager" formControlName="projectManager" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectManager'].errors?.['required'] && addProjectForm.controls['projectManager'].touched){
-                <span>*Please enter project manager</span>
+            <app-input-box
+              label="Project Manager"
+              type="text"
+              placeholder="Enter Project Manager"
+              name="project_manager"
+              formControlName="projectManager"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectManager'].errors?.['required'] &&
+              projectForm.controls['projectManager'].touched){
+              <span>*Please enter project manager</span>
               }
             </div>
           </div>
 
-          <!-- Project Client -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Project Client" type="text" placeholder="Enter Project Client" name="project_client" formControlName="projectClient" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectClient'].errors?.['required'] && addProjectForm.controls['projectClient'].touched){
-                <span>*Please enter project client</span>
+            <app-input-box
+              label="Project Client"
+              type="text"
+              placeholder="Enter Project Client"
+              name="project_client"
+              formControlName="projectClient"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectClient'].errors?.['required'] &&
+              projectForm.controls['projectClient'].touched){
+              <span>*Please enter project client</span>
               }
             </div>
           </div>
 
-          <!-- Project Status -->
           <div class="col-md-4 mb-3">
-            <app-select-dropdown formControlName="projectStatus" [options]="statusOptions" label="Project Status" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectStatus'].errors?.['required'] && addProjectForm.controls['projectStatus'].touched){
-                <span>*Please select project status</span>
+            <app-select-dropdown
+              formControlName="projectStatus"
+              [options]="statusOptions"
+              label="Project Status"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectStatus'].errors?.['required'] &&
+              projectForm.controls['projectStatus'].touched){
+              <span>*Please select project status</span>
               }
             </div>
           </div>
 
-          <!-- Management Tool -->
           <div class="col-md-4 mb-3">
-            <app-select-dropdown formControlName="manageTool" [options]="manageToolOptions" label="Management Tool" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['manageTool'].errors?.['required'] && addProjectForm.controls['manageTool'].touched){
-                <span>*Please select management tool</span>
+            <app-select-dropdown
+              formControlName="manageTool"
+              [options]="manageToolOptions"
+              label="Management Tool"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['manageTool'].errors?.['required'] &&
+              projectForm.controls['manageTool'].touched){
+              <span>*Please select management tool</span>
               }
             </div>
           </div>
 
-          <!-- Management URL -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Management URL" type="text" placeholder="Management URL" name="manage_url" formControlName="manageUrl" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['manageUrl'].errors?.['required'] && addProjectForm.controls['manageUrl'].touched){
-                <span>*Please enter management URL</span>
+            <app-input-box
+              label="Management URL"
+              type="text"
+              placeholder="Management URL"
+              name="manage_url"
+              formControlName="manageUrl"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['manageUrl'].errors?.['required'] &&
+              projectForm.controls['manageUrl'].touched){
+              <span>*Please enter management URL</span>
               }
             </div>
           </div>
 
-          <!-- Repo Tool -->
           <div class="col-md-4 mb-3">
-            <app-select-dropdown formControlName="repoTool" [options]="repoToolOptions" label="Repository Tool" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['repoTool'].errors?.['required'] && addProjectForm.controls['repoTool'].touched){
-                <span>*Please select repository tool</span>
+            <app-select-dropdown
+              formControlName="repoTool"
+              [options]="repoToolOptions"
+              label="Repository Tool"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['repoTool'].errors?.['required'] &&
+              projectForm.controls['repoTool'].touched){
+              <span>*Please select repository tool</span>
               }
             </div>
           </div>
 
-          <!-- Repo URL -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Repository URL" type="text" placeholder="Repository URL" name="repo_url" formControlName="repoUrl" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['repoUrl'].errors?.['required'] && addProjectForm.controls['repoUrl'].touched){
-                <span>*Please enter repository URL</span>
+            <app-input-box
+              label="Repository URL"
+              type="text"
+              placeholder="Repository URL"
+              name="repo_url"
+              formControlName="repoUrl"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['repoUrl'].errors?.['required'] &&
+              projectForm.controls['repoUrl'].touched){
+              <span>*Please enter repository URL</span>
               }
             </div>
           </div>
 
-          <!-- Project Budget -->
           <div class="col-md-4 mb-3">
-            <app-input-box label="Project Budget" type="number" placeholder="Project Budget" name="project_budget" formControlName="projectBudget" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectBudget'].errors?.['required'] && addProjectForm.controls['projectBudget'].touched){
-                <span>*Please enter project budget</span>
+            <app-input-box
+              label="Project Budget"
+              type="number"
+              placeholder="Project Budget"
+              name="project_budget"
+              formControlName="projectBudget"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectBudget'].errors?.['required'] &&
+              projectForm.controls['projectBudget'].touched){
+              <span>*Please enter project budget</span>
               }
             </div>
           </div>
-
-          <!-- Project Start & End Dates -->
           <div class="col-md-6 mb-3">
-            <app-date-picker label="Project Start Date" placeholder="Start Date" formControlName="projectStartDate" name="project_start_date" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectStartDate'].errors?.['required'] && addProjectForm.controls['projectStartDate'].touched){
-                <span>*Please select start date</span>
-              }
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <app-date-picker label="Deadline Date" placeholder="Deadline Date" formControlName="projectDeadlineDate" name="project_deadline_date" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectDeadlineDate'].errors?.['required'] && addProjectForm.controls['projectDeadlineDate'].touched){
+            <app-date-picker label="Milestone Release Date" placeholder="Milestone Release Date" formControlName="projectMilestoneDate" name="milestone_release_date" />
+          <div class="validation-message">
+              @if(projectForm.controls['projectMilestoneDate'].errors?.['required'] && projectForm.controls['projectMilestoneDate'].touched){
                 <span>*Please enter deadline date</span>
               }
+            </div> 
             </div>
-          </div>
-
-          <!-- Project Priority -->
           <div class="col-md-6 mb-3">
-            <app-select-dropdown formControlName="projectPriority" [options]="projectPriorityOptions" label="Project Priority" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectPriority'].errors?.['required'] && addProjectForm.controls['projectPriority'].touched){
-                <span>*Please enter project priority</span>
+            <app-date-range-picker
+              [label]="'Project start and deadline date'"
+              [placeholderStart]="'Start Date'"
+              [placeholderEnd]="'Deadline Date'"
+              [startControl]="projectForm.controls['projectStartDate']"
+              [endControl]="projectForm.controls['projectDeadlineDate']"
+            />
+            <div class="validation-message">
+              @if((projectForm.controls['projectStartDate'].errors?.['required']
+              && projectForm.controls['projectStartDate'].touched )&&
+              (projectForm.controls['projectStartDate'].errors?.['required'] ||
+              projectForm.controls['projectDeadlineDate'].touched)){
+              <span>*Please select start and end date</span>
               }
             </div>
           </div>
-
-          <!-- Project Location -->
           <div class="col-md-6 mb-3">
-            <app-input-box label="Project Location" type="text" placeholder="Project Location" name="project_location" formControlName="projectLocation" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectLocation'].errors?.['required'] && addProjectForm.controls['projectLocation'].touched){
-                <span>*Please enter project location</span>
+            <app-select-dropdown
+              formControlName="projectPriority"
+              [options]="projectPriorityOptions"
+              label="Project Priority"
+              [searchSelect]="true"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectPriority'].errors?.['required']
+              && projectForm.controls['projectPriority'].touched){
+              <span>*Please enter project priority</span>
               }
             </div>
           </div>
 
-          <!-- Project Type (Checkboxes) -->
-          <div class="col-md-12 mb-3">
-            <app-checkBox [formControlName]="'projectType'" [options]="projectTypeOptions" [label]="'Project type'" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectType'].errors?.['required'] && addProjectForm.controls['projectType'].touched){
-                <span>*Please select project type</span>
+          <div class="col-md-6 mb-3">
+            <app-input-box
+              label="Project Location"
+              type="text"
+              placeholder="Project Location"
+              name="project_location"
+              formControlName="projectLocation"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectLocation'].errors?.['required']
+              && projectForm.controls['projectLocation'].touched){
+              <span>*Please enter project location</span>
               }
             </div>
           </div>
 
-          <!-- Project Approval Status (Radio Buttons) -->
           <div class="col-md-12 mb-3">
-            <app-radio [formControlName]="'projectApproveStatus'" [options]="projectApvStatusOptions" [label]="'Project Approval Status'" />
-            <div class="text-danger small">
-              @if(addProjectForm.controls['projectApproveStatus'].errors?.['required'] && addProjectForm.controls['projectApproveStatus'].touched){
-                <span>*Please select a project approval status</span>
+            <app-checkBox
+              [formControlName]="'projectType'"
+              [options]="projectTypeOptions"
+              [label]="'Project type'"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectType'].errors?.['required'] &&
+              projectForm.controls['projectType'].touched){
+              <span>*Please select project type</span>
+              }
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <app-radio
+              [formControlName]="'projectApproveStatus'"
+              [options]="projectApvStatusOptions"
+              [label]="'Project Approval Status'"
+            />
+            <div class="validation-message">
+              @if(projectForm.controls['projectApproveStatus'].errors?.['required']
+              && projectForm.controls['projectApproveStatus'].touched){
+              <span>*Please select a project approval status</span>
               }
             </div>
           </div>
         </div>
 
-        <!-- Submit Button -->
-        <div class="text-end mt-4">
-          <app-button [class]="'btn btn-primary'" (click)="onAddProject()" [label]="'Add Project'" />
+        <div class="project-btn-wrapper">
+          @if(!id){
+          <app-button
+            [class]="'btn btn-primary project-btn'"
+            (click)="onAddProject()"
+            [label]="'Save'"
+            [icon]="'save'"
+          />
+          <app-button
+            [class]="'btn btn-primary project-btn reset-btn'"
+            (click)="onResetProject()"
+            [label]="'Reset'"
+            type="reset"
+            icon="undo"
+          />
+          } @else{
+          <app-button
+            [class]="'btn btn-primary'"
+            (click)="onUpdateProject()"
+            [label]="'Update Profile'"
+            icon="verified"
+          />
+          }
         </div>
       </form>
     </div>

@@ -35,6 +35,6 @@ export class MyProfileComponent {
      
    }
   onEdit() {
-    this.router.navigate(['/home/update-profile']);
+    this.router.navigate(['/projects/update-profile']);
   }
 }

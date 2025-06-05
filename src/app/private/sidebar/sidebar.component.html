@@ -8,7 +8,7 @@
           class="logo logo-icon logo-lg"
         />
       </a>
-      <h4 style="margin-top: 8px;">Mantis</h4>
+      <h4 style="margin-top: 8px;">Angular</h4>
     </div>
     <ng-scrollbar
       style="height: calc(100vh - 49px)"
@@ -17,50 +17,30 @@
     >
       <div class="navbar-content">
         <ul
-          class="nav coded-inner-navbar"
+          class="nav custom-sidebar"
           (clickOutside)="fireOutClick()"
           (mouseleave)="navMob()"
         >
-          @for (item of navigations; track item) { @if (item.type === 'group') {
-          <li class="nav-item coded-menu-caption">
-            <label>{{ item.title }}</label>
-          </li>
-          @for (item of item.children; track item) { @if (item.type ===
-          'collapse') {
-          <!-- <app-nav-collapse [item]="item"></app-nav-collapse> -->
-          } @else if (item.type === 'item') { @if (item.url && !item.external) {
-          <li [ngClass]="item.classes!" [routerLinkActive]="['active']">
+          @for (item of navigations; track item) {
+            <li [ngClass]="item.classes!" [routerLinkActive]="['active']"  [routerLinkActiveOptions]="{ exact: true }">
             <a
               [target]="item.target ? '_blank' : '_self'"
               [routerLink]="[item.url]"
               (click)="closeOtherMenu($event)"
+              class="sidebar-items"
             >
               @if (item.icon) {
               <span class="coded-micon">
-                <i antIcon type="{{ item.icon }}" theme="outline"></i>
+                <mat-icon style="padding-top:4px ;">{{ item.icon }}</mat-icon>
               </span>
               } @if (item.icon) {
-              <span class="coded-mtext">{{ item.title }}</span>
+              <span class="coded-mtext" style="margin-top: 10px;">{{ item.title }}</span>
               } @else {
               {{ item.title }}
               }
             </a>
           </li>
-          } @if (item.url && item.external) {
-          <li [ngClass]="item.classes!">
-            <a [target]="item.target ? '_blank' : '_self'" [href]="item.url">
-              @if (item.icon) {
-              <span class="coded-micon">
-                <i antIcon type="{{ item.icon }}" theme="outline"></i>
-              </span>
-              } @if (item.icon) {
-              <span class="coded-mtext">{{ item.title }}</span>
-              } @else {
-              {{ item.title }}
-              }
-            </a>
-          </li>
-          } } } } }
+           }
         </ul>
       </div>
     </ng-scrollbar>

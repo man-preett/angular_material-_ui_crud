@@ -22,7 +22,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(#fff, 0.2);
     backdrop-filter: blur(16px);
   }
 
@@ -80,7 +79,7 @@
             }
 
             tr {
-              border-bottom: 1px solid #dedede;
+              border-bottom: 1px solid #787d83;
 
               &:last-child {
                 border-bottom: none;

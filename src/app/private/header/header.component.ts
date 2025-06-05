@@ -55,6 +55,12 @@ export class HeaderComponent {
     if (this.windowWidth >= 1025) {
       this.navCollapsed = !this.navCollapsed;
       this.NavCollapse.emit();
+      const pcHeader = document.getElementsByClassName(
+        'pc-header'
+      )[0] as HTMLElement;
+      if (pcHeader) {
+        pcHeader.style.left = pcHeader.style.left === '0px' ? '215px' : '0px';
+      }
     }
   }
 
@@ -68,12 +74,16 @@ export class HeaderComponent {
     {
       label: 'Profile',
       items: [
-        { icon: 'edit', title: 'Edit Profile', url: '/home/update-profile' },
-        { icon: 'person', title: 'View Profile', url: '/home/myprofile' },
+        {
+          icon: 'edit',
+          title: 'Edit Profile',
+          url: '/projects/update-profile',
+        },
+        { icon: 'person', title: 'View Profile', url: '/projects/myprofile' },
         {
           icon: 'lock',
           title: 'Change password',
-          url: '/home/change-password',
+          url: '/projects/change-password',
         },
         {
           icon: 'logout',
@@ -93,7 +103,6 @@ export class HeaderComponent {
         },
         { icon: 'lock', title: 'Change', url: '/change' },
         { icon: 'feedback', title: 'Feedback', url: '/feedback' },
-        { icon: 'history', title: 'History', url: '/history' },
       ],
     },
   ];

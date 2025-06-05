@@ -1,7 +1,8 @@
-<div class="container mt-5">
+<div class="container ">
   <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h2 class="mb-0"><b>Edit Project</b></h2>
+      <h3 class="mb-0">Edit Project</h3>
+      <app-button [class]="'btn btn-primary project-btn'" (click)="onBack()" [label]="'Back'" [icon]="'arrow_back'"/>
     </div>
     <div class="card-body">
       <form [formGroup]="updateProjectForm">
@@ -279,11 +280,12 @@
               }
             </div>
           </div>
-          <div class="d-grid mt-3">
+          <div class="project-btn-wrapper">
             <app-button
-              [class]="'btn btn-primary'"
+              [class]="'btn btn-primary project-btn'"
               (click)="onUpdateProject()"
-              [label]="'  Update project'"
+              [label]="'Save Changes'"
+              icon="verified"
             />
           </div>
         </div>

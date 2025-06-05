@@ -3,12 +3,12 @@ import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { Location, LocationStrategy } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 import { RouterModule } from '@angular/router';
 
 // project import
 import {
-  NavigationItem,
   NavigationItems,
 } from './navigation';
 
@@ -32,7 +32,7 @@ import { NgScrollbar } from 'ngx-scrollbar';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgScrollbar, IconModule],
+  imports: [CommonModule, RouterModule, NgScrollbar, IconModule, MatIconModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   animations: [
@@ -52,11 +52,11 @@ export class SidebarComponent implements OnInit {
   @Output() NavCollapsedMob: EventEmitter<string> = new EventEmitter();
   @Output() showCollapseItem: EventEmitter<object> = new EventEmitter();
 
-  @Input() item!: NavigationItem;
+  @Input() item!: any;
 
   navCollapsedMob;
 
-  navigations: NavigationItem[];
+  navigations: any[];
 
   // version
   // title = 'Demo application for version numbering';
@@ -250,5 +250,4 @@ export class SidebarComponent implements OnInit {
       this.NavCollapsedMob.emit();
     }
   }
- 
 }

@@ -1,4 +1,5 @@
   <mat-label class="label-mi">{{label}}<span class="danger">*</span></mat-label>
+  <div>
 <mat-radio-group
   (change)="onSelectionChange($event.value)" [value]="value">
   @for(option of options; track option.value;){
@@ -7,3 +8,4 @@
   </mat-radio-button>
   }
 </mat-radio-group>
+</div>

@@ -35,7 +35,7 @@ export const noAuthGuard: CanActivateFn = () => {
   const isLoggedin = localStorage.getItem('token');
   if (isLoggedin) {   
     toastr.success('User is already loggedin');
-    router.navigate(['/home']);
+    router.navigate(['/projects']);
     return true;
   }
   return true;

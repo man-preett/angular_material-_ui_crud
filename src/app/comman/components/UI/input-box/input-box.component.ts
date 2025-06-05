@@ -39,7 +39,7 @@ export class InputBoxComponent implements ControlValueAccessor {
 
   writeValue(value: any): void {
     if (value !== undefined) {
-      this.value = value;
+      this.value = value;      
     }
   }
 

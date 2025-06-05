@@ -15,7 +15,7 @@ export const routes: Routes = [
     loadChildren: () => authRoutes,
   },
   {
-    path: 'home',
+    path: 'projects',
     canActivate: [authGuard],
     loadChildren: () => privateRoutes,
   },

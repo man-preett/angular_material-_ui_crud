@@ -1,4 +1,14 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   ControlValueAccessor,
@@ -7,9 +17,20 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { NgFor, NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 @Component({
   selector: 'app-select-dropdown',
-  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatSelectModule],
+  imports: [
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatAutocompleteModule,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -21,21 +42,38 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './select-dropdown.component.scss',
 })
 export class SelectDropdownComponent implements ControlValueAccessor {
-  @Input() options: any;
+  constructor() {
+    this.filteredOptions = this.options.slice();
+  }
+  @Input() options: any[] = [];
   @Input() label: string = '';
   @Input() value: string = '';
+  @Input() searchSelect: boolean = false;
   @Output() click = new EventEmitter<void>();
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
-
-  ngOnInit(): void {}
+  searchQuery: string = '';
+  filteredOptions: any[] = [];
 
   writeValue(value: any): void {
-    if (value !== undefined && value !== null) {      
+    if (value !== undefined && value !== null) {
       this.value = value;
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['options']) {
+      this.filteredOptions = this.options;
+    }
+  }
+
+  filterOptionsRaw(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    const query = inputValue.toLowerCase();
+    this.filteredOptions = this.options.filter((option) =>
+      option.display.toLowerCase().includes(query)
+    );
+  }
   registerOnChange(fn: (value: any) => void): void {
     this.onChange = fn;
   }
@@ -50,7 +88,11 @@ export class SelectDropdownComponent implements ControlValueAccessor {
     this.valueChange();
     this.onTouched();
   }
-  valueChange(){
+  valueChange() {
     this.click.emit();
+  }
+  getDisplayText(val: any): string {
+    const matched = this.options.find((o) => o.value === val);
+    return matched ? matched.display : '';
   }
 }

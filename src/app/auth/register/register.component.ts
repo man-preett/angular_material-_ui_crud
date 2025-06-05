@@ -69,7 +69,7 @@ export class RegisterComponent {
     this.userService.registerUser(data).subscribe({
       next: (res: any) => {
         if (res.status) {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/projects']);
           this.toastr.success('User registered successfully');
         }
       },

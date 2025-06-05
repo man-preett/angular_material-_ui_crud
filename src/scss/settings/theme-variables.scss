@@ -30,7 +30,7 @@
   --pc-header-submenu-background: #{$white};
   --pc-header-submenu-color: #{$gray-600};
   // pc-container
-  --pc-container-bg-color:  #{$white} ;
+  --pc-container-bg-color:  #f0f6ff ;
   --pc-dropdown-menu-bg-color: #{$white};
   --pc-dropdown-menu-color:#262626;
   --pc-dropdown-active-bg-color: #{$white};
@@ -43,10 +43,19 @@
   //--mi-label
   --mi-label-color:#262626;
   --ag-hover-bg: #cdd1de !important;
+  --ag-even-row-bg: #d2d2d2;
+  --ag-header-bg: #cbc9c9;
+  --ag-header-color:rgb(14, 13, 13);
+  --ag-filter-bg:rgb(209, 209, 209);;
+  --mi-toggle-bg:white;
+  --ag-dd-filter-bg-color:#{$white};
+  --ag-dd-filter-color:#262626;
+  --ag-light-hover : #d2d6eb;
+  --mat-sys-surface-variant:#cdd1de
 }
 
 $header-height: 60px;
-$sidebar-width: 260px;
+$sidebar-width: 215px;
 $sidebar-collapsed-width: 60px;
 $sidebar-collapsed-active-width: 300px;
 $sidebar-tab-width: 75px;

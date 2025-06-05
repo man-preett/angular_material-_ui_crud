@@ -93,11 +93,10 @@ export class UpdateProjectComponent {
   }
   projectData() {
     const id = this.route.snapshot.paramMap.get('id');
-
     this.userService.getProject(id).subscribe({
       next: (res: any) => {
         if (res.status) {
-           this.updateProject = res.data;
+          this.updateProject = res.data;
           const fff = this.updateProjectForm.patchValue({
             projectName: this.updateProject.project_name,
             projectDescription: this.updateProject.project_description,
@@ -165,7 +164,7 @@ export class UpdateProjectComponent {
       next: (res: any) => {
         if (res.status) {
           res.data = this.updateProject;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/projects']);
           this.toastr.success('Project updated suceesfully');
         } else {
           this.toastr.error(res.message);
@@ -175,5 +174,8 @@ export class UpdateProjectComponent {
         this.toastr.error(res.error.message);
       },
     });
+  }
+  onBack() {
+    this.router.navigate(['/projects']);
   }
 }

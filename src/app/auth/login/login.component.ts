@@ -58,7 +58,7 @@ export class LoginComponent {
           localStorage.setItem('token', res.data);
           localStorage.setItem('isLoggedIn', 'true');
           this.toastr.success('User login successfully');
-          this.router.navigate(['/home']);
+          this.router.navigate(['/projects']);
         } else {
           this.toastr.error('User not logged in', 'error');
         }

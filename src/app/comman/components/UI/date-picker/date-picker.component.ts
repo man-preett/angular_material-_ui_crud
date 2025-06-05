@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common';
     FormsModule,
   ],
   providers: [
-  DatePipe,
+    DatePipe,
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DatePickerComponent),
@@ -25,8 +25,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './date-picker.component.scss',
 })
 export class DatePickerComponent implements ControlValueAccessor {
-
-  constructor(private datepipe:DatePipe){}
+  constructor(private datepipe: DatePipe) {}
   @Input() placeholder: string = '';
   @Input() label: string = '';
   @Input() name: string = '';
@@ -52,7 +51,7 @@ export class DatePickerComponent implements ControlValueAccessor {
   }
 
   updateValue(event: any): void {
-    const formattedDate = this.datepipe.transform(event.value, 'yyyy-MM-dd'); // Format to YYYY-MM-DD
+    const formattedDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
     const dateValue = formattedDate ? formattedDate : null;
     this.onChange(dateValue); // Pass the formatted date to parent form
     this.value = dateValue;
