@@ -1,5 +1,6 @@
-import { Component, forwardRef, Input} from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { ControlValueAccessor, FormControl, FormGroup, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm, ReactiveFormsModule } from '@angular/forms';
 import {
   MatDateRangePicker,
   MatDateRangeInput,
@@ -11,6 +12,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-date-range-picker',
+  standalone: true,
   imports: [
     MatInputModule,
     MatDateRangePicker,
@@ -45,6 +47,8 @@ export class DateRangePickerComponent implements ControlValueAccessor {
     end: null,
   };
 
+  matcher = new NoErrorStateMatcher();
+
   onChange = (_: any) => {};
   onTouched = () => {};
 
@@ -59,9 +63,9 @@ export class DateRangePickerComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+  fakeForm = new FormGroup({});
 
   updateValue() {
-    
     const start = this.startControl.value;
     const end = this.endControl.value;
 
@@ -75,5 +79,13 @@ export class DateRangePickerComponent implements ControlValueAccessor {
 
     this.onChange(this.value);
     this.onTouched();
+  }
+}
+class NoErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    return false;
   }
 }

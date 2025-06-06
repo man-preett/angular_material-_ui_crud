@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -12,20 +12,17 @@ import {
   InfiniteRowModelModule,
 } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
-import {
-  AllCommunityModule,
-  ModuleRegistry,
-  ITextFilterParams,
-} from 'ag-grid-community';
+import { ModuleRegistry } from 'ag-grid-community';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomInnerHeader } from '../customHeader';
+import { ChipsComponent } from '../../comman/components/UI/chips/chips.component';
 ModuleRegistry.registerModules([InfiniteRowModelModule]);
 @Component({
   selector: 'app-projects',
-  imports: [AgGridAngular, FormsModule, NgClass, MatIconModule],
+  imports: [AgGridAngular, FormsModule, NgClass, MatIconModule, ChipsComponent],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })
@@ -38,7 +35,7 @@ export class ProjectsComponent {
   ) {}
 
   openSidebar = false;
-
+  isLoading: boolean = false;
   columnToggleList: { field: string; headerName: string; visible: boolean }[] =
     [];
   projectList: any[] = [];
@@ -183,7 +180,7 @@ export class ProjectsComponent {
         return buttonContainer;
       },
       pinned: 'right',
-      width: 125,
+      width: 100,
       cellRendererParams: {
         context: {
           componentParent: this,
@@ -219,7 +216,6 @@ export class ProjectsComponent {
         this.gridApiActive = null;
       }, 100);
     },
-    cacheBlockSize: 1000,
     rowClassRules: {
       'even-row': (params) => {
         const rowIndex = params.node?.rowIndex;
@@ -229,8 +225,8 @@ export class ProjectsComponent {
     columnDefs: this.colDefs,
     defaultColDef: this.defaultColDef,
     pagination: true,
-    paginationPageSize: 50,
-    paginationPageSizeSelector: [50, 100, 500, 1000],
+    paginationPageSize: 100,
+    paginationPageSizeSelector: [100, 500, 1000],
     scrollbarWidth: 15,
 
     theme: themeQuartz.withParams({
@@ -299,6 +295,7 @@ export class ProjectsComponent {
   }
   fetchProjectData() {
     if (!this.gridApiActive) return;
+    this.isLoading = true;
     const pageSize = this.gridApiActive?.paginationGetPageSize() ?? 50;
     const datasource: IDatasource = {
       getRows: (params: IGetRowsParams) => {
@@ -325,11 +322,13 @@ export class ProjectsComponent {
                 params.successCallback([], 0);
                 this.gridApiActive?.showNoRowsOverlay();
               }
+              this.isLoading = false;
             },
             error: () => {
               params.failCallback();
               this.gridApiActive?.showNoRowsOverlay();
               this.toastr.error('Server error');
+              this.isLoading = false;
             },
           });
       },
@@ -337,19 +336,8 @@ export class ProjectsComponent {
 
     this.gridApiActive.setGridOption('datasource', datasource);
   }
-  previousPageSize = 50;
 
-    onPaginationChanged() {
-      if (!this.gridApiActive) return;
-      const currentPageSize = this.gridApiActive.paginationGetPageSize();
-      if (currentPageSize !== this.previousPageSize) {
-        this.previousPageSize = currentPageSize;
-        this.gridApiActive.setGridOption('cacheBlockSize', currentPageSize);
-
-        this.gridApiActive.paginationGoToFirstPage();
-        // this.fetchProjectData(); 
-      }
-    }
+  previousPageSize = 100;
 
   addProject() {
     this.router.navigate(['/projects/add-project/']);
@@ -388,14 +376,35 @@ export class ProjectsComponent {
     });
   }
   searchInput: any;
+  previousPage = 0;
+  onPaginationChanged() {
+    if (!this.gridApiActive) return;
+    const currentPageSize = this.gridApiActive.paginationGetPageSize();
+    const currentPage = this.gridApiActive.paginationGetCurrentPage();
+
+    if (currentPageSize !== this.previousPageSize) {
+      this.previousPageSize = currentPageSize;
+      this.gridApiActive.setGridOption('cacheBlockSize', currentPageSize);
+      this.gridApiActive.paginationGoToFirstPage();
+      this.isLoading = true;
+      return;
+    }
+
+    if (currentPage !== this.previousPage) {
+      this.previousPage = currentPage;
+      this.isLoading = true;
+    }
+  }
   onFilterBoxChanged() {
     // this.gridApiActive?.setGridOption('quickFilterText', this.searchInput);
     this.fetchProjectData();
+    this.isLoading = false;
   }
 
   onFilterChanged() {
     if (!this.gridApiActive) return;
     this.filterModel = this.gridApiActive.getFilterModel();
+    this.isLoading = true;
   }
   onSortChanged() {
     if (!this.gridApiActive) return;
@@ -407,11 +416,10 @@ export class ProjectsComponent {
         sort: col.sort,
         sortIndex: col.sortIndex,
       }));
+    this.isLoading = true;
   }
 
   saveGridState() {
-    const currentPage = this.gridApiActive?.paginationGetCurrentPage() ?? 50;
-    console.log('Saving pageSize:', currentPage);
     const gridState = {
       columnState: this.gridApiActive?.getColumnState(),
       filterModel: this.filterModel ?? {},
@@ -484,4 +492,48 @@ export class ProjectsComponent {
   //     console.log('savedd?', localStorage.getItem('gridState'));
   //   }
   // }
+
+  getReadableFilters(): string[] {
+    const model = this.filterModel as any;
+    if (!model) return [];
+
+    return Object.entries(model)
+      .map(([key, filter]: [string, any]) => {
+        if (filter?.operator && Array.isArray(filter.conditions)) {
+          const values = filter.conditions
+            .map((c: any) => c.filter)
+            .filter(Boolean)
+            .join(` ${filter.operator} `);
+          return `${this.formatKey(key)}: ${values}`;
+        } else if (filter?.filter) {
+          return `${this.formatKey(key)}: ${filter.filter}`;
+        }
+        return '';
+      })
+      .filter(Boolean);
+  }
+
+  formatKey(key: string): string {
+    return key
+      .split('_')
+      .map((word) => word[0].toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+  clearFilters() {
+    this.gridApiActive?.setFilterModel(null);
+    this.gridApiActive?.onFilterChanged();
+    this.filterModel = {};
+  }
+  hasFilter(): boolean {
+    return this.filterModel && Object.keys(this.filterModel).length > 0;
+  }
+
+  removeFilter(key: string) {
+    if (!this.filterModel || !this.gridApiActive) return;
+    this.filterModel = Object.fromEntries(
+      Object.entries(this.filterModel).filter(([k]) => k !== key)
+    );
+    this.gridApiActive.setFilterModel(this.filterModel);
+    this.gridApiActive.onFilterChanged();
+  }
 }

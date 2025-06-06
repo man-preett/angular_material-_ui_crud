@@ -1,66 +1,66 @@
-<div class="auth-main">
-    <div class="auth-wrapper v3">
-      <div class="auth-form">
-        @if(user) {
-          <div class="auth-header">
-            <div class="profile-header d-flex align-items-center mb-4">
-              <img src="../../../assets/images/user/avatar-1.jpg" alt="Profile Image" class="profile-img">
-              <div class="profile-info ml-3">
-                <h3 class="mb-0">{{user.user_first_name}} {{user.user_last_name}}</h3>
-                <p  style="margin-left:5px;">{{user.user_email}}</p>
-              </div>
-            </div>
-             <app-button
-                  [class]="'btn btn-primary'"
-                  (click)="onEdit()"
-                  [label]="'Edit'"
-                  icon="edit"
-                />
-          </div>
-          
-          <div class="card my-3">
-            <div class="card-body">
-              <table class="user-info-table">
-                <tbody>
-                  <tr>
-                    <th>First Name</th>
-                    <td>{{user.user_first_name || "NULL"}}</td>
-                  </tr>
-                  <tr>
-                    <th>Last Name</th>
-                    <td>{{user.user_last_name || "NULL"}}</td>
-                  </tr>
-                  <tr>
-                    <th>Email Address</th>
-                    <td>{{user.user_email || "NULL"}}</td>
-                  </tr>
-                  <tr>
-                    <th>Age</th>
-                    <td>{{user.user_age || "NULL"}}</td>
-                  </tr>
-                  <tr>
-                    <th>Gender</th>
-                    <td>{{user.user_gender || "NULL"}}</td>
-                  </tr>
-                  <tr>
-                    <th>Country</th>
-                    <td>{{user.user_country || "NULL"}}</td>
-                  </tr>
-                  <tr>
-                    <th>State</th>
-                    <td>{{user.user_state || "NULL"}}</td>
-                  </tr>
-                  <tr>
-                    <th>City</th>
-                    <td>{{user.user_city || "NULL"}}</td>
-                  </tr>
-                </tbody>
-              </table>
-  
-             
-            </div>
-          </div>
-        }
+<h3 class="profile-header">My Profile</h3>
+@if(user) {
+<div class="profile-container mt-4">
+  <div class="profile-header-wrapper">
+    <div class="d-flex align-items-center mb-4">
+      <img
+        src="../../../assets/images/user/avatar-1.jpg"
+        alt="Profile Image"
+        class="rounded-circle"
+        style="width: 95px; height: 95px"
+      />
+      <div class="profile-info ms-3">
+        <h3 class="mb-2">
+          {{ user.user_first_name }} {{ user.user_last_name }}
+        </h3>
+        <p class="mb-0">{{ user.user_email }}</p>
+      </div>
+    </div>
+    <app-button
+        [class]="'btn btn-primary edit-profile'"
+        (click)="onEdit()"
+        [label]="'Edit'"
+        icon="edit"
+      ></app-button>
+  </div>
+  <div class="profile-data">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4>Personal Information</h4>
+    </div>
+
+    <div class="row mb-4 text-secondary">
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>First Name:</strong> {{ user.user_first_name || "NULL" }}
+      </div>
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>Last Name:</strong> {{ user.user_last_name || "NULL" }}
+      </div>
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>Email Address:</strong> {{ user.user_email || "NULL" }}
+      </div>
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>Age:</strong> {{ user.user_age || "NULL" }}
+      </div>
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>Gender:</strong> {{ user.user_gender || "NULL" }}
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4>Address</h4>
+    </div>
+    <div class="row text-secondary">
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>Country:</strong> {{ user.user_country || "NULL" }}
+      </div>
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>State:</strong> {{ user.user_state || "NULL" }}
+      </div>
+      <div class="col-md-4 mb-2 profile-text">
+        <strong>City:</strong> {{ user.user_city || "NULL" }}
       </div>
     </div>
   </div>
+</div>
+
+}

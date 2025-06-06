@@ -216,7 +216,7 @@
             <div class="validation-message">
               @if((projectForm.controls['projectStartDate'].errors?.['required']
               && projectForm.controls['projectStartDate'].touched )&&
-              (projectForm.controls['projectStartDate'].errors?.['required'] ||
+              (projectForm.controls['projectStartDate'].errors?.['required'] &&
               projectForm.controls['projectDeadlineDate'].touched)){
               <span>*Please select start and end date</span>
               }

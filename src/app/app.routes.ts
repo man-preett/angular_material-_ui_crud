@@ -20,5 +20,4 @@ export const routes: Routes = [
     loadChildren: () => privateRoutes,
   },
   { path: 'users', component: UsersComponent },
-  // { path: '**', canActivate: [noAuthGuard], loadChildren: () => authRoutes ,redirectTo:'auth'},
 ];

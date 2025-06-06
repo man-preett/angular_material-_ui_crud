@@ -7,7 +7,6 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { AddProjectComponent } from './add-project/add-project.component';
-import { UpdateProjectComponent } from './update-project/update-project.component';
 
 export const privateRoutes: Routes = [
   {

@@ -1,0 +1,9 @@
+<mat-chip-set style="margin-left: 12px;">
+    @for(name of names; track name){
+    <mat-chip [removable]="true" >{{name}}
+    <button matChipRemove [attr.aria-label]="'remove' + name" (click)="onChipClick(name)">
+        <mat-icon style="margin-right: 0px;">cancel</mat-icon>
+    </button>
+</mat-chip>
+    }
+  </mat-chip-set>

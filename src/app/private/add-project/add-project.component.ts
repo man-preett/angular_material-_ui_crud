@@ -132,6 +132,7 @@ export class AddProjectComponent {
       });
       return;
     }
+
     const getData = this.formData();
     console.log(getData, 'getDatattt');
 

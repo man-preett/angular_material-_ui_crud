@@ -2,7 +2,7 @@
   <h3 class="user-heading">Projects List</h3>
   <div class="user-sidebar">
     <div class="search-project">
-    <mat-icon fontIcon="search" class="search-icon">Search</mat-icon>
+      <mat-icon fontIcon="search" class="search-icon">Search</mat-icon>
       <input
         type="text"
         placeholder="Search..."
@@ -10,40 +10,68 @@
         [(ngModel)]="searchInput"
         (input)="onFilterBoxChanged()"
       />
-
     </div>
-       
-    <button type="button" class="btn btn-primary add-project-btn" (click)="addProject()">
+
+    <button
+      type="button"
+      class="btn btn-primary add-project-btn"
+      (click)="addProject()"
+    >
       <i class="fa-solid fa-plus"></i>Add Project
     </button>
   </div>
 </div>
+<div class="filter-chips">
+  <app-chips
+    [names]="getReadableFilters()"
+    (chipClick)="removeFilter($event)"
+  />
+  @if(hasFilter()){
+  <button (click)="clearFilters()" class="chips-clear">
+    <mat-icon style="margin-bottom: 2px; margin-right: 0px">delete</mat-icon
+    >Clear All
+  </button>
+  }
+</div>
 <div class="list-projects">
-  <ag-grid-angular
-    style="height: 775px; width: 100%" 
-    [gridOptions]="gridOptions"
-    [rowModelType]="'infinite'"
-     (paginationChanged)="onPaginationChanged()"
-     (sortChanged)="onSortChanged()"
-     (filterChanged)="onFilterChanged()"
-     (firstDataRendered)="onFirstDataRendered()"
-
-    (gridReady)="onGridReady($event)"
+  <div class="ag-projects position-relative">
+    <ag-grid-angular
+      style="width: 100%"
+      [style.height.px]="hasFilter() ? 735 : 775"
+      [gridOptions]="gridOptions"
+      [rowModelType]="'infinite'"
+      (paginationChanged)="onPaginationChanged()"
+      (sortChanged)="onSortChanged()"
+      (filterChanged)="onFilterChanged()"
+      (firstDataRendered)="onFirstDataRendered()"
+      (gridReady)="onGridReady($event)"
       [overlayNoRowsTemplate]="'<p>No rows found</p>'"
-  >
-  </ag-grid-angular>
+    >
+    </ag-grid-angular>
+    <!-- Loader Spinner -->
+    @if(isLoading){
+    <div class="loader-overlay">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    }
+  </div>
+
   <div class="column-settings-sidebar" [ngClass]="{ open: openSidebar }">
     <div class="sidebar-wrapper">
       <h4>Columns</h4>
       <div class="sidebar-btn-icon">
-      <button class="btn btn-primary sidebar-btn" (click)="toggleAllColumns()">
-         <mat-icon>
-    {{ allSelected ? 'close' : 'done' }}
-  </mat-icon>
-        {{ allSelected ? "Unselect All" : "Select All" }}
-       
-      </button>
-      <mat-icon (click)="openSidebar = false" fontIcon="close"></mat-icon>
+        <button
+          class="btn btn-primary sidebar-btn"
+          (click)="toggleAllColumns()"
+        >
+          <mat-icon>
+            {{ allSelected ? "close" : "done" }}
+          </mat-icon>
+          {{ allSelected ? "Unselect All" : "Select All" }}
+        </button>
+        <mat-icon (click)="openSidebar = false" fontIcon="close"></mat-icon>
       </div>
     </div>
     @for (col of columnToggleList; track col.headerName) {
@@ -60,9 +88,9 @@
 </div>
 <style>
   ::ng-deep .ag-row.even-row {
-  background-color: var(--ag-even-row-bg) !important;
-} 
-      .ag-root ::-webkit-scrollbar-track {
-      background: #882929; /* Set track color */
-    }
+    background-color: var(--ag-even-row-bg) !important;
+  }
+  .ag-root ::-webkit-scrollbar-track {
+    background: #882929; /* Set track color */
+  }
 </style>

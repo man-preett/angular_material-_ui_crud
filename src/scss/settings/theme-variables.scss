@@ -42,7 +42,7 @@
 
   //--mi-label
   --mi-label-color:#262626;
-  --ag-hover-bg: #cdd1de !important;
+  --ag-hover-bg: #dadada !important;
   --ag-even-row-bg: #d2d2d2;
   --ag-header-bg: #cbc9c9;
   --ag-header-color:rgb(14, 13, 13);
@@ -51,7 +51,10 @@
   --ag-dd-filter-bg-color:#{$white};
   --ag-dd-filter-color:#262626;
   --ag-light-hover : #d2d6eb;
-  --mat-sys-surface-variant:#cdd1de
+  --mat-sys-surface-variant: #cdd1de;
+
+  // chips clear all button
+  --mi-chips-color: #44474e;
 }
 
 $header-height: 60px;
