@@ -19,6 +19,10 @@ import { NgClass } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomInnerHeader } from '../customHeader';
 import { ChipsComponent } from '../../comman/components/UI/chips/chips.component';
+import { DialogComponent } from '../../comman/components/UI/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { debounceTime, Subject } from 'rxjs';
+import { projectList } from '../../interfaces/project';
 ModuleRegistry.registerModules([InfiniteRowModelModule]);
 @Component({
   selector: 'app-projects',
@@ -31,29 +35,19 @@ export class ProjectsComponent {
     private userService: UserService,
     private toastr: ToastrService,
     private router: Router,
-    private ngZone: NgZone
+    private dialog: MatDialog
   ) {}
 
   openSidebar = false;
   isLoading: boolean = false;
   columnToggleList: { field: string; headerName: string; visible: boolean }[] =
     [];
-  projectList: any[] = [];
+  projectList: projectList[] = [];
   gridApiActive: GridApi | null = null;
   filterModel: any = {};
   sortModel: any[] = [];
+  searchInputChanged = new Subject<string>();
   colDefs: ColDef[] = [
-    // {
-    //   headerName: 'Sr no.',
-    //   pinned: 'left',
-    //   headerClass: 'bold-header',
-    //   width: 100,
-    //   field: 'srno_',
-    //   cellStyle: { borderRight: '2px solid #a7a7a7' },
-    //   cellRenderer: function (params: any) {
-    //     return params?.node?.rowIndex + 1;
-    //   },
-    // },
     {
       field: 'project_name',
       headerName: 'Project Name',
@@ -101,7 +95,11 @@ export class ProjectsComponent {
       headerName: 'Manangement url',
       headerClass: 'bold-header',
     },
-    { field: 'repo_tool', headerName: 'Repo tool', headerClass: 'bold-header' },
+    {
+      field: 'repo_tool',
+      headerName: 'Repo tool',
+      headerClass: 'bold-header',
+    },
     {
       field: 'repo_url',
       tooltipField: 'repo_url',
@@ -155,7 +153,7 @@ export class ProjectsComponent {
         if (!params.data) return null;
         const projectId = params.data.project_id;
         var updateProject = document.createElement('button');
-        updateProject.className = 'btn btn-primary action-icons ';
+        updateProject.className = 'btn action-icons ';
         updateProject.innerHTML =
           '<i class="fa fa-pencil " aria-hidden="true"></i>';
         updateProject.style.marginRight = '10px';
@@ -164,12 +162,12 @@ export class ProjectsComponent {
         });
 
         var deleteProject = document.createElement('button');
-        deleteProject.className = 'btn btn-danger action-icons';
+        deleteProject.className = 'btn action-icons';
         deleteProject.innerHTML =
           '<i class="fa fa-trash" aria-hidden="true"></i>';
 
         deleteProject.addEventListener('click', () => {
-          params.context.componentParent.deleteProject(projectId);
+          params.context.componentParent.openConfirmDialog(projectId);
         });
 
         var buttonContainer = document.createElement('div');
@@ -210,12 +208,6 @@ export class ProjectsComponent {
   gridOptions: GridOptions = {
     columnHoverHighlight: true,
     tooltipShowMode: 'whenTruncated',
-    onGridPreDestroyed: () => {
-      this.saveGridState();
-      setTimeout(() => {
-        this.gridApiActive = null;
-      }, 100);
-    },
     rowClassRules: {
       'even-row': (params) => {
         const rowIndex = params.node?.rowIndex;
@@ -239,15 +231,20 @@ export class ProjectsComponent {
 
   ngOnInit() {
     this.initializeColumnToggleList();
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem('gridState');
-    });
+    window.addEventListener('beforeunload', this.beforeUnloadHandler);
+    this.searchInputChanged
+      .pipe(debounceTime(1500))
+      .subscribe((searchTerm: string) => {
+        this.fetchProjectData();
+      });
   }
+  private beforeUnloadHandler = () => this.saveGridState();
+  ngOnDestroy() {
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+  }
+
   openSideBar() {
     this.openSidebar = true;
-    this.ngZone.run(() => {
-      this.openSidebar = true;
-    });
   }
 
   initializeColumnToggleList() {
@@ -293,36 +290,35 @@ export class ProjectsComponent {
       });
     }
   }
+
   fetchProjectData() {
     if (!this.gridApiActive) return;
     this.isLoading = true;
-    const pageSize = this.gridApiActive?.paginationGetPageSize() ?? 50;
     const datasource: IDatasource = {
       getRows: (params: IGetRowsParams) => {
-        const start = params.startRow;
-        const end = params.endRow;
+        const offset = params.startRow;
+        const limit = this.gridApiActive?.paginationGetPageSize() ?? 100;
         const search = this.searchInput ?? '';
         const sortModel = params.sortModel;
         const filterModel = params.filterModel;
 
         this.userService
-          .projects(start, end, search, sortModel, filterModel)
+          .projects(offset, limit, search, sortModel, filterModel)
           .subscribe({
             next: (res) => {
-              const rows = res?.rows ?? [];
-
-              const lastRow = res?.lastRow ?? 0;
-
+              const rows = res?.data;
+              const lastRow = res?.total ?? 0;
               if (res.status && rows.length > 0) {
                 this.projectList = rows;
                 params.successCallback(rows, lastRow);
                 this.gridApiActive?.hideOverlay();
+                this.isLoading = false;
               } else {
                 this.projectList = [];
                 params.successCallback([], 0);
                 this.gridApiActive?.showNoRowsOverlay();
+                this.isLoading = false;
               }
-              this.isLoading = false;
             },
             error: () => {
               params.failCallback();
@@ -338,7 +334,6 @@ export class ProjectsComponent {
   }
 
   previousPageSize = 100;
-
   addProject() {
     this.router.navigate(['/projects/add-project/']);
   }
@@ -358,12 +353,24 @@ export class ProjectsComponent {
     });
   }
 
+  openConfirmDialog(id: number) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { text: 'Are you sure you want to delete the project?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteProject(id);
+      } else {
+      }
+    });
+  }
+
   onGridReady(params: GridReadyEvent) {
     this.gridApiActive = params.api;
-
-    this.fetchProjectData();
+    this.restoreGridState();
     setTimeout(() => {
-      this.restoreGridState();
+      this.fetchProjectData();
 
       const settingsHeader = document.querySelector(
         '.ag-header-cell.settings-header'
@@ -375,7 +382,7 @@ export class ProjectsComponent {
       }
     });
   }
-  searchInput: any;
+  searchInput: string = '';
   previousPage = 0;
   onPaginationChanged() {
     if (!this.gridApiActive) return;
@@ -386,26 +393,19 @@ export class ProjectsComponent {
       this.previousPageSize = currentPageSize;
       this.gridApiActive.setGridOption('cacheBlockSize', currentPageSize);
       this.gridApiActive.paginationGoToFirstPage();
-      this.isLoading = true;
       return;
     }
-
-    if (currentPage !== this.previousPage) {
-      this.previousPage = currentPage;
-      this.isLoading = true;
-    }
   }
-  onFilterBoxChanged() {
+  onSearchChanged() {
     // this.gridApiActive?.setGridOption('quickFilterText', this.searchInput);
-    this.fetchProjectData();
-    this.isLoading = false;
+    this.searchInputChanged.next(this.searchInput);
   }
 
   onFilterChanged() {
     if (!this.gridApiActive) return;
     this.filterModel = this.gridApiActive.getFilterModel();
-    this.isLoading = true;
   }
+
   onSortChanged() {
     if (!this.gridApiActive) return;
     const columnState = this.gridApiActive.getColumnState() ?? [];
@@ -416,7 +416,6 @@ export class ProjectsComponent {
         sort: col.sort,
         sortIndex: col.sortIndex,
       }));
-    this.isLoading = true;
   }
 
   saveGridState() {
@@ -428,15 +427,14 @@ export class ProjectsComponent {
       pageSize: this.gridApiActive?.paginationGetPageSize() ?? 50,
       searchInput: this.searchInput ?? '',
     };
-
     localStorage.setItem('gridState', JSON.stringify(gridState));
   }
+
   private savedPageToRestore: number | null = null;
 
   restoreGridState() {
     const savedState = localStorage.getItem('gridState');
     if (!savedState || !this.gridApiActive) return;
-
     const {
       columnState,
       sortModel,
@@ -466,7 +464,6 @@ export class ProjectsComponent {
     });
 
     this.gridApiActive.setFilterModel(this.filterModel);
-
     if (pageSize) {
       this.gridApiActive.setGridOption('paginationPageSize', pageSize || 50);
       this.previousPageSize = pageSize;
@@ -475,8 +472,6 @@ export class ProjectsComponent {
     if (typeof currentPage === 'number') {
       this.savedPageToRestore = currentPage;
     }
-
-    this.fetchProjectData();
   }
 
   onFirstDataRendered() {
@@ -486,17 +481,9 @@ export class ProjectsComponent {
     }
   }
 
-  // ngOnDestroy(): void {
-  //   if (this.gridApiActive) {
-  //     this.saveGridState();
-  //     console.log('savedd?', localStorage.getItem('gridState'));
-  //   }
-  // }
-
   getReadableFilters(): string[] {
     const model = this.filterModel as any;
     if (!model) return [];
-
     return Object.entries(model)
       .map(([key, filter]: [string, any]) => {
         if (filter?.operator && Array.isArray(filter.conditions)) {

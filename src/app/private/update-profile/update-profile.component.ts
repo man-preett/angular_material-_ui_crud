@@ -12,10 +12,17 @@ import { BehaviorService } from '../../services/behavior.service';
 import { InputBoxComponent } from '../../comman/components/UI/input-box/input-box.component';
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
 import { SelectDropdownComponent } from '../../comman/components/UI/select-dropdown/select-dropdown.component';
+import { MyProfile } from '../../interfaces/auth';
+import { Option } from '../../interfaces/project';
 
 @Component({
   selector: 'app-update-profile',
-  imports: [ReactiveFormsModule, InputBoxComponent,ButtonComponent,SelectDropdownComponent],
+  imports: [
+    ReactiveFormsModule,
+    InputBoxComponent,
+    ButtonComponent,
+    SelectDropdownComponent,
+  ],
   templateUrl: './update-profile.component.html',
   styleUrl: './update-profile.component.scss',
 })
@@ -26,14 +33,14 @@ export class UpdateProfileComponent {
     private router: Router,
     private behaviorService: BehaviorService
   ) {}
-  user: any;
-  genderOptions: any = [
+  user: MyProfile[] = [];
+  genderOptions = [
     { value: 'female', display: 'Female' },
     { value: 'male', display: 'Male' },
   ];
-  countries: any[] = [];
-  states: any[] = [];
-  cities: any[] = [];
+  countries: Option[] = [];
+  states: Option[] = [];
+  cities: Option[] = [];
   ProfileGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -54,13 +61,13 @@ export class UpdateProfileComponent {
         if (res.status) {
           this.user = res.data;
           this.ProfileGroup.patchValue({
-            firstName: this.user.user_first_name,
-            lastName: this.user.user_last_name,
-            age: this.user.user_age,
-            gender: this.user.user_gender,
-            country: this.user.user_country,
-            state: this.user.user_state ,
-            city: this.user.user_city ,
+            firstName: res.data.user_first_name,
+            lastName: res.data.user_last_name,
+            age: res.data.user_age,
+            gender: res.data.user_gender,
+            country: res.data.user_country,
+            state: res.data.user_state,
+            city: res.data.user_city,
           });
           this.getState();
           this.getCity();
@@ -75,14 +82,14 @@ export class UpdateProfileComponent {
   }
   getCountry() {
     this.userService.country().subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res.status) {
           // this.countries = res.data;
           this.countries = res.data.map((country: any) => ({
             value: country.country_name,
             display: country.country_name,
           }));
-          
+          console.log(this.countries, 'countries');
         } else {
           this.toastr.error(res.message);
         }
@@ -93,7 +100,6 @@ export class UpdateProfileComponent {
     });
   }
   getState() {
-    
     const user_country = this.ProfileGroup.get('country')?.value;
     const data = {
       country_name: user_country,
@@ -104,8 +110,8 @@ export class UpdateProfileComponent {
           if (res.status) {
             this.states = res.data.map((state:any) => ({
               value: state.state_name,
-              display:state.state_name
-            }))
+              display: state.state_name,
+            }));
           }
         },
         error: (err) => {
@@ -123,10 +129,10 @@ export class UpdateProfileComponent {
       this.userService.city(data)?.subscribe({
         next: (res: any) => {
           if (res.status) {
-            this.cities = res.data.map((city:any) => ({
+            this.cities = res.data.map((city: any) => ({
               value: city.city_name,
-              display:city.city_name
-            }))
+              display: city.city_name,
+            }));
           }
         },
         error: (err) => {
@@ -151,15 +157,15 @@ export class UpdateProfileComponent {
       user_gender: this.ProfileGroup.value.gender,
       user_country: this.ProfileGroup.value.country,
       user_state: this.ProfileGroup.value.state,
-      user_city: this.ProfileGroup.value.city ,
+      user_city: this.ProfileGroup.value.city,
     };
     this.userService.updateProfile(data).subscribe({
       next: (res: any) => {
         if (res.status) {
           this.behaviorService.setProfile({
-           user_first_name: res.data.user_first_name,
-           user_last_name: res.data.user_last_name,
-         });
+            user_first_name: res.data.user_first_name,
+            user_last_name: res.data.user_last_name,
+          });
           this.toastr.success('Profile updated successfully');
           this.router.navigate(['/projects/myprofile']);
         }

@@ -5,6 +5,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { themeQuartz } from 'ag-grid-community';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
+import { MyProfile } from '../../interfaces/auth';
 ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-users',
@@ -14,7 +15,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 })
 export class UsersComponent {
   constructor(private userService: UserService,private toastr:ToastrService) {}
-  userList: any[] = [];
+  userList: MyProfile[] = [];
   colDefs: ColDef[] = [
     { field: 'user_id', headerName: 'Id' },
     { field: 'user_first_name', headerName: 'First Name' },
@@ -50,16 +51,15 @@ export class UsersComponent {
   };
   ngOnInit() {
     this.userService.users().subscribe({
-      next:
-        (res: any) => {
-          if (res.status) {
-            this.userList = res.data;
-          } else {
-            this.toastr.error(res.message);
-          }
-        },
+      next: (res) => {
+        if (res.status) {
+          this.userList = res.data;
+        } else {
+          this.toastr.error(res.message);
+        }
+      },
       error: (err) => {
-        this.toastr.error(err.message)
+        this.toastr.error(err.message);
       },
     });
   }

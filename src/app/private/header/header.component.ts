@@ -1,15 +1,18 @@
-import { Component, inject, output, input } from '@angular/core';
+import { Component, inject, output, input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IconDirective, IconService } from '@ant-design/icons-angular';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from '@angular/router';
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { BehaviorService } from '../../services/behavior.service';
 import { DarkToggleComponent } from '../../comman/components/UI/dark-toggle/dark-toggle.component';
 import { TabsComponent } from '../../comman/components/UI/tabs/tabs.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../comman/components/UI/dialog/dialog.component';
+import { Profile } from '../../interfaces/auth';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 @Component({
   selector: 'app-header',
@@ -30,8 +33,7 @@ export class HeaderComponent {
   // public props
   NavCollapse = output();
   NavCollapsedMob = output();
-
-  private iconService = inject(IconService);
+  @ViewChild('dropdown', { static: false }) dropdown!: NgbDropdown;
   navCollapsed!: boolean;
   windowWidth: number;
   navCollapsedMob: boolean;
@@ -43,13 +45,14 @@ export class HeaderComponent {
     private router: Router,
     private toastr: ToastrService,
     private userService: UserService,
-    private profileSubject: BehaviorService
+    private profileSubject: BehaviorService,
+    private dialog: MatDialog
   ) {
     this.windowWidth = window.innerWidth;
     this.navCollapsedMob = false;
     this.navCollapsed = false;
   }
-
+  
   // public method
   navCollapse() {
     if (this.windowWidth >= 1025) {
@@ -88,7 +91,7 @@ export class HeaderComponent {
         {
           icon: 'logout',
           title: 'Logout',
-          action: () => this.onLogout(),
+          action: () => this.openConfirmDialog(),
         },
       ],
     },
@@ -112,12 +115,29 @@ export class HeaderComponent {
     this.toastr.success('User logged out successfully', 'success');
     this.router.navigate(['/auth/login']);
   }
-  data: any;
+  openConfirmDialog() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { text: 'Are you sure you want to logout?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.onLogout();
+      } else {
+      }
+    });
+  }
+  data:any;
   ngOnInit() {
     this.profileSubject.currentProfile.subscribe({
       next: (userProfile) => {
         this.data = userProfile;
       },
     });
+  }
+  closeDropdown() {
+    if (this.dropdown) {
+      this.dropdown.close();
+    }
   }
 }

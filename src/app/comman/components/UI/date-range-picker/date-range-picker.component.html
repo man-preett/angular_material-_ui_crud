@@ -1,9 +1,7 @@
 <mat-form-field appearance="fill" style="width: 100%">
-  <mat-label >{{ label }}</mat-label>
+  <mat-label>{{ label }}</mat-label>
 
-        <mat-date-range-input [rangePicker]="picker"   [formGroup]="fakeForm"
-   >
-   
+  <mat-date-range-input [rangePicker]="picker">
     <input
       matStartDate
       matInput
@@ -24,7 +22,6 @@
       (focus)="picker.open()"
       (dateChange)="updateValue()"
       [errorStateMatcher]="matcher"
-    
     />
   </mat-date-range-input>
 

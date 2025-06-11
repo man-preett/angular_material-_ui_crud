@@ -2,13 +2,12 @@
 <div class="update-profile">
   <div class="auth-wrapper v3">
     <div class="auth-form">
-     
       <div class="card my-5">
         <form [formGroup]="ProfileGroup">
           <div class="card-body">
-            <div class="d-flex justify-content-between align-items-end mb-4">
-            
-            </div>
+            <div
+              class="d-flex justify-content-between align-items-end mb-4"
+            ></div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-3">
@@ -65,12 +64,12 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                   <app-select-dropdown
+                  <app-select-dropdown
                     [label]="'Gender'"
                     formControlName="gender"
                     [options]="genderOptions"
                   />
-                  
+
                   <div class="validation-message">
                     @if(ProfileGroup.controls['gender'].invalid &&
                     ProfileGroup.controls['gender'].touched){
@@ -81,15 +80,16 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group mb-3">
-                 
                   <app-select-dropdown
                     [label]="'Country'"
                     formControlName="country"
                     [options]="countries"
-                    (click)="getState();
-                    ProfileGroup.patchValue({ state: '', city: '' })"
+                    (click)="
+                      getState();
+                      ProfileGroup.patchValue({ state: '', city: '' })
+                    "
                   />
-                  
+
                   <div class="validation-message">
                     @if(ProfileGroup.controls['country'].invalid &&
                     ProfileGroup.controls['country'].touched){
@@ -104,10 +104,9 @@
                     [label]="'State'"
                     formControlName="state"
                     [options]="states"
-                    (click)="getCity();
-                    ProfileGroup.patchValue({ city: '' })"
+                    (click)="getCity(); ProfileGroup.patchValue({ city: '' })"
                   />
-                  
+
                   <div class="validation-message">
                     @if(ProfileGroup.controls['state'].invalid &&
                     ProfileGroup.controls['state'].touched){
@@ -118,7 +117,7 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group mb-3">
-                 <app-select-dropdown
+                  <app-select-dropdown
                     [label]="'City'"
                     formControlName="city"
                     [options]="cities"

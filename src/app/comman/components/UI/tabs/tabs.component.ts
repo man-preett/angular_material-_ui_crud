@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,4 +21,9 @@ export class TabsComponent {
       action?: () => void;
     }>;
   }> = [];
+  @Output() dropdownClose = new EventEmitter<void>();
+
+  closeDropdown() {
+    this.dropdownClose.emit(); 
+  }
 }

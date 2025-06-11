@@ -3,6 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorService } from '../services/behavior.service';
 import { UserService } from '../services/user.service';
+import { Profile } from '../interfaces/auth';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
@@ -11,7 +12,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const userService = inject(UserService);
   const isLoggedin = localStorage.getItem('token');
   
-  let profileData = [];
+  let profileData:Profile[] = [];
   userService.profile().subscribe({
     next: (res: any) => {
       profileData = res.data;

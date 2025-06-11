@@ -13,7 +13,7 @@
       <ul class="list-unstyled">
         <app-dark-toggle/>
         
-        <li class="dropdown pc-h-item header-user-profile" ngbDropdown>
+        <li class="dropdown pc-h-item header-user-profile" ngbDropdown #dropdown="ngbDropdown">
           <a
             class="pc-head-link dropdown-toggle arrow-none me-0"
             ngbDropdownToggle
@@ -45,14 +45,11 @@
                     {{ data?.user_first_name }} {{ data?.user_last_name }}
                   </h6>
                 </div>
-                <!-- <a href="javascript:" class="bg-transparent" 
-                  ><mat-icon (click)="onLogout()">logout</mat-icon>
-                </a> -->
               </div>
             </div>
             <ul ngbNav #nav="ngbNav" class="mat-tabs">
               
-              <app-tabs [tabs]="userTabs" />
+              <app-tabs [tabs]="userTabs" (dropdownClose)="closeDropdown()"/>
             </ul>
             <div [ngbNavOutlet]="nav"></div>
           </div>

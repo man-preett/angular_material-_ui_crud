@@ -15,6 +15,7 @@ import { SelectDropdownComponent } from '../../comman/components/UI/select-dropd
 import { RadioComponent } from '../../comman/components/UI/radio/radio.component';
 import { CheckBoxComponent } from '../../comman/components/UI/checkBox/checkBox.component';
 import { DateRangePickerComponent } from '../../comman/components/UI/date-range-picker/date-range-picker.component';
+import { project } from '../../interfaces/add-project';
 
 @Component({
   selector: 'app-add-project',
@@ -38,28 +39,28 @@ export class AddProjectComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {}
-  project: any;
-  statusOptions: any = [
+  project: project[] = [];
+  statusOptions = [
     { value: 'Coming soon', display: 'Coming soon' },
     { value: 'Development started', display: 'Development started' },
     { value: 'Launched', display: 'Launched' },
   ];
 
-  manageToolOptions: any = [
+  manageToolOptions = [
     { value: 'Trello', display: 'Trello' },
     { value: 'Zira', display: 'Zira' },
   ];
 
-  repoToolOptions: any = [
+  repoToolOptions = [
     { value: 'Git lab', display: 'Git lab' },
     { value: 'Bit bucket', display: 'Bit bucket' },
   ];
-  projectPriorityOptions: any = [
+  projectPriorityOptions = [
     { value: 'Low', display: 'Low' },
     { value: 'Medium', display: 'Medium' },
     { value: 'High', display: 'High' },
   ];
-  projectTypeOptions: any = [
+  projectTypeOptions = [
     { value: 'Mobile Development', display: 'Mobile Development' },
     { value: 'E-commerce Development', display: 'E-commerce Development' },
     { value: 'Web Development', display: 'Web Development' },
@@ -69,7 +70,7 @@ export class AddProjectComponent {
     { value: 'Machine Learning', display: 'Machine Learning' },
     { value: 'Travel', display: 'Travel' },
   ];
-  projectApvStatusOptions: any = [
+  projectApvStatusOptions = [
     { value: 'Approved', display: 'Approved' },
     { value: 'Pending', display: 'Pending' },
     { value: 'Rejected', display: 'Rejected' },
@@ -99,7 +100,7 @@ export class AddProjectComponent {
 
   id: any | null;
   formData() {
-    const data: any = {
+    const data = {
       project_name: this.projectForm.value.projectName,
       project_description: this.projectForm.value.projectDescription,
       project_tech: this.projectForm.value.projectTech,
@@ -114,7 +115,8 @@ export class AddProjectComponent {
       project_start_date: this.projectForm.value.projectStartDate,
       project_deadline_date: this.projectForm.value.projectDeadlineDate,
       project_budget: this.projectForm.value.projectBudget,
-      project_milestone_release_date:this.projectForm.value.projectMilestoneDate,
+      project_milestone_release_date:
+        this.projectForm.value.projectMilestoneDate,
       project_priority: this.projectForm.value.projectPriority,
       project_location: this.projectForm.value.projectLocation,
       project_type: this.projectForm.value.projectType,
@@ -134,10 +136,8 @@ export class AddProjectComponent {
     }
 
     const getData = this.formData();
-    console.log(getData, 'getDatattt');
-
     this.userService.createProject(getData).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res.status) {
           res.data = this.project;
           this.router.navigate(['/projects']);
@@ -145,7 +145,7 @@ export class AddProjectComponent {
         }
       },
       error: (err) => {
-        this.toastr.error(err.error.message);
+        this.toastr.error(err);
       },
     });
   }
@@ -162,6 +162,7 @@ export class AddProjectComponent {
   onBack() {
     this.router.navigate(['/projects']);
   }
+
   ngOnInit() {
     this.projectData();
     this.id = this.route.snapshot.paramMap.get('id');
@@ -171,29 +172,29 @@ export class AddProjectComponent {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.userService.getProject(id).subscribe({
-        next: (res: any) => {
+        next: (res) => {
           if (res.status) {
             this.project = res.data;
             this.projectForm.patchValue({
-              projectName: this.project.project_name,
-              projectDescription: this.project.project_description,
-              projectTech: this.project.project_tech,
-              projectLead: this.project.project_lead,
-              projectManager: this.project.project_manager,
-              projectClient: this.project.project_client,
-              projectStatus: this.project.project_status,
-              manageTool: this.project.management_tool,
-              manageUrl: this.project.management_url,
-              repoTool: this.project.repo_tool,
-              repoUrl: this.project.repo_url,
-              projectStartDate: this.project.project_startDate,
-              projectDeadlineDate: this.project.project_deadlineDate,
-              projectBudget: this.project.project_budget,
-              projectMilestoneDate:this.project.project_milestone_release_date,
-              projectPriority: this.project.project_priority,
-              projectLocation: this.project.project_location,
-              projectType: this.project.project_type,
-              projectApproveStatus: this.project.project_approval_status,
+              projectName: res.data.project_name,
+              projectDescription: res.data.project_description,
+              projectTech: res.data.project_tech,
+              projectLead: res.data.project_lead,
+              projectManager: res.data.project_manager,
+              projectClient: res.data.project_client,
+              projectStatus: res.data.project_status,
+              manageTool: res.data.management_tool,
+              manageUrl: res.data.management_url,
+              repoTool: res.data.repo_tool,
+              repoUrl: res.data.repo_url,
+              projectStartDate: res.data.project_startDate,
+              projectDeadlineDate: res.data.project_deadlineDate,
+              projectBudget: res.data.project_budget,
+              projectMilestoneDate: res.data.project_milestone_release_date,
+              projectPriority: res.data.project_priority,
+              projectLocation: res.data.project_location,
+              projectType: res.data.project_type,
+              projectApproveStatus: res.data.project_approval_status,
             });
             // this.dateRangeForm.patchValue({
             //   projectStartDate: this.project.project_startDate,
@@ -221,9 +222,8 @@ export class AddProjectComponent {
       return;
     }
     const getData = this.formData();
-    console.log(getData, 'getDatattt');
     this.userService.updateProject(getData, this.id).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res.status) {
           res.data = this.project;
           this.router.navigate(['/projects']);

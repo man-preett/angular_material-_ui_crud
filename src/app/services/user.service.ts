@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Login, Signup, Profile } from '../model/user.model';
+import { Login, Signup, Profile } from '../interfaces/auth';
 import { Observable } from 'rxjs';
+import { project } from '../interfaces/add-project';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class UserService {
   users(): Observable<any> {
     return this.http.get<any>('http://localhost/php-crud/api/v1/users/');
   }
-  updateProfile(res: any): Observable<any> {
+  updateProfile(res: project): Observable<any> {
     return this.http.put<any>(
       `http://localhost/php-crud/api/v1/updateuser/`,
       res
@@ -50,8 +51,8 @@ export class UserService {
     );
   }
   projects(
-    startRow: number,
-    endRow: number,
+    offset: number,
+    limit: number,
     search: any = '',
     sortModel: any[] = [],
     filterModel: any = {}
@@ -59,8 +60,8 @@ export class UserService {
     const sort =
       sortModel.length > 0 ? `${sortModel[0].colId}_${sortModel[0].sort}` : '';
     const params = {
-      startRow: startRow,
-      endRow: endRow,
+      offset: offset,
+      limit: limit,
       search: search,
       sort: sort,
       filterModel: decodeURIComponent(JSON.stringify(filterModel)),

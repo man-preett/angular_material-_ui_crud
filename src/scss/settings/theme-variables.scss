@@ -8,7 +8,6 @@
   --bs-body-bg-color: #{$white};
   --pc-heading-color: #{$gray-800};
   --pc-active-background: #{$gray-200};
-
   // Navbar
   --pc-sidebar-background: #{$white};
   --pc-sidebar-color: #262626;
@@ -16,45 +15,42 @@
   --pc-sidebar-active-color: var(--bs-primary);
   --pc-sidebar-shadow: none;
   --pc-sidebar-caption-color: #{$gray-700};
-
   // header
   --pc-header-background: #{$white};
   --pc-header-color: #262626;
   --pc-header-shadow: 0 1px 0 0px rgb(240 240 240);
-
   // card
   --pc-card-box-shadow: none;
---pc-card-bg-color:#{$white};
---pc-card-border-color:#a7a7a7;
+  --pc-card-bg-color: #{$white};
+  --pc-card-border-color: #a7a7a7;
   // horizontal menu
   --pc-header-submenu-background: #{$white};
   --pc-header-submenu-color: #{$gray-600};
   // pc-container
-  --pc-container-bg-color:  #f0f6ff ;
+  --pc-container-bg-color: #f0f6ff;
   --pc-dropdown-menu-bg-color: #{$white};
-  --pc-dropdown-menu-color:#262626;
+  --pc-dropdown-menu-color: #262626;
   --pc-dropdown-active-bg-color: #{$white};
-  --pc-dropdown-menu-inactive-color:#262626;
+  --pc-dropdown-menu-inactive-color: #262626;
   // ag-grid
   --ag-bg-color: #{$white};
   --ag-color: #262626;
-  --ag-dropdown-bg-color:#{$white};
-
+  --ag-dropdown-bg-color: #{$white};
   //--mi-label
-  --mi-label-color:#262626;
+  --mi-label-color: #262626;
   --ag-hover-bg: #dadada !important;
   --ag-even-row-bg: #d2d2d2;
   --ag-header-bg: #cbc9c9;
-  --ag-header-color:rgb(14, 13, 13);
-  --ag-filter-bg:rgb(209, 209, 209);;
-  --mi-toggle-bg:white;
-  --ag-dd-filter-bg-color:#{$white};
-  --ag-dd-filter-color:#262626;
-  --ag-light-hover : #d2d6eb;
+  --ag-header-color: rgb(14, 13, 13);
+  --ag-filter-bg: rgb(209, 209, 209);
+  --mi-toggle-bg: white;
+  --ag-dd-filter-bg-color: #{$white};
+  --ag-dd-filter-color: #262626;
+  --ag-light-hover: #d2d6eb;
   --mat-sys-surface-variant: #cdd1de;
-
   // chips clear all button
   --mi-chips-color: #44474e;
+  --ag-column-hover-color:#98acc957;
 }
 
 $header-height: 60px;
@@ -63,10 +59,8 @@ $sidebar-collapsed-width: 60px;
 $sidebar-collapsed-active-width: 300px;
 $sidebar-tab-width: 75px;
 $sidebar-tab-navbar-width: 320px;
-
 // horizontal menu
 $topbar-height: 60px;
-
 $soft-bg-level: -90%;
 
 // =====================================
@@ -133,6 +127,6 @@ $dark-border-subtle: $gray-500;
 
 $preset-colors: (
   preset-1: (
-    primary: #1677ff
-  )
+    primary: #1677ff,
+  ),
 );

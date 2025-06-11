@@ -1,17 +1,18 @@
-<mat-tab-group >
+<mat-tab-group>
   <mat-tab *ngFor="let tab of tabs" [label]="tab.label" style="width:100%;">
     <ng-container *ngFor="let item of tab.items">
       <li
         mat-menu-item
         *ngIf="item.url; else actionButton"
         [routerLink]="item.url"
+        (click)="closeDropdown()"
       >
         <mat-icon>{{ item.icon }}</mat-icon>
         <span>{{ item.title }}</span>
-    </li>
+      </li>
 
       <ng-template #actionButton>
-        <li mat-menu-item (click)="item.action?.()">
+        <li mat-menu-item (click)="item.action?.(); closeDropdown()">
           <mat-icon>{{ item.icon }}</mat-icon>
           <span>{{ item.title }}</span>
         </li>

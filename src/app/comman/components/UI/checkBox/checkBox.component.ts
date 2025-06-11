@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { Option } from '../../../../interfaces/project';
 @Component({
   selector: 'app-checkBox',
   imports: [MatCheckboxModule, MatFormFieldModule],
@@ -17,26 +17,30 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ],
 })
 export class CheckBoxComponent implements ControlValueAccessor {
-  @Input() options: any='';
+  @Input() options: Option[] = [];
   @Input() label: string = '';
-  @Output() selectionChange = new EventEmitter<any[]>();
+  @Output() selectionChange = new EventEmitter<Option[]>();
 
-  value: any[] = [];
+  value: Option[] = [];
 
-  private onChange: any = () => {};
-  private onTouched: any = () => {};
+  private onChange: (value: Option[]) => void = () => {};
+  private onTouched: () => void = () => {};
 
-  writeValue(value: any[]): void {
+  writeValue(value: Option[]): void {
     this.value = value || [];
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: Option[]) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
+
+  // isChecked(optionValue: Option): boolean {
+  //   return this.value.some((v) => v.value === optionValue.value);
+  // }
 
   isChecked(optionValue: any): boolean {
     return this.value?.includes(optionValue);
@@ -53,7 +57,7 @@ export class CheckBoxComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  trackByFn(index: number, item: any): any {
+  trackByFn(index: number, item: Option): string {
     return item.value;
   }
 }

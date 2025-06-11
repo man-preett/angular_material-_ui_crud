@@ -2,33 +2,18 @@
 @use "@angular/material" as mat;
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../node_modules/bootstrap/scss/variables";
-// @import 'node_modules/bootstrap/scss/variables-dark';
-
 @import "scss/settings/color-variables";
 @import "scss/settings/theme-variables";
 @import "scss/settings/bootstrap-variables";
-
-// bootstrap import
-// @import 'scss/bootstrap/bootstrap.scss';
-
-// @import 'node_modules/bootstrap/scss/utilities';
-// @import 'node_modules/bootstrap/scss/utilities/api';
-
-// main framework
 @import "scss/themes/generic.scss";
 @import "scss/themes/general.scss";
-
 @import "scss/themes/components/components.scss";
-
-// theme
 @import "scss/themes/layouts/menu/sidebar.scss";
 @import "scss/themes/layouts/navbar/navbar.scss";
 @import "scss/themes/layouts/pc-common.scss";
 @import "scss/themes/layouts/breadcrumb/breadcrumb.scss";
 @import "scss/themes/layouts/footer/footer.scss";
-
 @import "scss/themes/preset-style.scss";
-
 @import "ngx-toastr/toastr";
 
 .validation-message {
@@ -55,7 +40,7 @@
 .ag-cell-value {
   font-size: 13px !important;
 }
-.navbar-wrapper.ng-tns-c2368812120-0 {
+.navbar-wrapper{
   border-right: solid 1px #a3a3a3;
 }
 
@@ -111,7 +96,6 @@ mat-label {
 }
 
 .mat-icon {
-  // padding-top: 4px;
   margin-right: 5px;
 }
 
@@ -125,61 +109,50 @@ mat-label {
 .ag-header-viewport {
   background: var(--ag-header-bg) !important;
 }
-//Dark theme
-
-html {
-  color-scheme: light;
-  @include mat.theme(
-    (
-      color: mat.$azure-palette,
-    )
-  );
-}
-
-html.dark-mode {
-  color-scheme: dark;
-  @include mat.theme(
-    (
-      color: mat.$azure-palette,
-    )
-  );
-}
-
 // mat-ui
 
 .label-mi {
   color: var(--mi-label-color);
 }
 
-.ag-row-hover {
-  background-color: var(--ag-hover-bg) !important;
-}
-.ag-column-hover {
-  background-color: var(--ag-hover-bg) !important;
-}
-.ag-filter {
-  background-color: var(--ag-filter-bg);
-}
-.ag-input-field-input {
-  background-color: var(--ag-dropdown-bg-color);
+.action-icons i {
+  font-size: 14px !important;
+  display: flex;
+  justify-content: center;
   color: var(--ag-color);
 }
 
-.ag-input-field-input::placeholder {
-  color: var(--ag-color) !important;
-}
-
-.action-icons i {
-  font-size: 14px !important;
-}
 
 .action-icons {
-  margin-top: 4px;
-  height: 28px;
-  width: 28px;
+margin-top: 4px;
+height: 28px;
+width: 28px;
+border: 1px solid var(--ag-color);
 }
+.action-icons:hover{
+border: 1px solid var(--ag-color);
+
+}
+
+.ag-row-hover {
+  background-color: var(--ag-hover-bg) !important;
+}
+.ag-column-hover{
+  background-color: var(--ag-column-hover-color);
+}
+.ag-filter {
+background-color: var(--ag-filter-bg);
+}
+.ag-input-field-input {
+background-color: var(--ag-dropdown-bg-color);
+color: var(--ag-color);
+}
+
+.ag-input-field-input::placeholder {
+color: var(--ag-color) !important;
+}
+
 .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
-  // margin-bottom: 24px;
   height: 50px;
 }
 .card .card-header {
@@ -197,15 +170,12 @@ mat-toolbar.mat-toolbar.mat-primary.mat-toolbar-single-row {
 }
 
 //add and edit form
-
 .project-btn-wrapper {
   width: 100% !important;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-right: 100px;
-
-  /* text-align: center !important; */
 }
 
 .reset-btn {
@@ -233,47 +203,6 @@ mat-toolbar.mat-toolbar.mat-primary.mat-toolbar-single-row {
   background-color: var(--ag-bg-color);
   color: var(--ag-color);
 }
-
-//dark mode
-html.dark-mode {
-  --pc-body-bg: #121212;
-  --pc-heading-color: #d6d6d6;
-  --pc-active-background: #1e1e1e;
-
-  --pc-sidebar-background: #1e1e1e;
-  --pc-sidebar-color: #bfbfbf;
-  --pc-sidebar-active-color: #1677ff;
-  --pc-sidebar-caption-color: #d6d6d6;
-  --pc-sidebar-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-
-  --pc-header-background: #1e1e1e;
-  --pc-header-color: #d6d6d6;
-  --pc-header-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-
-  --pc-card-box-shadow: inset 0 0 0 1px #262626;
-  --pc-header-submenu-background: #1e1e1e;
-  --pc-header-submenu-color: #d6d6d6;
-  --pc-container-bg-color: #1e1e1e;
-  --pc-dropdown-menu-bg-color: #1e1e1e;
-  --pc-dropdown-menu-color: #d6d6d6;
-  --pc-card-bg-color: #1e1e1e;
-  //  --pc-card-border-color:#a7a7a7;
-  --pc-dropdown-active-bg-color: #1e1e1e;
-  --pc-dropdown-menu-inactive-color: #d6d6d6 !important;
-  --bs-body-bg-color: #1e1e1e;
-  --ag-bg-color: #1e1e1e !important;
-  --ag-color: #d6d6d6 !important;
-  --ag-dropdown-bg-color: #1e1e1e !important;
-  --mi-label-color: #d6d6d6;
-  --ag-hover-bg: #2f2f2f !important;
-  --ag-even-row-bg: #0e0e0e !important;
-  --ag-header-bg: #0e0e0e;
-  --ag-header-color: rgb(220, 220, 220);
-  --ag-filter-bg: #101010;
-  --mi-toggle-bg: #1e1e1e;
-  --ag-light-hover: #222326af;
-  --mi-chips-color: white;
-}
 .search-input-container {
   display: flex;
   height: 45px;
@@ -297,4 +226,62 @@ button.btn.btn-danger.action-icons {
 }
 .ag-input-field-label {
   color: var(--ag-color);
+}
+
+//Dark theme
+
+html {
+  color-scheme: light;
+  @include mat.theme(
+    (
+      color: mat.$azure-palette,
+    )
+  );
+}
+
+html.dark-mode {
+  color-scheme: dark;
+  @include mat.theme(
+    (
+      color: mat.$azure-palette,
+    )
+  );
+}
+
+//dark mode
+html.dark-mode {
+  --pc-body-bg: #121212;
+  --pc-heading-color: #d6d6d6;
+  --pc-active-background: #1e1e1e;
+  --pc-sidebar-background: #1e1e1e;
+  --pc-sidebar-color: #bfbfbf;
+  --pc-sidebar-active-color: #1677ff;
+  --pc-sidebar-caption-color: #d6d6d6;
+  --pc-sidebar-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+  --pc-header-background: #1e1e1e;
+  --pc-header-color: #d6d6d6;
+  --pc-header-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+  --pc-card-box-shadow: inset 0 0 0 1px #262626;
+  --pc-header-submenu-background: #1e1e1e;
+  --pc-header-submenu-color: #d6d6d6;
+  --pc-container-bg-color: #1e1e1e;
+  --pc-dropdown-menu-bg-color: #1e1e1e;
+  --pc-dropdown-menu-color: #d6d6d6;
+  --pc-card-bg-color: #1e1e1e;
+  --pc-dropdown-active-bg-color: #1e1e1e;
+  --pc-dropdown-menu-inactive-color: #d6d6d6 !important;
+  --bs-body-bg-color: #1e1e1e;
+  --ag-bg-color: #1e1e1e !important;
+  --ag-color: #d6d6d6 !important;
+  --ag-dropdown-bg-color: #1e1e1e !important;
+  --mi-label-color: #d6d6d6;
+  --ag-hover-bg: #2f2f2f !important;
+  --ag-even-row-bg: #0f0f0fc0 !important;
+  --ag-header-bg: #0e0e0e;
+  --ag-header-color: rgb(220, 220, 220);
+  --ag-filter-bg: #101010;
+  --mi-toggle-bg: #1e1e1e;
+  --ag-light-hover: #222326af;
+  --mi-chips-color: white;
+  --ag-column-hover-color:#111a21c2;
 }

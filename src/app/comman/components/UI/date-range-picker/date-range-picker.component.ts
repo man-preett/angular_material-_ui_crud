@@ -1,6 +1,14 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { ControlValueAccessor, FormControl, FormGroup, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm, ReactiveFormsModule } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NG_VALUE_ACCESSOR,
+  NgForm,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   MatDateRangePicker,
   MatDateRangeInput,
@@ -20,7 +28,6 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-
   ],
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss'],
@@ -63,12 +70,10 @@ export class DateRangePickerComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-  fakeForm = new FormGroup({});
 
   updateValue() {
     const start = this.startControl.value;
     const end = this.endControl.value;
-
     const formatted = {
       start: start ? this.datePipe.transform(start, 'yyyy-MM-dd') : null,
       end: end ? this.datePipe.transform(end, 'yyyy-MM-dd') : null,
@@ -76,7 +81,6 @@ export class DateRangePickerComponent implements ControlValueAccessor {
     this.value = formatted;
     this.startControl.setValue(formatted.start);
     this.endControl.setValue(formatted.end);
-
     this.onChange(this.value);
     this.onTouched();
   }

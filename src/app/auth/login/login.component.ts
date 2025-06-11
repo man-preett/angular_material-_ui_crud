@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
-import { Login } from '../../model/user.model';
+import { Login } from '../../interfaces/auth';
 import { ToastrService } from 'ngx-toastr';
 import { InputBoxComponent } from '../../comman/components/UI/input-box/input-box.component';
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
@@ -56,7 +56,6 @@ export class LoginComponent {
       next: (res: any) => {
         if (res.status) {
           localStorage.setItem('token', res.data);
-          localStorage.setItem('isLoggedIn', 'true');
           this.toastr.success('User login successfully');
           this.router.navigate(['/projects']);
         } else {

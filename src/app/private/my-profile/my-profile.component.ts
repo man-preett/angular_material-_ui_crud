@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
+import { MyProfile, Profile } from '../../interfaces/auth';
 @Component({
   selector: 'app-my-profile',
   imports: [ButtonComponent],
@@ -15,11 +16,11 @@ export class MyProfileComponent {
     private toastr: ToastrService,
     private router: Router
   ) {}
-  user: any;
+  user: MyProfile | null = null;
   ngOnInit() {
     this.myProfile();
   }
-   myProfile() {
+  myProfile() {
     this.userService.profile().subscribe({
       next: (res: any) => {
         if (res.status) {
@@ -32,8 +33,7 @@ export class MyProfileComponent {
         this.toastr.error(err.message);
       },
     });
-     
-   }
+  }
   onEdit() {
     this.router.navigate(['/projects/update-profile']);
   }
