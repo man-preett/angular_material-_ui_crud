@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -21,8 +21,9 @@ import { CustomInnerHeader } from '../customHeader';
 import { ChipsComponent } from '../../comman/components/UI/chips/chips.component';
 import { DialogComponent } from '../../comman/components/UI/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { debounceTime, Subject } from 'rxjs';
+import { debounceTime, last, Subject } from 'rxjs';
 import { projectList } from '../../interfaces/project';
+import { cloneSVG } from '@ant-design/icons-angular';
 ModuleRegistry.registerModules([InfiniteRowModelModule]);
 @Component({
   selector: 'app-projects',
@@ -31,14 +32,7 @@ ModuleRegistry.registerModules([InfiniteRowModelModule]);
   styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent {
-  constructor(
-    private userService: UserService,
-    private toastr: ToastrService,
-    private router: Router,
-    private dialog: MatDialog
-  ) {}
-
-  openSidebar = false;
+  openSidebar: boolean = false;
   isLoading: boolean = false;
   columnToggleList: { field: string; headerName: string; visible: boolean }[] =
     [];
@@ -47,6 +41,17 @@ export class ProjectsComponent {
   filterModel: any = {};
   sortModel: any[] = [];
   searchInputChanged = new Subject<string>();
+  allSelected: boolean = true;
+  searchInput: string = '';
+  previousPageSize = 100;
+  savedPageToRestore: number | null = null;
+  constructor(
+    private userService: UserService,
+    private toastr: ToastrService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
+
   colDefs: ColDef[] = [
     {
       field: 'project_name',
@@ -151,7 +156,7 @@ export class ProjectsComponent {
       field: 'action',
       cellRenderer: function (params: any) {
         if (!params.data) return null;
-        const projectId = params.data.project_id;
+        const projectId = params.data._id.$oid;
         var updateProject = document.createElement('button');
         updateProject.className = 'btn action-icons ';
         updateProject.innerHTML =
@@ -205,6 +210,7 @@ export class ProjectsComponent {
       innerHeaderComponent: CustomInnerHeader,
     },
   };
+
   gridOptions: GridOptions = {
     columnHoverHighlight: true,
     tooltipShowMode: 'whenTruncated',
@@ -213,6 +219,12 @@ export class ProjectsComponent {
         const rowIndex = params.node?.rowIndex;
         return rowIndex != null && rowIndex % 2 === 1;
       },
+    },
+    onGridPreDestroyed: () => {
+      this.saveGridState();
+      setTimeout(() => {
+        this.gridApiActive = null;
+      }, 100);
     },
     columnDefs: this.colDefs,
     defaultColDef: this.defaultColDef,
@@ -239,8 +251,25 @@ export class ProjectsComponent {
       });
   }
   private beforeUnloadHandler = () => this.saveGridState();
-  ngOnDestroy() {
-    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+
+  onGridReady(params: GridReadyEvent) {
+    this.gridApiActive = params.api;
+    // const pageSize = this.gridApiActive.paginationGetPageSize();
+
+    // this.gridApiActive.setGridOption('cacheBlockSize', pageSize);
+
+    this.fetchProjectData();
+    setTimeout(() => {
+      this.restoreGridState();
+      const settingsHeader = document.querySelector(
+        '.ag-header-cell.settings-header'
+      );
+      if (settingsHeader) {
+        settingsHeader.addEventListener('click', () => {
+          this.openSideBar();
+        });
+      }
+    });
   }
 
   openSideBar() {
@@ -264,7 +293,6 @@ export class ProjectsComponent {
     this.allSelected = this.columnToggleList.every((col) => col.visible);
   }
 
-  allSelected: boolean = true;
   toggleAllColumns() {
     const allVisible = this.columnToggleList.every((col) => col.visible);
     this.allSelected = !allVisible;
@@ -301,7 +329,6 @@ export class ProjectsComponent {
         const search = this.searchInput ?? '';
         const sortModel = params.sortModel;
         const filterModel = params.filterModel;
-
         this.userService
           .projects(offset, limit, search, sortModel, filterModel)
           .subscribe({
@@ -329,11 +356,9 @@ export class ProjectsComponent {
           });
       },
     };
-
     this.gridApiActive.setGridOption('datasource', datasource);
   }
 
-  previousPageSize = 100;
   addProject() {
     this.router.navigate(['/projects/add-project/']);
   }
@@ -366,28 +391,9 @@ export class ProjectsComponent {
     });
   }
 
-  onGridReady(params: GridReadyEvent) {
-    this.gridApiActive = params.api;
-    this.restoreGridState();
-    setTimeout(() => {
-      this.fetchProjectData();
-
-      const settingsHeader = document.querySelector(
-        '.ag-header-cell.settings-header'
-      );
-      if (settingsHeader) {
-        settingsHeader.addEventListener('click', () => {
-          this.openSideBar();
-        });
-      }
-    });
-  }
-  searchInput: string = '';
-  previousPage = 0;
   onPaginationChanged() {
     if (!this.gridApiActive) return;
     const currentPageSize = this.gridApiActive.paginationGetPageSize();
-    const currentPage = this.gridApiActive.paginationGetCurrentPage();
 
     if (currentPageSize !== this.previousPageSize) {
       this.previousPageSize = currentPageSize;
@@ -396,6 +402,7 @@ export class ProjectsComponent {
       return;
     }
   }
+
   onSearchChanged() {
     // this.gridApiActive?.setGridOption('quickFilterText', this.searchInput);
     this.searchInputChanged.next(this.searchInput);
@@ -419,24 +426,31 @@ export class ProjectsComponent {
   }
 
   saveGridState() {
+    const columnState = this.gridApiActive?.getColumnState();
+    const visibleMap: Record<string, boolean> = {};
+    columnState?.forEach((col) => {
+      if (col.colId) {
+        visibleMap[col.colId] = !col.hide;
+      }
+    });
     const gridState = {
-      columnState: this.gridApiActive?.getColumnState(),
+      columnState: columnState,
+      columnVisibility: visibleMap,
       filterModel: this.filterModel ?? {},
       sortModel: this.sortModel ?? [],
-      currentPage: this.gridApiActive?.paginationGetCurrentPage() ?? 0,
-      pageSize: this.gridApiActive?.paginationGetPageSize() ?? 50,
+      currentPage: this.gridApiActive?.paginationGetCurrentPage(),
+      pageSize: this.gridApiActive?.paginationGetPageSize() ?? 100,
       searchInput: this.searchInput ?? '',
     };
     localStorage.setItem('gridState', JSON.stringify(gridState));
   }
-
-  private savedPageToRestore: number | null = null;
 
   restoreGridState() {
     const savedState = localStorage.getItem('gridState');
     if (!savedState || !this.gridApiActive) return;
     const {
       columnState,
+      columnVisibility,
       sortModel,
       filterModel,
       currentPage,
@@ -454,6 +468,13 @@ export class ProjectsComponent {
         applyOrder: true,
       });
     }
+    this.columnToggleList.forEach((col) => {
+      if (col.field in columnVisibility) {
+        col.visible = columnVisibility[col.field];
+      }
+    });
+
+    this.allSelected = this.columnToggleList.every((col) => col.visible);
 
     this.gridApiActive?.applyColumnState({
       state: this.sortModel.map((s) => ({
@@ -465,7 +486,7 @@ export class ProjectsComponent {
 
     this.gridApiActive.setFilterModel(this.filterModel);
     if (pageSize) {
-      this.gridApiActive.setGridOption('paginationPageSize', pageSize || 50);
+      this.gridApiActive.setGridOption('paginationPageSize', pageSize || 100);
       this.previousPageSize = pageSize;
     }
 
@@ -476,10 +497,12 @@ export class ProjectsComponent {
 
   onFirstDataRendered() {
     if (this.savedPageToRestore !== null && this.gridApiActive) {
-      this.gridApiActive.paginationGoToPage(this.savedPageToRestore);
+      this.gridApiActive?.paginationGoToPage(this.savedPageToRestore!);
       this.savedPageToRestore = null;
     }
   }
+
+  // chips
 
   getReadableFilters(): string[] {
     const model = this.filterModel as any;

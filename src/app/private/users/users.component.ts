@@ -14,10 +14,12 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-  constructor(private userService: UserService,private toastr:ToastrService) {}
+  constructor(
+    private userService: UserService,
+    private toastr: ToastrService
+  ) {}
   userList: MyProfile[] = [];
   colDefs: ColDef[] = [
-    { field: 'user_id', headerName: 'Id' },
     { field: 'user_first_name', headerName: 'First Name' },
     { field: 'user_last_name', headerName: 'Last Name' },
     { field: 'user_gender', headerName: 'Gender' },
