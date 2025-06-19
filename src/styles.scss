@@ -285,3 +285,10 @@ html.dark-mode {
   --mi-chips-color: white;
   --ag-column-hover-color:#111a21c2;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.cdk-overlay-container {
+  z-index: 1000000;
+  backdrop-filter: blur(2px);
+}

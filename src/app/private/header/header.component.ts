@@ -118,6 +118,9 @@ export class HeaderComponent {
   openConfirmDialog() {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: { text: 'Are you sure you want to logout?' },
+      disableClose: true
+      
+
     });
 
     dialogRef.afterClosed().subscribe((result) => {

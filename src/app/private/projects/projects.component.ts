@@ -254,10 +254,6 @@ export class ProjectsComponent {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApiActive = params.api;
-    // const pageSize = this.gridApiActive.paginationGetPageSize();
-
-    // this.gridApiActive.setGridOption('cacheBlockSize', pageSize);
-
     this.fetchProjectData();
     setTimeout(() => {
       this.restoreGridState();
@@ -381,6 +377,7 @@ export class ProjectsComponent {
   openConfirmDialog(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: { text: 'Are you sure you want to delete the project?' },
+      disableClose: true 
     });
 
     dialogRef.afterClosed().subscribe((result) => {
