@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -37,7 +38,8 @@ export class AddProjectComponent {
     private userService: UserService,
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) {}
   project: project[] = [];
   statusOptions = [
@@ -140,7 +142,8 @@ export class AddProjectComponent {
       next: (res) => {
         if (res.status) {
           res.data = this.project;
-          this.router.navigate(['/projects']);
+          // this.router.navigate(['/projects']);
+          this.location.back();
           this.toastr.success('Project created suceesfully');
         }
       },
@@ -160,7 +163,8 @@ export class AddProjectComponent {
     });
   }
   onBack() {
-    this.router.navigate(['/projects']);
+    // this.router.navigate(['/projects']);
+    this.location.back();
   }
 
   ngOnInit() {
@@ -226,7 +230,8 @@ export class AddProjectComponent {
       next: (res) => {
         if (res.status) {
           res.data = this.project;
-          this.router.navigate(['/projects']);
+          // this.router.navigate(['/projects']);
+          this.location.back();
           this.toastr.success('Project updated suceesfully');
         } else {
           this.toastr.error(res.message);

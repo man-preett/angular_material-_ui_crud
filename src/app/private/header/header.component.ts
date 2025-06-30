@@ -52,9 +52,10 @@ export class HeaderComponent {
     this.navCollapsedMob = false;
     this.navCollapsed = false;
   }
-  
+
   // public method
   navCollapse() {
+    this.profileSubject.triggerResize();
     if (this.windowWidth >= 1025) {
       this.navCollapsed = !this.navCollapsed;
       this.NavCollapse.emit();
@@ -119,7 +120,7 @@ export class HeaderComponent {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: { text: 'Are you sure you want to logout?' },
       disableClose: true
-      
+
 
     });
 

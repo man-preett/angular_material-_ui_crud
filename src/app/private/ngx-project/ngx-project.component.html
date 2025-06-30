@@ -1,0 +1,229 @@
+<div class="project-header">
+  <h3 class="user-heading">Projects List</h3>
+  <div class="user-sidebar">
+    <div class="search-project">
+      <mat-icon fontIcon="search" class="search-icon">Search</mat-icon>
+      <input
+        type="text"
+        placeholder="Search..."
+        class="search-input"
+        [(ngModel)]="searchInput"
+        (input)="onSearchChanged()"
+      />
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary add-project-btn"
+      (click)="addProject()"
+    >
+      <i class="fa-solid fa-plus"></i>Add Project
+    </button>
+  </div>
+</div>
+<ng-template #actionTpl let-row="row" class="action-buttons">
+  <button class="btn action-icons" (click)="updateProject(row._id?.$oid)">
+    <i class="fa fa-pencil"></i>
+  </button>
+  <button class="btn action-icons" (click)="openConfirmDialog(row._id?.$oid)">
+    <i class="fa fa-trash"></i>
+  </button>
+</ng-template>
+
+<ng-template #settingsHeaderTpl>
+  <i class="fa fa-cog clickable" (click)="openSidebar = true"></i>
+</ng-template>
+
+<ng-template #filterHeaderTpl let-column="column" let-sortFn="sortFn">
+  <div class="header-with-filter" (click)="sortFn()">
+    {{ column.name }}
+
+    <span class="sort-arrow" *ngIf="sortProp === column.prop">
+      <mat-icon *ngIf="sortDir === 'asc'">arrow_upward</mat-icon>
+      <mat-icon *ngIf="sortDir === 'desc'">arrow_downward</mat-icon>
+    </span>
+    <mat-icon
+     class="filter-icon"
+      #filterIcon
+      (click)="
+        toggleFilter(column.prop, filterIcon._elementRef.nativeElement);
+        $event.stopPropagation()
+      "
+      [ngClass]="{ 'active-filter': columnFilters[column.prop] }"
+      >filter_list</mat-icon
+    >
+  </div>
+</ng-template>
+
+<div class="filter-chips">
+  <app-chips
+    [names]="getReadableFilters()"
+    (chipClick)="removeFilter($event)"
+  />
+  @if(hasFilter()){
+  <button (click)="clearFilters()" class="chips-clear">
+    <mat-icon style="margin-bottom: 2px; margin-right: 0px">delete</mat-icon
+    >Clear All
+  </button>
+  }
+</div>
+
+<div class="list-projects">
+  <div class="ag-projects position-relative">
+    <ngx-datatable
+    #table
+      class="material ngx-projects"
+      [style.height.px]="hasFilter() ? 700 : 730"
+      [rows]="rows"
+      [columns]="columns"
+      [columnMode]="'standard'"
+      [headerHeight]="45"
+      [rowHeight]="45"
+      [count]="totalRecords"
+      [offset]="offset"
+      [limit]="limit"
+      [loadingIndicator]="isLoading"
+      (sort)="onSort($event)"
+      [scrollbarH]="rows.length>0"
+      [scrollbarV]="rows.length>0"
+    >
+  
+    </ngx-datatable>
+
+    <div
+      class="filter-dropdown"
+      *ngIf="activeFilterColumn"
+      #filterBox
+      [ngStyle]="{
+        top: filterPosition.top + 'px',
+        left: filterPosition.left + 'px'
+      }"
+    >
+      <div>
+        <select [(ngModel)]="selectedFilterType">
+          <option *ngFor="let opt of filterTypes" [value]="opt.value">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <input
+          type="text"
+          [(ngModel)]="selectedFilterValue"
+          (input)="applyFilter()"
+          placeholder="Filter..."
+        />
+      </div>
+      @if(selectedFilterValue){
+      <div class="and-or-toggle">
+        <label>
+          <input
+            type="radio"
+            name="logicType"
+            value="AND"
+            [(ngModel)]="filterLogic"
+          />
+          AND
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="logicType"
+            value="OR"
+            [(ngModel)]="filterLogic"
+          />
+          OR
+        </label>
+      </div>
+      <div>
+        <select [(ngModel)]="secondFilterType">
+          <option *ngFor="let opt of filterTypes" [value]="opt.value">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <input
+          type="text"
+          [(ngModel)]="secondFilterValue"
+          placeholder="Filter..."
+          (input)="applyFilter()"
+        />
+      </div>
+      }
+    </div>
+
+    @if(isLoading){
+    <div class="loader-overlay">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    }
+
+    <div class="pagination-controls">
+      <div>
+        Page Size:
+        <select
+          [(ngModel)]="limit"
+          (change)="onPageSizeChange()"
+          style="padding: 2px; background-color: var(--ag-bg-color);"
+        >
+          @for(option of pageLimitOption; track option.value ){
+          <option>{{ option.value }}</option>
+          }
+        </select>
+      </div>
+      {{ firstRow }} to {{ lastRow }} of {{ totalRecords }}
+      <div></div>
+      <div class="pagination-buttons">
+        <button (click)="onFirstPage()" [disabled]="currentPage === 0">
+          <mat-icon>first_page</mat-icon>
+        </button>
+        <button (click)="onPreviousPage()" [disabled]="currentPage === 0">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+        <button
+          (click)="onNextPage()"
+          [disabled]="currentPage >= totalPages - 1"
+        >
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+        <button
+          (click)="onLastPage()"
+          [disabled]="currentPage >= totalPages - 1"
+        >
+          <mat-icon>last_page</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="column-settings-sidebar" [ngClass]="{ open: openSidebar }">
+    <div class="sidebar-wrapper">
+      <h4>Columns</h4>
+      <div class="sidebar-btn-icon">
+        <button
+          class="btn btn-primary sidebar-btn"
+          (click)="toggleAllColumns()"
+        >
+          <mat-icon>
+            {{ allSelected ? "close" : "done" }}
+          </mat-icon>
+          {{ allSelected ? "Unselect All" : "Select All" }}
+        </button>
+        <mat-icon (click)="openSidebar = false" fontIcon="close"></mat-icon>
+      </div>
+    </div>
+    @for (col of columnToggleList; track col.prop) {
+    <label class="custonFilter">
+      <input
+        type="checkbox"
+        [checked]="isColumnVisible(col.prop)"
+        (change)="toggleColumn(col.prop)"
+      />
+      {{ col.name }}
+    </label>
+    }
+  </div>
+</div>

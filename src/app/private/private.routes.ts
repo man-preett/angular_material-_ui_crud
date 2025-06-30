@@ -6,6 +6,7 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { AddProjectComponent } from './add-project/add-project.component';
+import { NgxProjectComponent } from './ngx-project/ngx-project.component';
 
 export const privateRoutes: Routes = [
   {
@@ -14,7 +15,7 @@ export const privateRoutes: Routes = [
     children: [
       {
         path: '',
-        component: ProjectsComponent,
+        component: NgxProjectComponent,
       },
       {
         path: 'myprofile',
@@ -39,6 +40,10 @@ export const privateRoutes: Routes = [
       {
         path: 'update-project/:id',
         component: AddProjectComponent,
+      },
+      {
+        path: 'ag-project',
+        component: ProjectsComponent
       },
       {
         path: '**',

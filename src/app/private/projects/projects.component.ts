@@ -23,7 +23,6 @@ import { DialogComponent } from '../../comman/components/UI/dialog/dialog.compon
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, last, Subject } from 'rxjs';
 import { projectList } from '../../interfaces/project';
-import { cloneSVG } from '@ant-design/icons-angular';
 ModuleRegistry.registerModules([InfiniteRowModelModule]);
 @Component({
   selector: 'app-projects',
@@ -45,6 +44,7 @@ export class ProjectsComponent {
   searchInput: string = '';
   previousPageSize = 100;
   savedPageToRestore: number | null = null;
+
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
@@ -325,6 +325,7 @@ export class ProjectsComponent {
         const search = this.searchInput ?? '';
         const sortModel = params.sortModel;
         const filterModel = params.filterModel;
+
         this.userService
           .projects(offset, limit, search, sortModel, filterModel)
           .subscribe({
@@ -377,7 +378,7 @@ export class ProjectsComponent {
   openConfirmDialog(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: { text: 'Are you sure you want to delete the project?' },
-      disableClose: true 
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((result) => {

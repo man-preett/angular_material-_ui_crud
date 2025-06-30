@@ -1,10 +1,18 @@
 export const NavigationItems: any[] = [
   {
     id: 'default',
-    title: 'Projects',
+    title: 'Ngx Projects',
     type: 'item',
     classes: 'nav-item',
     url: '/projects',
+    icon: 'assignment',
+  },
+  {
+    id: 'ag',
+    title: 'Ag Grid Projects',
+    type: 'item',
+    classes: 'nav-item',
+    url: '/projects/ag-project',
     icon: 'assignment',
   },
   {

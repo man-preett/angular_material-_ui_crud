@@ -16,6 +16,7 @@
 @import "scss/themes/preset-style.scss";
 @import "ngx-toastr/toastr";
 
+
 .validation-message {
   color: red;
   font-size: 14px;
@@ -276,14 +277,15 @@ html.dark-mode {
   --ag-dropdown-bg-color: #1e1e1e !important;
   --mi-label-color: #d6d6d6;
   --ag-hover-bg: #2f2f2f !important;
-  --ag-even-row-bg: #0f0f0fc0 !important;
+  --ag-even-row-bg: #111111  !important;
   --ag-header-bg: #0e0e0e;
   --ag-header-color: rgb(220, 220, 220);
   --ag-filter-bg: #101010;
   --mi-toggle-bg: #1e1e1e;
   --ag-light-hover: #222326af;
   --mi-chips-color: white;
-  --ag-column-hover-color:#111a21c2;
+  --ag-column-hover-color:#111a21;
+  --ag-bg-hover:#202020;
 }
 
 html, body { height: 100%; }
@@ -292,3 +294,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   z-index: 1000000;
   backdrop-filter: blur(2px);
 }
+

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Profile } from '../interfaces/auth';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,5 +17,12 @@ export class BehaviorService {
       user_first_name: profile.user_first_name,
       user_last_name: profile.user_last_name,
     });
+  }
+
+  private resizeTrigger = new Subject<void>();
+  resize = this.resizeTrigger.asObservable();
+
+  triggerResize() {
+    this.resizeTrigger.next();
   }
 }
