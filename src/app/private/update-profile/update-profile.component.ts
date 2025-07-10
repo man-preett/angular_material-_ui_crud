@@ -14,6 +14,8 @@ import { ButtonComponent } from '../../comman/components/UI/button/button.compon
 import { SelectDropdownComponent } from '../../comman/components/UI/select-dropdown/select-dropdown.component';
 import { MyProfile } from '../../interfaces/auth';
 import { Option } from '../../interfaces/project';
+import { AddressService, Response, UsersService } from '../../api-client';
+import { Country,State } from '../../interfaces/address';
 
 @Component({
   selector: 'app-update-profile',
@@ -31,7 +33,9 @@ export class UpdateProfileComponent {
     private userService: UserService,
     private toastr: ToastrService,
     private router: Router,
-    private behaviorService: BehaviorService
+    private behaviorService: BehaviorService,
+    private usersService:UsersService,
+    private addressService:AddressService
   ) {}
   user: MyProfile[] = [];
   genderOptions = [
@@ -56,8 +60,8 @@ export class UpdateProfileComponent {
     this.getCountry();
   }
   profileData() {
-    this.userService.profile().subscribe({
-      next: (res: any) => {
+    this.usersService.myProfileApiUsersMyprofileGet().subscribe({
+      next: (res:any) => {
         if (res.status) {
           this.user = res.data;
           this.ProfileGroup.patchValue({
@@ -76,36 +80,37 @@ export class UpdateProfileComponent {
         }
       },
       error: (err) => {
-        this.toastr.error(err.message);
+        this.toastr.error(err.detail);
       },
     });
   }
   getCountry() {
-    this.userService.country().subscribe({
-      next: (res) => {
+    this.addressService.countriesApiCountryGet().subscribe({
+      next: (res:Response) => {
         if (res.status) {
           // this.countries = res.data;
-          this.countries = res.data.map((country: any) => ({
+                const countries = (res.data ?? []) as Country[];
+
+          this.countries = countries.map((country:Country) => ({
             value: country.country_name,
             display: country.country_name,
           }));
-          console.log(this.countries, 'countries');
         } else {
           this.toastr.error(res.message);
         }
       },
       error: (err) => {
-        this.toastr.error(err.message);
+        this.toastr.error(err.detail);
       },
     });
   }
   getState() {
     const user_country = this.ProfileGroup.get('country')?.value;
-    const data = {
-      country_name: user_country,
+    const data : State = {
+      country_name : user_country ?? '',
     };
-    if (data.country_name) {
-      this.userService.state(data)?.subscribe({
+    if (user_country) {
+      this.addressService.statesApiStatePost(user_country)?.subscribe({
         next: (res: any) => {
           if (res.status) {
             this.states = res.data.map((state:any) => ({
@@ -125,8 +130,8 @@ export class UpdateProfileComponent {
     const data = {
       state_name: user_state,
     };
-    if (data.state_name) {
-      this.userService.city(data)?.subscribe({
+    if (user_state) {
+      this.addressService.citiesApiCityPost(user_state)?.subscribe({
         next: (res: any) => {
           if (res.status) {
             this.cities = res.data.map((city: any) => ({
@@ -159,7 +164,7 @@ export class UpdateProfileComponent {
       user_state: this.ProfileGroup.value.state,
       user_city: this.ProfileGroup.value.city,
     };
-    this.userService.updateProfile(data).subscribe({
+    this.usersService.updateUserApiUsersPut(data).subscribe({
       next: (res: any) => {
         if (res.status) {
           this.behaviorService.setProfile({

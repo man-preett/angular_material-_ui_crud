@@ -11,7 +11,7 @@
   left: 0;
   bottom: 60px;
   width: 100%;
-  height: 675px;
+  height: 720px;
   background: var(--ag-bg-color);
   z-index: 9999;
   display: flex;
@@ -307,3 +307,8 @@ button.chips-clear {
   align-items: center;
   height: 655px;
 }
+
+::ng-deep .hovered-column {
+  background-color: var(--ag-column-hover-color)
+}
+

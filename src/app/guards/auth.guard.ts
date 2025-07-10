@@ -4,16 +4,18 @@ import { ToastrService } from 'ngx-toastr';
 import { BehaviorService } from '../services/behavior.service';
 import { UserService } from '../services/user.service';
 import { Profile } from '../interfaces/auth';
+import { UsersService } from '../api-client';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const toastr = inject(ToastrService);
   const behaviorService = inject(BehaviorService);
   const userService = inject(UserService);
+  const usersService = inject(UsersService)
   const isLoggedin = localStorage.getItem('token');
-  
+
   let profileData:Profile[] = [];
-  userService.profile().subscribe({
+  usersService.myProfileApiUsersMyprofileGet().subscribe({
     next: (res: any) => {
       profileData = res.data;
       behaviorService.setProfile({
@@ -34,7 +36,7 @@ export const noAuthGuard: CanActivateFn = () => {
   const router = inject(Router);
   const toastr = inject(ToastrService);
   const isLoggedin = localStorage.getItem('token');
-  if (isLoggedin) {   
+  if (isLoggedin) {
     toastr.success('User is already loggedin');
     router.navigate(['/projects']);
     return true;

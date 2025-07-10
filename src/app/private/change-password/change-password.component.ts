@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Route, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { InputBoxComponent } from '../../comman/components/UI/input-box/input-box.component';
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
+import { Password, User, UsersService } from '../../api-client';
 
 @Component({
   selector: 'app-change-password',
@@ -16,7 +17,8 @@ export class ChangePasswordComponent {
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private usersService:UsersService
   ) {}
 
   ChangePasswordForm = new FormGroup({
@@ -39,22 +41,22 @@ export class ChangePasswordComponent {
       });
       return;
     }
-    const confirm_pass = this.ChangePasswordForm.get('confirmPass')?.value;
-    const data = {
-      current_password: this.ChangePasswordForm.get('currentPass')?.value,
-      new_password: this.ChangePasswordForm.get('newPass')?.value,
+    const confirm_pass = this.ChangePasswordForm.get('confirmPass')?.value ;
+    const data :Password = {
+      current_password: this.ChangePasswordForm.get('currentPass')?.value as string,
+      new_password: this.ChangePasswordForm.get('newPass')?.value as string,
     };
-    this.userService.changePassword(data).subscribe({
+    this.usersService.changePasswordApiUsersChangepasswordPost(data).subscribe({
       next: (res: any) => {
         if (data.new_password == confirm_pass) {
           if (res.status) {
             this.toastr.success('Password Changed successfully');
             this.router.navigate(['/projects']);
-          } 
+          }
         }
       },
       error: (err) => {
-        this.toastr.error(err.error.message);
+        this.toastr.error(err.error.detail);
       },
     });
   }

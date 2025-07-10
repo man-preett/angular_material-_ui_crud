@@ -2,7 +2,7 @@
   <h3 class="user-heading">Projects List</h3>
   <div class="user-sidebar">
     <div class="search-project">
-      <mat-icon fontIcon="search" class="search-icon">Search</mat-icon>
+      <mat-icon fontIcon="search" class="search-icon"></mat-icon>
       <input
         type="text"
         placeholder="Search..."
@@ -22,10 +22,10 @@
   </div>
 </div>
 <ng-template #actionTpl let-row="row" class="action-buttons">
-  <button class="btn action-icons" (click)="updateProject(row._id?.$oid)">
+  <button class="btn action-icons" (click)="updateProject(row._id)">
     <i class="fa fa-pencil"></i>
   </button>
-  <button class="btn action-icons" (click)="openConfirmDialog(row._id?.$oid)">
+  <button class="btn action-icons" (click)="openConfirmDialog(row._id)">
     <i class="fa fa-trash"></i>
   </button>
 </ng-template>
@@ -73,7 +73,7 @@
     <ngx-datatable
     #table
       class="material ngx-projects"
-      [style.height.px]="hasFilter() ? 700 : 730"
+      [style.height.px]="hasFilter() ? 730 : 775"
       [rows]="rows"
       [columns]="columns"
       [columnMode]="'standard'"
@@ -87,7 +87,21 @@
       [scrollbarH]="rows.length>0"
       [scrollbarV]="rows.length>0"
     >
-  
+    <!-- <ngx-datatable-column
+    *ngFor="let col of columns"
+    [name]="col.name"
+    [prop]="col.prop"
+    [cellClass]="getCellClass(col.prop)"
+  >
+    <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+      <div
+        (mouseenter)="onCellMouseEnter(col.prop)"
+        (mouseleave)="onCellMouseLeave()"
+      >
+        {{ value }}
+      </div>
+    </ng-template>
+  </ngx-datatable-column> -->
     </ngx-datatable>
 
     <div

@@ -17,6 +17,7 @@ import { RadioComponent } from '../../comman/components/UI/radio/radio.component
 import { CheckBoxComponent } from '../../comman/components/UI/checkBox/checkBox.component';
 import { DateRangePickerComponent } from '../../comman/components/UI/date-range-picker/date-range-picker.component';
 import { project } from '../../interfaces/add-project';
+import { Project, ProjectsService, Response } from '../../api-client';
 
 @Component({
   selector: 'app-add-project',
@@ -39,9 +40,10 @@ export class AddProjectComponent {
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private projectService: ProjectsService
   ) {}
-  project: project[] = [];
+  project: project | null = null;
   statusOptions = [
     { value: 'Coming soon', display: 'Coming soon' },
     { value: 'Development started', display: 'Development started' },
@@ -103,26 +105,30 @@ export class AddProjectComponent {
   id: any | null;
   formData() {
     const data = {
-      project_name: this.projectForm.value.projectName,
-      project_description: this.projectForm.value.projectDescription,
-      project_tech: this.projectForm.value.projectTech,
-      project_lead: this.projectForm.value.projectLead,
-      project_manager: this.projectForm.value.projectManager,
-      project_client: this.projectForm.value.projectClient,
-      project_status: this.projectForm.value.projectStatus,
-      management_tool: this.projectForm.value.manageTool,
-      management_url: this.projectForm.value.manageUrl,
-      repo_tool: this.projectForm.value.repoTool,
-      repo_url: this.projectForm.value.repoUrl,
-      project_start_date: this.projectForm.value.projectStartDate,
-      project_deadline_date: this.projectForm.value.projectDeadlineDate,
-      project_budget: this.projectForm.value.projectBudget,
+      project_name: this.projectForm.value.projectName ?? '',
+      project_description: this.projectForm.value.projectDescription ?? '',
+      project_tech: this.projectForm.value.projectTech ?? '',
+      project_lead: this.projectForm.value.projectLead ?? '',
+      project_manager: this.projectForm.value.projectManager ?? '',
+      project_client: this.projectForm.value.projectClient ?? '',
+      project_status: this.projectForm.value.projectStatus ?? '',
+      management_tool: this.projectForm.value.manageTool ?? '',
+      management_url: this.projectForm.value.manageUrl ?? '',
+      repo_tool: this.projectForm.value.repoTool ?? '',
+      repo_url: this.projectForm.value.repoUrl ?? '',
+      project_startDate: this.projectForm.value.projectStartDate ?? '',
+      project_deadlineDate: this.projectForm.value.projectDeadlineDate ?? '',
+      project_budget: +(this.projectForm?.value.projectBudget ?? '0') || 0,
       project_milestone_release_date:
-        this.projectForm.value.projectMilestoneDate,
-      project_priority: this.projectForm.value.projectPriority,
-      project_location: this.projectForm.value.projectLocation,
-      project_type: this.projectForm.value.projectType,
-      project_approval_status: this.projectForm.value.projectApproveStatus,
+        this.projectForm.value.projectMilestoneDate ?? '',
+      project_priority: this.projectForm.value.projectPriority ?? '',
+      project_location: this.projectForm.value.projectLocation ?? '',
+      project_type: Array.isArray(this.projectForm.value.projectType)
+        ? this.projectForm.value.projectType
+        : (this.projectForm.value.projectType ?? '').split(','),
+      project_approval_status:
+        this.projectForm.value.projectApproveStatus ?? '',
+      project_user_id: null,
     };
     return data;
   }
@@ -138,10 +144,10 @@ export class AddProjectComponent {
     }
 
     const getData = this.formData();
-    this.userService.createProject(getData).subscribe({
+    this.projectService.createProjectApiProjectsPost(getData).subscribe({
       next: (res) => {
         if (res.status) {
-          res.data = this.project;
+          this.project = res.data ?? null;
           // this.router.navigate(['/projects']);
           this.location.back();
           this.toastr.success('Project created suceesfully');
@@ -175,30 +181,32 @@ export class AddProjectComponent {
   projectData() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.userService.getProject(id).subscribe({
-        next: (res) => {
-          if (res.status) {
-            this.project = res.data;
+      this.projectService.getProjectApiProjectsIdGet(id).subscribe({
+        next: (res: any) => {
+          if (res.status && res.data) {
+            const data = res.data;
+            this.project = data;
+
             this.projectForm.patchValue({
-              projectName: res.data.project_name,
-              projectDescription: res.data.project_description,
-              projectTech: res.data.project_tech,
-              projectLead: res.data.project_lead,
-              projectManager: res.data.project_manager,
-              projectClient: res.data.project_client,
-              projectStatus: res.data.project_status,
-              manageTool: res.data.management_tool,
-              manageUrl: res.data.management_url,
-              repoTool: res.data.repo_tool,
-              repoUrl: res.data.repo_url,
-              projectStartDate: res.data.project_startDate,
-              projectDeadlineDate: res.data.project_deadlineDate,
-              projectBudget: res.data.project_budget,
-              projectMilestoneDate: res.data.project_milestone_release_date,
-              projectPriority: res.data.project_priority,
-              projectLocation: res.data.project_location,
-              projectType: res.data.project_type,
-              projectApproveStatus: res.data.project_approval_status,
+              projectName: data.project_name,
+              projectDescription: data.project_description,
+              projectTech: data.project_tech,
+              projectLead: data.project_lead,
+              projectManager: data.project_manager,
+              projectClient: data.project_client,
+              projectStatus: data.project_status,
+              manageTool: data.management_tool,
+              manageUrl: data.management_url,
+              repoTool: data.repo_tool,
+              repoUrl: data.repo_url,
+              projectStartDate: data.project_startDate,
+              projectDeadlineDate: data.project_deadlineDate,
+              projectBudget: data.project_budget,
+              projectMilestoneDate: data.project_milestone_release_date,
+              projectPriority: data.project_priority,
+              projectLocation: data.project_location,
+              projectType: data.project_type,
+              projectApproveStatus: data.project_approval_status,
             });
             // this.dateRangeForm.patchValue({
             //   projectStartDate: this.project.project_startDate,
@@ -226,21 +234,24 @@ export class AddProjectComponent {
       return;
     }
     const getData = this.formData();
-    this.userService.updateProject(getData, this.id).subscribe({
-      next: (res) => {
-        if (res.status) {
-          res.data = this.project;
-          // this.router.navigate(['/projects']);
-          this.location.back();
-          this.toastr.success('Project updated suceesfully');
-        } else {
-          this.toastr.error(res.message);
-        }
-      },
-      error: (res) => {
-        this.toastr.error(res.error.message);
-      },
-    });
+    this.projectService
+      .updateProjectApiProjectsIdPut(this.id, getData)
+      .subscribe({
+        next: (res) => {
+          if (res.status) {
+
+            res.data = this.project;
+            // this.router.navigate(['/projects']);
+            this.location.back();
+            this.toastr.success('Project updated suceesfully');
+          } else {
+            this.toastr.error(res.message);
+          }
+        },
+        error: (res) => {
+          this.toastr.error(res.error.message);
+        },
+      });
   }
   onSubmit() {
     if (!this.id) {

@@ -23,6 +23,7 @@ import { DialogComponent } from '../../comman/components/UI/dialog/dialog.compon
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, last, Subject } from 'rxjs';
 import { projectList } from '../../interfaces/project';
+import { ProjectsService } from '../../api-client';
 ModuleRegistry.registerModules([InfiniteRowModelModule]);
 @Component({
   selector: 'app-projects',
@@ -49,7 +50,8 @@ export class ProjectsComponent {
     private userService: UserService,
     private toastr: ToastrService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private projectService : ProjectsService
   ) {}
 
   colDefs: ColDef[] = [
@@ -156,7 +158,7 @@ export class ProjectsComponent {
       field: 'action',
       cellRenderer: function (params: any) {
         if (!params.data) return null;
-        const projectId = params.data._id.$oid;
+        const projectId = params.data._id;
         var updateProject = document.createElement('button');
         updateProject.className = 'btn action-icons ';
         updateProject.innerHTML =
@@ -322,15 +324,25 @@ export class ProjectsComponent {
       getRows: (params: IGetRowsParams) => {
         const offset = params.startRow;
         const limit = this.gridApiActive?.paginationGetPageSize() ?? 100;
+        const sort = this.sortModel?.[0]
+          ? `${this.sortModel[0].colId}_${this.sortModel[0].sort}`
+          : undefined;
         const search = this.searchInput ?? '';
-        const sortModel = params.sortModel;
         const filterModel = params.filterModel;
 
-        this.userService
-          .projects(offset, limit, search, sortModel, filterModel)
+        this.projectService
+          .getAllProjectsApiProjectsGet(
+            offset,
+            limit,
+            sort,
+            search,
+            JSON.stringify(filterModel)
+          )
           .subscribe({
             next: (res) => {
-              const rows = res?.data;
+              const rows = res?.data ?? [];
+              // console.log(row0s);
+
               const lastRow = res?.total ?? 0;
               if (res.status && rows.length > 0) {
                 this.projectList = rows;
@@ -378,7 +390,7 @@ export class ProjectsComponent {
   openConfirmDialog(id: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: { text: 'Are you sure you want to delete the project?' },
-      disableClose: true
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

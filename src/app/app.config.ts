@@ -6,6 +6,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { httpInterceptor } from './interceptor/http.interceptor';
+import { BASE_PATH } from './api-client';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +22,9 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       progressBar: true,
     }),
+    {
+      provide: BASE_PATH,
+      useValue: 'http://127.0.0.1:8000'
+    }   
   ],
 };

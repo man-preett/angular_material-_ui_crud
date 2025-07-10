@@ -1,0 +1,1260 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Signup",
+        "operationId": "signup_api_auth_signup_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Signup"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get All Users",
+        "operationId": "get_all_users_api_users__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update User",
+        "operationId": "update_user_api_users__put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User_update"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create User",
+        "operationId": "create_user_api_users__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/myprofile": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "My Profile",
+        "operationId": "my_profile_api_users_myprofile_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get User",
+        "operationId": "get_user_api_users__id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/deleteUser": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete User",
+        "operationId": "delete_user_api_users_deleteUser_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/changepassword": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Change Password",
+        "operationId": "change_password_api_users_changepassword_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Password"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/country": {
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Countries",
+        "operationId": "countries_api_country_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/state": {
+      "post": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "States",
+        "operationId": "states_api_state_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "country_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Country Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/city": {
+      "post": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Cities",
+        "operationId": "cities_api_city_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "state_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "State Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get All Projects",
+        "operationId": "get_all_projects_api_projects__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sort"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
+          },
+          {
+            "name": "filterModel",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Filtermodel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Projectresponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Create Project",
+        "operationId": "create_project_api_projects__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get Project",
+        "operationId": "get_project_api_projects__id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Update Project",
+        "operationId": "update_project_api_projects__id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete Project",
+        "operationId": "delete_project_api_projects__id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Login": {
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "format": "email",
+            "title": "User Email"
+          },
+          "user_password": {
+            "type": "string",
+            "title": "User Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_email",
+          "user_password"
+        ],
+        "title": "Login"
+      },
+      "Password": {
+        "properties": {
+          "current_password": {
+            "type": "string",
+            "title": "Current Password"
+          },
+          "new_password": {
+            "type": "string",
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "current_password",
+          "new_password"
+        ],
+        "title": "Password"
+      },
+      "Project": {
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "title": "Project Name"
+          },
+          "project_description": {
+            "type": "string",
+            "title": "Project Description"
+          },
+          "project_tech": {
+            "type": "string",
+            "title": "Project Tech"
+          },
+          "project_status": {
+            "type": "string",
+            "title": "Project Status"
+          },
+          "project_startDate": {
+            "type": "string",
+            "title": "Project Startdate"
+          },
+          "project_deadlineDate": {
+            "type": "string",
+            "title": "Project Deadlinedate"
+          },
+          "project_lead": {
+            "type": "string",
+            "title": "Project Lead"
+          },
+          "project_manager": {
+            "type": "string",
+            "title": "Project Manager"
+          },
+          "project_client": {
+            "type": "string",
+            "title": "Project Client"
+          },
+          "management_tool": {
+            "type": "string",
+            "title": "Management Tool"
+          },
+          "management_url": {
+            "type": "string",
+            "title": "Management Url"
+          },
+          "repo_tool": {
+            "type": "string",
+            "title": "Repo Tool"
+          },
+          "repo_url": {
+            "type": "string",
+            "title": "Repo Url"
+          },
+          "project_budget": {
+            "type": "integer",
+            "title": "Project Budget"
+          },
+          "project_milestone_release_date": {
+            "type": "string",
+            "title": "Project Milestone Release Date"
+          },
+          "project_priority": {
+            "type": "string",
+            "title": "Project Priority"
+          },
+          "project_location": {
+            "type": "string",
+            "title": "Project Location"
+          },
+          "project_type": {
+            "items": {
+
+            },
+            "type": "array",
+            "title": "Project Type"
+          },
+          "project_approval_status": {
+            "type": "string",
+            "title": "Project Approval Status"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "default": "2025-07-10T12:41:04.679878Z"
+          },
+          "project_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project User Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_name",
+          "project_description",
+          "project_tech",
+          "project_status",
+          "project_startDate",
+          "project_deadlineDate",
+          "project_lead",
+          "project_manager",
+          "project_client",
+          "management_tool",
+          "management_url",
+          "repo_tool",
+          "repo_url",
+          "project_budget",
+          "project_milestone_release_date",
+          "project_priority",
+          "project_location",
+          "project_type",
+          "project_approval_status",
+          "project_user_id"
+        ],
+        "title": "Project"
+      },
+      "Projectresponse": {
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "title": "Status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "data": {
+            "anyOf": [
+              {
+
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "total": {
+            "anyOf": [
+              {
+
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "title": "Projectresponse"
+      },
+      "Response": {
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "title": "Status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "data": {
+            "anyOf": [
+              {
+
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "title": "Response"
+      },
+      "Signup": {
+        "properties": {
+          "user_first_name": {
+            "type": "string",
+            "title": "User First Name"
+          },
+          "user_last_name": {
+            "type": "string",
+            "title": "User Last Name"
+          },
+          "user_email": {
+            "type": "string",
+            "format": "email",
+            "title": "User Email"
+          },
+          "user_password": {
+            "type": "string",
+            "title": "User Password"
+          },
+          "user_age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Age"
+          },
+          "user_city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User City"
+          },
+          "user_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Country"
+          },
+          "user_gender": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Gender"
+          },
+          "user_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_first_name",
+          "user_last_name",
+          "user_email",
+          "user_password",
+          "user_age",
+          "user_city",
+          "user_country",
+          "user_gender",
+          "user_state"
+        ],
+        "title": "Signup"
+      },
+      "User": {
+        "properties": {
+          "user_first_name": {
+            "type": "string",
+            "title": "User First Name"
+          },
+          "user_last_name": {
+            "type": "string",
+            "title": "User Last Name"
+          },
+          "user_email": {
+            "type": "string",
+            "format": "email",
+            "title": "User Email"
+          },
+          "user_password": {
+            "type": "string",
+            "title": "User Password"
+          },
+          "user_age": {
+            "type": "integer",
+            "title": "User Age"
+          },
+          "user_city": {
+            "type": "string",
+            "title": "User City"
+          },
+          "user_country": {
+            "type": "string",
+            "title": "User Country"
+          },
+          "user_gender": {
+            "type": "string",
+            "title": "User Gender"
+          },
+          "user_state": {
+            "type": "string",
+            "title": "User State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_first_name",
+          "user_last_name",
+          "user_email",
+          "user_password",
+          "user_age",
+          "user_city",
+          "user_country",
+          "user_gender",
+          "user_state"
+        ],
+        "title": "User"
+      },
+      "User_update": {
+        "properties": {
+          "user_first_name": {
+            "type": "string",
+            "title": "User First Name"
+          },
+          "user_last_name": {
+            "type": "string",
+            "title": "User Last Name"
+          },
+          "user_age": {
+            "type": "integer",
+            "title": "User Age"
+          },
+          "user_city": {
+            "type": "string",
+            "title": "User City"
+          },
+          "user_country": {
+            "type": "string",
+            "title": "User Country"
+          },
+          "user_gender": {
+            "type": "string",
+            "title": "User Gender"
+          },
+          "user_state": {
+            "type": "string",
+            "title": "User State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_first_name",
+          "user_last_name",
+          "user_age",
+          "user_city",
+          "user_country",
+          "user_gender",
+          "user_state"
+        ],
+        "title": "User_update"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

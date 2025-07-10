@@ -1,0 +1,31 @@
+.profile-header {
+  margin-left: 10px;
+}
+
+.profile-container {
+  margin: 70px;
+  margin-top: 60px !important;
+}
+
+.profile-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-text {
+  color: var(--ag-color);
+  margin-top: 20px !important;
+}
+
+.profile-data {
+  margin: 40px;
+}
+.profile-data .row {
+  border: 1px solid #92949d;
+  border-radius: 10px;
+  padding: 20px 0px 20px 0px;
+  margin: 15px;
+  margin-top: 0px !important;
+  margin-bottom: 40px !important;
+}/*# sourceMappingURL=my-profile.component.css.map */

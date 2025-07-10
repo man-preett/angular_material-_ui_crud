@@ -3,7 +3,8 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
-import { MyProfile, Profile } from '../../interfaces/auth';
+import { MyProfile } from '../../interfaces/auth';
+import { UsersService } from '../../api-client';
 @Component({
   selector: 'app-my-profile',
   imports: [ButtonComponent],
@@ -14,14 +15,15 @@ export class MyProfileComponent {
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private usersService : UsersService
   ) {}
   user: MyProfile | null = null;
   ngOnInit() {
     this.myProfile();
   }
   myProfile() {
-    this.userService.profile().subscribe({
+    this.usersService.myProfileApiUsersMyprofileGet().subscribe({
       next: (res: any) => {
         if (res.status) {
           this.user = res.data;
@@ -30,7 +32,7 @@ export class MyProfileComponent {
         }
       },
       error: (err) => {
-        this.toastr.error(err.message);
+        this.toastr.error(err.detail);
       },
     });
   }

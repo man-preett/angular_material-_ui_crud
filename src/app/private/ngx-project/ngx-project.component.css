@@ -1,0 +1,324 @@
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.loader-overlay {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  bottom: 60px;
+  width: 100%;
+  height: 720px;
+  background: var(--ag-bg-color);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-btn {
+  height: 35px;
+}
+
+.user-sidebar {
+  display: flex;
+  gap: 10px;
+}
+
+.add-project-btn {
+  height: 40px !important;
+  gap: 5px;
+}
+
+.search-input {
+  height: 40px;
+  width: 350px;
+  border: 1px solid #a7a7a7;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 13px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 140px;
+  color: #888;
+  pointer-events: none;
+  top: 18px;
+}
+
+.ngx-projects {
+  font-size: 13px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+::ng-deep .datatable-header.datatable-header {
+  background-color: var(--ag-header-bg);
+  color: var(--ag-header-color);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+::ng-deep .ngx-datatable.material .datatable-body-cell {
+  color: var(--ag-color);
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .datatable-header-cell {
+  padding: 5px;
+}
+
+::ng-deep .datatable-row-odd {
+  background-color: var(--ag-even-row-bg) !important;
+}
+
+::ng-deep .datatable-row-center.datatable-row-group:hover {
+  background: var(--ag-column-hover-color);
+}
+
+::ng-deep .datatable-row-right .datatable-row-odd {
+  background-color: var(--ag-even-row-bg) !important;
+}
+
+.list-projects {
+  margin-left: 10px;
+  margin-right: 10px;
+  position: relative;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 13px;
+  color: var(--ag-color);
+  gap: 15px;
+}
+
+.pagination-controls button {
+  border: 0;
+  padding: 0;
+  padding-top: 5px;
+  background: none;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.action-icons {
+  margin-right: 5px;
+  margin-top: 0px;
+}
+
+.column-settings-sidebar {
+  position: fixed;
+  right: -380px;
+  top: 0;
+  width: 23%;
+  height: 100%;
+  background-color: var(--ag-bg-color);
+  color: var(--ag-color);
+  border-left: 1px solid #ccc;
+  padding: 20px;
+  transition: right 0.3s ease-in-out;
+  z-index: 10000;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+.column-settings-sidebar.open {
+  right: 0;
+}
+
+.sidebar-btn-icon {
+  display: flex;
+  margin-bottom: 5px;
+  gap: 15px;
+}
+
+.sidebar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #888;
+}
+
+.sidebar-btn {
+  height: 35px;
+}
+
+.user-sidebar {
+  display: flex;
+  gap: 10px;
+}
+
+.custonFilter {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid;
+  gap: 5px;
+  padding-bottom: 10px;
+}
+
+::ng-deep .settings-header {
+  cursor: pointer;
+  font-size: 16px !important;
+}
+
+.header-with-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0px 5px;
+  margin-left: 10px;
+}
+.header-with-filter mat-icon {
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+  position: relative;
+}
+.header-with-filter mat-icon.filter-icon:hover {
+  background: var(--ag-bg-hover);
+  border: none;
+  border-radius: 5px;
+}
+.header-with-filter .active-filter {
+  color: #2196f3;
+  border: none;
+  background: rgba(128, 190, 239, 0.431372549);
+  border-radius: 5px;
+}
+.header-with-filter .active-filter::after {
+  background-color: #2196f3;
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+  height: 6px;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+}
+.header-with-filter span.sort-arrow.ng-star-inserted {
+  margin-left: -5px;
+}
+
+::ng-deep .datatable-header-inner .datatable-row-right {
+  padding: 5px;
+}
+
+.filter-dropdown {
+  position: fixed;
+  background: var(--ag-filter-bg);
+  border: 1px solid #ccc;
+  padding: 12px;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+.filter-dropdown select {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 8px;
+  font-size: 14px;
+  background-color: var(--ag-dropdown-bg-color);
+  border: none;
+  border-radius: 5px;
+}
+.filter-dropdown input {
+  font-size: 14px;
+  padding: 5px 6px 5px 16px;
+  background-color: var(--ag-dropdown-bg-color);
+  border: none;
+  color: var(--ag-color);
+  border-radius: 5px;
+}
+.filter-dropdown input::-moz-placeholder {
+  color: var(--ag-color);
+}
+.filter-dropdown input::placeholder {
+  color: var(--ag-color);
+}
+.filter-dropdown input[type=text]:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0px 0px 2px 4px rgba(33, 150, 243, 0.6392156863);
+  transition: box-shadow 0.2s ease-in-out;
+}
+.filter-dropdown .and-or-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  color: var(--ag-color);
+  margin: 5px;
+}
+
+.filter-chips {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button.chips-clear {
+  border: 1px solid #92949d;
+  border-radius: 10px;
+  margin-right: 15px;
+  height: 33px;
+  color: var(--mi-chips-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  background: none;
+}
+
+.datatable-header-cell-template-wrap {
+  width: 170px;
+}
+
+::ng-deep .ngx-datatable .datatable-row-right {
+  background-color: var(--ag-bg-color);
+  z-index: 99999;
+}
+
+::ng-deep .datatable-row-odd .datatable-row-right {
+  background-color: var(--ag-even-row-bg);
+}
+
+::ng-deep .ngx-datatable .datatable-row-right:hover {
+  background: var(--ag-column-hover-color);
+}
+
+::ng-deep .ngx-datatable .datatable-header .datatable-row-right {
+  background-color: var(--ag-header-bg);
+  padding-top: 6px;
+}
+
+::ng-deep .empty-row {
+  color: var(--ag-color);
+}
+
+::ng-deep .datatable-body .empty-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 655px;
+}
+
+::ng-deep .hovered-column {
+  background-color: var(--ag-column-hover-color);
+}/*# sourceMappingURL=ngx-project.component.css.map */

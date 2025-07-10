@@ -5,10 +5,11 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
-import { Login } from '../../interfaces/auth';
+import { Login } from '../../api-client';
 import { ToastrService } from 'ngx-toastr';
 import { InputBoxComponent } from '../../comman/components/UI/input-box/input-box.component';
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
+import { AuthService } from '../../api-client';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ import { ButtonComponent } from '../../comman/components/UI/button/button.compon
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(private router: Router, private toastr: ToastrService) {}
+  constructor(private router: Router, private toastr: ToastrService,private authService:AuthService) {}
   userService = inject(UserService);
 
   loginForm = new FormGroup({
@@ -52,10 +53,10 @@ export class LoginComponent {
       user_email: this.loginForm.value.email as string,
       user_password: this.loginForm.value.password as string,
     };
-    this.userService.loginUser(data).subscribe({
+    this.authService.loginApiAuthLoginPost(data).subscribe({
       next: (res: any) => {
         if (res.status) {
-          localStorage.setItem('token', res.data);
+          localStorage.setItem('token', res.data.access_token);
           this.toastr.success('User login successfully');
           this.router.navigate(['/projects']);
         } else {
@@ -63,7 +64,7 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        this.toastr.error(err.error.message);
+        this.toastr.error(err.error.detail);
       },
     });
   }

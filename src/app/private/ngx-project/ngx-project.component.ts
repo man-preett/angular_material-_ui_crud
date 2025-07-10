@@ -20,6 +20,7 @@ import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { ChipsComponent } from '../../comman/components/UI/chips/chips.component';
 import { BehaviorService } from '../../services/behavior.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { ProjectsService } from '../../api-client';
 
 type FilterCondition = {
   type:
@@ -120,7 +121,8 @@ export class NgxProjectComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private dialog: MatDialog,
-    private resizeSubject : BehaviorService
+    private resizeSubject: BehaviorService,
+    private projectService: ProjectsService
   ) {}
 
   ngOnInit() {
@@ -136,7 +138,7 @@ export class NgxProjectComponent implements OnInit {
     this.searchInputChanged.pipe(debounceTime(500)).subscribe(() => {
       this.fetch();
     });
-    this.filterInputChanged.pipe(debounceTime(500)).subscribe(()=>{
+    this.filterInputChanged.pipe(debounceTime(500)).subscribe(() => {
       this.performFilter();
     });
   }
@@ -152,18 +154,21 @@ export class NgxProjectComponent implements OnInit {
         name: 'Project Name',
         width: 170,
         headerTemplate: this.filterHeaderTpl,
+        draggable: true,
       },
       {
         prop: 'project_description',
         name: 'Project Description',
         width: 170,
         headerTemplate: this.filterHeaderTpl,
+        draggable: true,
       },
       {
         prop: 'project_tech',
         name: 'Project Tech',
         width: 160,
         headerTemplate: this.filterHeaderTpl,
+        draggable: true,
       },
       {
         prop: 'project_status',
@@ -260,7 +265,7 @@ export class NgxProjectComponent implements OnInit {
         cellTemplate: this.actionTpl,
         width: 80,
         frozenRight: true,
-        isFixed:true
+        isFixed: true,
       },
       {
         name: '',
@@ -268,7 +273,7 @@ export class NgxProjectComponent implements OnInit {
         width: 80,
         headerTemplate: this.settingsHeaderTpl,
         frozenRight: true,
-        isFixed:true
+        isFixed: true,
       },
     ];
 
@@ -303,18 +308,20 @@ export class NgxProjectComponent implements OnInit {
       }
     }
 
-    this.userService
-      .projects(
+    this.projectService
+      .getAllProjectsApiProjectsGet(
         offset,
         limit,
+        this.sortProp && this.sortDir ? `${this.sortProp}_${this.sortDir}` : undefined,
         this.searchInput,
-        this.sortProp ? [{ colId: this.sortProp, sort: this.sortDir }] : [],
-        filterModel
+        JSON.stringify(filterModel)
       )
       .subscribe({
         next: (res) => {
+          console.log(res, 'res');
+
           this.rows = res.data || [];
-          this.totalRecords = res.total;
+          this.totalRecords = res.total ?? 0;
           this.isLoading = false;
           this.totalPages = Math.round(this.totalRecords / this.limit);
         },
@@ -351,18 +358,26 @@ export class NgxProjectComponent implements OnInit {
     this.router.navigate(['/projects/add-project/']);
   }
 
-  updateProject(id: number) {
-    this.router.navigate(['/projects/update-project/', id]);
+  // updateProject(id: string) {
+  //   this.router.navigate(['/projects/update-project/', id]);
+  // }
+
+  updateProject(id: string) {
+    if (!id) {
+      this.toastr.error('Invalid project ID');
+      return;
+    }
+    this.router.navigate(['/projects/update-project', id]);
   }
 
-  deleteProject(id: number) {
-    this.userService.deleteProject(id).subscribe(() => {
+  deleteProject(id: string) {
+    this.projectService.deleteProjectApiProjectsIdDelete(id).subscribe(() => {
       this.toastr.success('Project deleted successfully');
       this.fetch();
     });
   }
 
-  openConfirmDialog(id: number) {
+  openConfirmDialog(id: string) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: { text: 'Are you sure you want to delete this project?' },
       disableClose: true,
@@ -432,8 +447,10 @@ export class NgxProjectComponent implements OnInit {
       ...col,
       visible: this.allSelected,
     }));
-    this.columns = this.allColumns.filter((c) =>
-     c.isFixed || this.columnToggleList.find((t) => t.prop === c.prop && t.visible)
+    this.columns = this.allColumns.filter(
+      (c) =>
+        c.isFixed ||
+        this.columnToggleList.find((t) => t.prop === c.prop && t.visible)
     );
   }
 
@@ -463,15 +480,15 @@ export class NgxProjectComponent implements OnInit {
         this.columnFilters[this.activeFilterColumn] = conditions[0];
       } else {
         delete this.columnFilters[this.activeFilterColumn];
-        this.activeFilterColumn=null;
+        this.activeFilterColumn = null;
       }
     }
 
     this.fetch();
   }
 
-  applyFilter(){
-    this.filterInputChanged.next()
+  applyFilter() {
+    this.filterInputChanged.next();
   }
 
   toggleFilter(prop: string, iconRef: HTMLElement) {
@@ -480,8 +497,8 @@ export class NgxProjectComponent implements OnInit {
     } else {
       const rect = iconRef.getBoundingClientRect();
       this.filterPosition = {
-        top: rect.top +25+ window.scrollY,
-        left: rect.left+ window.scrollX,
+        top: rect.top + 25 + window.scrollY,
+        left: rect.left + window.scrollX,
       };
 
       const existingFilter = this.columnFilters[prop];
@@ -597,9 +614,28 @@ export class NgxProjectComponent implements OnInit {
         this.columnToggleList = state.columnToggleList;
         this.columns = this.allColumns.filter(
           (c) =>
-            c.isFixed || this.columnToggleList.find((t) => t.prop === c.prop && t.visible)
+            c.isFixed ||
+            this.columnToggleList.find((t) => t.prop === c.prop && t.visible)
         );
       }
     }
   }
+
+  //   hoveredColumn: string | null = null;
+
+  // onCellMouseEnter(columnProp: string) {
+  //   this.hoveredColumn = columnProp;
+  // }
+
+  // onCellMouseLeave() {
+  //   this.hoveredColumn = null;
+  // }
+
+  // getCellClass = (colProp: string) => {
+  //   return ({ column }: any) => {
+  //     return this.hoveredColumn === colProp && column.prop === colProp
+  //       ? 'hovered-column'
+  //       : '';
+  //   };
+  // }
 }

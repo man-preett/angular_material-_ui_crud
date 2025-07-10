@@ -1,0 +1,34 @@
+:root {
+  --bs-blue: #1890ff;
+  --bs-primary-rgb: to-rgb(#1890ff);
+}
+
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu.active > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:focus > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:hover > a {
+  background: rgba(var(--bs-primary-rgb), 0.1);
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu.active.coded-trigger > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:focus.coded-trigger > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:hover.coded-trigger > a {
+  color: var(--bs-blue);
+  background: none;
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu.active.coded-trigger .coded-submenu > app-nav-item li.active > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu.active.coded-trigger .coded-submenu > app-nav-item li:focus > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu.active.coded-trigger .coded-submenu > app-nav-item li:hover > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:focus.coded-trigger .coded-submenu > app-nav-item li.active > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:focus.coded-trigger .coded-submenu > app-nav-item li:focus > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:focus.coded-trigger .coded-submenu > app-nav-item li:hover > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:hover.coded-trigger .coded-submenu > app-nav-item li.active > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:hover.coded-trigger .coded-submenu > app-nav-item li:focus > a, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-hasmenu:hover.coded-trigger .coded-submenu > app-nav-item li:hover > a {
+  background: rgba(var(--bs-primary-rgb), 0.1);
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-submenu > app-nav-item li.active > a {
+  background: rgba(var(--bs-primary-rgb), 0.1);
+  color: var(--bs-blue);
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-collapse .coded-submenu > app-nav-item li.active > a:before {
+  background: var(--bs-blue);
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-item li.nav-item.active, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-item li.nav-item:focus, .pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-item li.nav-item:hover {
+  background: rgba(var(--bs-primary-rgb), 0.1);
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-item li.nav-item.active > a {
+  color: var(--bs-blue);
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-item li.nav-item.active > a .coded-micon {
+  color: var(--bs-blue);
+}
+.pc-sidebar .coded-inner-navbar > app-nav-group > app-nav-item li.nav-item.active:before {
+  background: var(--bs-blue);
+}/*# sourceMappingURL=preset-style.css.map */
