@@ -53,7 +53,7 @@ export class UserService {
   projects(
     offset: number,
     limit: number,
-    search: any = '',
+    search: string = '',
     sortModel: any[] = [],
     filterModel: any = {}
   ): Observable<any> {
@@ -67,7 +67,7 @@ export class UserService {
       filterModel: decodeURIComponent(JSON.stringify(filterModel)),
     };
 
-    return this.http.get(`http://localhost/php-crud/api/v1/projects/`, {
+    return this.http.get(`http://localhost:3000/api/projects`, {
       params,
     });
   }

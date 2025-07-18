@@ -318,7 +318,6 @@ export class NgxProjectComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          console.log(res, 'res');
 
           this.rows = res.data || [];
           this.totalRecords = res.total ?? 0;
