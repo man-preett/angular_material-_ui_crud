@@ -1,6 +1,12 @@
 // project import
 import { Component, inject } from '@angular/core';
-import { FormsModule,FormGroup,FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,7 +16,6 @@ import { ToastrService } from 'ngx-toastr';
 import { InputBoxComponent } from '../../comman/components/UI/input-box/input-box.component';
 import { ButtonComponent } from '../../comman/components/UI/button/button.component';
 import { AuthService } from '../../api-client';
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -27,7 +32,11 @@ import { AuthService } from '../../api-client';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(private router: Router, private toastr: ToastrService,private authService:AuthService) {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private authService: AuthService
+  ) {}
   userService = inject(UserService);
 
   loginForm = new FormGroup({
@@ -69,5 +78,3 @@ export class LoginComponent {
     });
   }
 }
-
-

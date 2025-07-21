@@ -1,4 +1,3 @@
-// Angular import
 import { Component, inject, Input, input } from '@angular/core';
 import {
   FormControl,

@@ -239,7 +239,6 @@ export class AddProjectComponent {
       .subscribe({
         next: (res) => {
           if (res.status) {
-
             res.data = this.project;
             // this.router.navigate(['/projects']);
             this.location.back();
